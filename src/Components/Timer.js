@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTimer } from "react-timer-hook";
+import Button from "./Styles/Button.styled";
 
 const Timer = ({ expiryTimestamp }) => {
-  const { seconds, minutes, hours, days, isRunning, start, pause, resume } =
+  const { seconds, minutes, isRunning, start, pause, resume } =
     useTimer({
       expiryTimestamp,
       onExpire: () => console.log("Expired!"),
@@ -18,13 +19,14 @@ const Timer = ({ expiryTimestamp }) => {
 
   return (
     <div>
+      <Button>Set</Button>
       <h2>
         <span>{minutes}</span>:
         {(seconds < 10) ? <span>0{seconds}</span> : <span>{seconds}</span>}
       </h2>
-      {!started && <button onClick={startHandler}>Start</button>}
-      {isRunning && <button onClick={pause}>Pause</button>}
-      {!isRunning && started && <button onClick={resume}>Resume</button>}
+      {!started && <Button onClick={startHandler}>Start</Button>}
+      {isRunning && <Button onClick={pause}>Stop</Button>}
+      {!isRunning && started && <Button onClick={resume}>Resume</Button>}
       {/* {isRunning ? <p>Timer is running.</p> : <p>Timer is not running.</p>} */}
     </div>
   );

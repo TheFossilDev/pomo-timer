@@ -1,7 +1,5 @@
-import "./App.css";
 import React from "react";
 import Timer from "./Components/Timer";
-import Button from "./Components/Button";
 
 function App() {
   // TODO: Feature list
@@ -16,8 +14,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Pomodoro Timer</h1>
-      <Button />
+      <h3>Pomodoro Timer</h3>
       <Timer expiryTimestamp={time} />
     </div>
   );
