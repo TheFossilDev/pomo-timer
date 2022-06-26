@@ -1,20 +1,29 @@
 import React from 'react';
-import Button from './Styles/Button.styled';
-import Modal from '../UI/Modal';
+import Button from './Button';
 
 const SetTimer = props => {
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+  }
+
+
+
   return (
-    <Modal>
+    <form onSubmit={submitHandler}>
       <header>
-        <h2>Timer lengths</h2>
+        <h2>Timer lengths:</h2>
       </header>
       <div>
-        <h3>Work period</h3>
+        <h3>Work period:</h3>
+      </div>
+      <div>
+        <h3>Break period:</h3>
       </div>
       <footer>
-        <Button>Save</Button>
+        <Button type="submit">Save</Button>
       </footer>
-    </Modal>
+    </form>
   )
 }
 

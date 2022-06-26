@@ -1,25 +1,10 @@
 import { useState } from "react";
 import { useTimer } from "react-timer-hook";
-import Button from "./Styles/Button.styled";
-import styled from "styled-components";
+import styles from "./Timer.module.css";
+import Button from "./Button";
 
-const TimerContainer = styled.div`
-  flex: 2;
-  
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-
-  background-color: ${props => props.theme.cadetBlue};
-
-`;
-
-const Time = styled.h2`
-  text-align: center;
-`;
-
-const Timer = ({ expiryTimestamp }) => {
+const Timer = (props) => {
+  const expiryTimestamp = props.expiryTimestamp;
   const { seconds, minutes, isRunning, start, pause, resume } =
     useTimer({
       expiryTimestamp,
@@ -34,18 +19,22 @@ const Timer = ({ expiryTimestamp }) => {
     start();
   };
 
+  const setHandler = () => {
+    props.changeIsSetting(!props.isSetting);
+  }
+
   return (
-    <TimerContainer>
-      <Button>Set</Button>
-      <Time>
+    <div className={styles.timerContainer}>
+      <Button onClick={setHandler}>Set</Button>
+      <h2 className={styles.time}>
         <span>{minutes}</span>:
         {(seconds < 10) ? <span>0{seconds}</span> : <span>{seconds}</span>}
-      </Time>
+      </h2>
       {!started && <Button onClick={startHandler}>Start</Button>}
       {isRunning && <Button onClick={pause}>Stop</Button>}
       {!isRunning && started && <Button onClick={resume}>Resume</Button>}
       {/* {isRunning ? <p>Timer is running.</p> : <p>Timer is not running.</p>} */}
-    </TimerContainer>
+    </div>
   );
 };
 

@@ -1,0 +1,9 @@
+.button {
+  background-color: darksalmon;
+  border: 1px;
+  border-color: white;
+
+  padding: 1rem;
+  margin: 2rem;
+  flex: 1;
+}
