@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useTimer } from "react-timer-hook";
 import styles from "./Timer.module.css";
 import Button from "./Button";
 
@@ -11,15 +10,22 @@ const MinutesDataToExpiry = (minutes) => {
 
 const Timer = (props) => { 
 
-  const { seconds, minutes, isRunning, start, pause, resume } =
-    useTimer({
-      // TODO: Update to times converter
-      expiryTimestamp: MinutesDataToExpiry(props.minutesData.workMinutes),
-      onExpire: () => console.log("Expired!"),
-      autoStart: false,
-    }); // anon function used, but can be any func
+  // const { seconds, minutes, isRunning, start, pause, resume } =
+  //   useTimer({
+  //     // TODO: Update to times converter
+  //     expiryTimestamp: MinutesDataToExpiry(props.minutesData.workMinutes),
+  //     onExpire: () => console.log("Expired!"),
+  //     autoStart: false,
+  //   }); // anon function used, but can be any func
 
 
+  // STUB
+  const seconds = 0;
+  const minutes = 25;
+  const start = () => {};
+  const pause = () => {};
+  const resume = () => {};
+  const isRunning = false;
 
   const [started, setStarted] = useState(false);
 
@@ -34,7 +40,7 @@ const Timer = (props) => {
 
   return (
     <div className={styles.timerContainer}>
-      <Button onClick={setHandler}>Set</Button>
+      {/* <Button onClick={setHandler}>Set</Button> */}
       <h2 className={styles.time}>
         <span>{minutes}</span>:
         {(seconds < 10) ? <span>0{seconds}</span> : <span>{seconds}</span>}
