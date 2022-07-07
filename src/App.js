@@ -1,25 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+
 import Timer from "./Components/Timer";
-import GlobalStyles from "./Components/Styles/Global";
-import styled from "styled-components";
-
-const appContainer = styled.div`
-  display: flex;
-  background-color: ${props => props.theme.offWhite};
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const appTitle = styled.h3`
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-`;
-
+import SetTimer from "./Components/SetTimer";
+import styles from "./App.module.css";
 
 const App = () => {
   // pomodor.io url?
-  
+
   // TODO: Feature list
   // 1. Set timer duration
   // 2. Work mode, short break
@@ -27,21 +14,30 @@ const App = () => {
   // 4. Long break
   // 5. Basic UI styling
 
-
-
+  const [isSetting, changeIsSetting] = useState(false);
 
   const time = new Date();
-  time.setSeconds(time.getSeconds() + 1500);
+  const [workDurationOffset, setWorkDurationOffset] = useState(1500);
+  const [shortBreakDurationOffset, setShortBreakDurationOffset] =
+    useState(1500);
+  const [longBreakDurationOffset, setLongBreakDurationOffset] = useState(1500);
+  // Timer set
+  time.setSeconds(time.getSeconds() + workDurationOffset);
 
   return (
-    <>
-      <GlobalStyles />
-      <appContainer>
-        <appTitle>Pomodoro Timer</appTitle>
-        <Timer expiryTimestamp={time} />
-      </appContainer>
-    </>
+    <div className={styles.flexContainer}>
+      <h3>Pomodoro Timer</h3>
+      {isSetting && (
+        <SetTimer
+        />
+      )}
+      <Timer
+        expiryTimestamp={time}
+        changeIsSetting={changeIsSetting}
+        isSetting={isSetting}
+      />
+    </div>
   );
-}
+};
 
 export default App;

@@ -1,0 +1,8 @@
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: lightgray;
+  min-height: 100vh;
+}
