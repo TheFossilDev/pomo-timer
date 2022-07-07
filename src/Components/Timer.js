@@ -3,14 +3,23 @@ import { useTimer } from "react-timer-hook";
 import styles from "./Timer.module.css";
 import Button from "./Button";
 
-const Timer = (props) => {
-  const expiryTimestamp = props.expiryTimestamp;
+const MinutesDataToExpiry = (minutes) => {
+  const expiry = new Date();
+  expiry.setSeconds(expiry.getSeconds() + (minutes * 60));
+  return expiry;
+}
+
+const Timer = (props) => { 
+
   const { seconds, minutes, isRunning, start, pause, resume } =
     useTimer({
-      expiryTimestamp,
+      // TODO: Update to times converter
+      expiryTimestamp: MinutesDataToExpiry(props.minutesData.workMinutes),
       onExpire: () => console.log("Expired!"),
       autoStart: false,
     }); // anon function used, but can be any func
+
+
 
   const [started, setStarted] = useState(false);
 

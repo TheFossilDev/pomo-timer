@@ -15,24 +15,29 @@ const App = () => {
   // 5. Basic UI styling
 
   const [isSetting, changeIsSetting] = useState(false);
+  const [minutesData, setMinutesData] = useState({
+    workMinutes: 25,
+    shortBreakMinutes: 5,
+    longBreakMinutes: 30,
+  });
 
-  const time = new Date();
-  const [workDurationOffset, setWorkDurationOffset] = useState(1500);
-  const [shortBreakDurationOffset, setShortBreakDurationOffset] =
-    useState(1500);
-  const [longBreakDurationOffset, setLongBreakDurationOffset] = useState(1500);
-  // Timer set
-  time.setSeconds(time.getSeconds() + workDurationOffset);
+  const updateTimes = (times) => {
+    console.log(times);
+    setMinutesData(times)
+  }
 
   return (
     <div className={styles.flexContainer}>
       <h3>Pomodoro Timer</h3>
       {isSetting && (
         <SetTimer
+        minutesData={minutesData}
+        setMinutesData={updateTimes}
+        changeIsSetting={changeIsSetting}
         />
       )}
       <Timer
-        expiryTimestamp={time}
+        minutesData={minutesData}
         changeIsSetting={changeIsSetting}
         isSetting={isSetting}
       />

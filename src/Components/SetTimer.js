@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from './Button';
 
 const SetTimer = props => {
+  const [workMinutes, setWorkMinutes] = useState(props.minutesData.workMinutes);
+  const [shortBreakMinutes, setShortBreakMinutes] = useState(props.minutesData.shortBreakMinutes);
+  const [longBreakMinutes, setLongBreakMinutes] = useState(props.minutesData.longBreakMinutes);
 
   const submitHandler = (event) => {
     event.preventDefault();
+
+    console.log(props.minutesData);
+    props.setMinutesData({
+      workMinutes: +workMinutes,
+      shortBreakMinutes: +shortBreakMinutes,
+      longBreakMinutes: +longBreakMinutes,
+    });
+
+    props.changeIsSetting(false);
   }
 
   const workChangeHandler = event => {
-    console.log(`Work: ${event.target.value}`);
-    console.log(event);
+    setWorkMinutes(event.target.value);
   }
 
   const shortBreakChangeHandler = event => {
-    console.log(`Short break: ${event}`);
+    setShortBreakMinutes(event.target.value);
   }
 
   const longBreakChangeHandler = event => {
-    console.log(`Long break: ${event}`);
+    setLongBreakMinutes(event.target.value);
   }
 
 
@@ -29,15 +40,15 @@ const SetTimer = props => {
       </header>
       <div>
         <label>Work minutes:</label>
-        <input type="number" onChange={workChangeHandler} value={}/>
+        <input type="number" onChange={workChangeHandler} value={workMinutes}/>
       </div>
       <div>
         <label>Short break minutes:</label>
-        <input type="number" onChange={shortBreakChangeHandler} value={}/>
+        <input type="number" onChange={shortBreakChangeHandler} value={shortBreakMinutes}/>
       </div>
       <div>
         <label>Long break minutes:</label>
-        <input type="number" onChange={longBreakChangeHandler} value={}/>
+        <input type="number" onChange={longBreakChangeHandler} value={longBreakMinutes}/>
       </div>
       <footer>
         <Button type="submit">Save</Button>
