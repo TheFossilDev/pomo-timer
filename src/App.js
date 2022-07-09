@@ -23,19 +23,19 @@ const App = () => {
 
   const updateTimes = (times) => {
     console.log(times);
-    setMinutesData(times)
-  }
+    setMinutesData(times);
+  };
 
   return (
     <div className={styles.flexContainer}>
       <h3>Pomodoro Timer</h3>
-      {isSetting && (
+      {/* {isSetting && (
         <SetTimer
         minutesData={minutesData}
         setMinutesData={updateTimes}
         changeIsSetting={changeIsSetting}
         />
-      )}
+      )} */}
       <Timer
         minutesData={minutesData}
         changeIsSetting={changeIsSetting}
