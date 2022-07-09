@@ -23,8 +23,8 @@ const App = () => {
 
   const updateTimes = (times) => {
     console.log(times);
-    setMinutesData(times)
-  }
+    setMinutesData(times);
+  };
 
   return (
     <div className={styles.flexContainer}>
