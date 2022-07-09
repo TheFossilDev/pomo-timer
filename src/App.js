@@ -8,6 +8,11 @@ const App = () => {
   // pomodor.io url?
 
   // TODO: Feature list
+  /*
+  Diversions:
+  1. Timer broke, needed to make one
+  2. Didn't update, state issues (took a while)
+  */
   // 1. Set timer duration
   // 2. Work mode, short break
   // 3. Auto advance / auto repeat
@@ -15,6 +20,7 @@ const App = () => {
   // 5. Basic UI styling
 
   const [isSetting, changeIsSetting] = useState(false);
+  const [currentTimer, setCurrentTimer] = useState("work"); // "work", "rest", "break"
   const [minutesData, setMinutesData] = useState({
     workMinutes: 25,
     shortBreakMinutes: 5,
@@ -22,22 +28,22 @@ const App = () => {
   });
 
   const updateTimes = (times) => {
-    console.log(times);
     setMinutesData(times);
   };
 
   return (
     <div className={styles.flexContainer}>
       <h3>Pomodoro Timer</h3>
-      {/* {isSetting && (
+      {isSetting && (
         <SetTimer
         minutesData={minutesData}
         setMinutesData={updateTimes}
         changeIsSetting={changeIsSetting}
         />
-      )} */}
+      )}
       <Timer
         minutesData={minutesData}
+        setMinutesData={setMinutesData}
         changeIsSetting={changeIsSetting}
         isSetting={isSetting}
       />

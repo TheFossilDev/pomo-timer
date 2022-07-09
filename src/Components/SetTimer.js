@@ -9,7 +9,8 @@ const SetTimer = props => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    console.log(props.minutesData);
+    console.log(workMinutes);
+    // console.log(props.minutesData);
     props.setMinutesData({
       workMinutes: +workMinutes,
       shortBreakMinutes: +shortBreakMinutes,
