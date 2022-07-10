@@ -9,10 +9,23 @@ const SetTimer = props => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    console.log(workMinutes);
-    // console.log(props.minutesData);
     props.setMinutesData({
+      ...props.minutesData,
       workMinutes: +workMinutes,
+      shortBreakMinutes: +shortBreakMinutes,
+      longBreakMinutes: +longBreakMinutes,
+    });
+    
+    
+    props.changeIsSetting(false);
+  }
+  // TODO: Add new button for adjusting current timer
+  const submitAndChangeTimerHandler = event => {
+    // event.preventDefault();
+    props.setMinutesData({
+      ...props.minutesData,
+      workMinutes: +workMinutes,
+      currentMinutes: +workMinutes,
       shortBreakMinutes: +shortBreakMinutes,
       longBreakMinutes: +longBreakMinutes,
     });
@@ -53,6 +66,7 @@ const SetTimer = props => {
       </div>
       <footer>
         <Button type="submit">Save</Button>
+        <Button onClick={submitAndChangeTimerHandler}>Save and adjust current timer</Button>
       </footer>
     </form>
   )

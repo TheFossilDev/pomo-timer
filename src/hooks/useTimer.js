@@ -1,14 +1,26 @@
 import { useState } from "react";
 import useInterval from "./useInterval";
 
-const useTimer = (minutesData, setMinutesData) => {
+const useTimer = (timerData, setTimerData) => {
   const DEFAULT_DELAY = 1000;
   const [seconds, setSeconds] = useState(0);
-  const [internalSeconds, setInternalSeconds] = useState(minutesData.workMinutes * 60);
   const [isRunning, setIsRunning] = useState(false);
 
   const HandleExpire = () => {
     setIsRunning(false);
+    // cases: work > rest, work > break, others > work
+    if (timerData.timerType === "work") {
+      // log completed pomo and decide rest or break
+      // timerData.pomosCompleted += 1;
+      // setTimerData({pomosCompleted: pomosCompleted + 1});
+      if (timerData.pomosCompleted % 4 === 0) {
+        setTimerData({...timerData, timerType: "break"});
+      } else {
+        setTimerData({...timerData, timerType: "rest"});
+      }
+    }
+
+
   };
 
   const start = () => {
@@ -26,20 +38,19 @@ const useTimer = (minutesData, setMinutesData) => {
 
   useInterval(
     () => {
-      setInternalSeconds(internalSeconds - 1);
+      // TODO: Fix weird off by one error
       setSeconds(seconds - 1);
-      if (internalSeconds % 60 === 0) {
-        setMinutesData({workMinutes: minutesData.workMinutes - 1});
-        setSeconds(59);
-      }
-      if (internalSeconds <= 1) {
+      if (seconds <= 1 && timerData.currentMinutes <= 0) {
         HandleExpire();
+      } else if (seconds <= 1) {
+        setTimerData({...timerData, currentMinutes: timerData.currentMinutes - 1});
+        setSeconds(59);
       }
     },
     isRunning ? DEFAULT_DELAY : null
   );
 
-  return { seconds, minutesData, isRunning, start, pause, resume };
+  return { seconds, timerData, isRunning, start, pause, resume };
 };
 
 export default useTimer;

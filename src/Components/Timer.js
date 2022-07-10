@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./Timer.module.css";
 import Button from "./Button";
 import useTimer from "../hooks/useTimer";
 
 const Timer = (props) => {
   const { seconds, isRunning, start, pause, resume } = useTimer(
-    props.minutesData,
-    props.setMinutesData
+    props.timerData,
+    props.setTimerData,
   );
 
   const [started, setStarted] = useState(false);
@@ -23,8 +23,9 @@ const Timer = (props) => {
   return (
     <div className={styles.timerContainer}>
       <Button onClick={setHandler}>Set</Button>
+      <h3>{props.timerData.timerType}</h3>
       <h2 className={styles.time}>
-        {props.minutesData.workMinutes < 10 ? <span>0{props.minutesData.workMinutes}</span> : <span>{props.minutesData.workMinutes}</span>}:
+        {props.timerData.currentMinutes < 10 ? <span>0{props.timerData.currentMinutes}</span> : <span>{props.timerData.currentMinutes}</span>}:
         {seconds < 10 ? <span>0{seconds}</span> : <span>{seconds}</span>}
       </h2>
       {!started && <Button onClick={startHandler}>Start</Button>}

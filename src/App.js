@@ -20,15 +20,19 @@ const App = () => {
   // 5. Basic UI styling
 
   const [isSetting, changeIsSetting] = useState(false);
-  const [currentTimer, setCurrentTimer] = useState("work"); // "work", "rest", "break"
-  const [minutesData, setMinutesData] = useState({
+  // Data: 
+  // timerType: "work", "rest"(small), "break"(long)
+  const [timerData, setTimerData] = useState({
+    timerType: "work",
+    pomosCompleted: 0,
     workMinutes: 25,
     shortBreakMinutes: 5,
     longBreakMinutes: 30,
+    currentMinutes: 25,
   });
 
   const updateTimes = (times) => {
-    setMinutesData(times);
+    setTimerData(times);
   };
 
   return (
@@ -36,14 +40,14 @@ const App = () => {
       <h3>Pomodoro Timer</h3>
       {isSetting && (
         <SetTimer
-        minutesData={minutesData}
+        minutesData={timerData}
         setMinutesData={updateTimes}
         changeIsSetting={changeIsSetting}
         />
       )}
       <Timer
-        minutesData={minutesData}
-        setMinutesData={setMinutesData}
+        timerData={timerData}
+        setTimerData={setTimerData}
         changeIsSetting={changeIsSetting}
         isSetting={isSetting}
       />
