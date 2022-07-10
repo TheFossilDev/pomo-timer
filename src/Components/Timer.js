@@ -9,13 +9,6 @@ const Timer = (props) => {
     props.setTimerData,
   );
 
-  const [started, setStarted] = useState(false);
-
-  const startHandler = () => {
-    setStarted(true);
-    start();
-  };
-
   const setHandler = () => {
     props.changeIsSetting(!props.isSetting);
   };
@@ -28,9 +21,9 @@ const Timer = (props) => {
         {props.timerData.currentMinutes < 10 ? <span>0{props.timerData.currentMinutes}</span> : <span>{props.timerData.currentMinutes}</span>}:
         {seconds < 10 ? <span>0{seconds}</span> : <span>{seconds}</span>}
       </h2>
-      {!started && <Button onClick={startHandler}>Start</Button>}
+      {!props.timerData.isActive && <Button onClick={start}>Start</Button>}
       {isRunning && <Button onClick={pause}>Stop</Button>}
-      {!isRunning && started && <Button onClick={resume}>Resume</Button>}
+      {!isRunning && props.timerData.isActive && <Button onClick={resume}>Resume</Button>}
     </div>
   );
 };

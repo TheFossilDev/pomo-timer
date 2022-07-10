@@ -3,8 +3,8 @@ import Button from './Button';
 
 const SetTimer = props => {
   const [workMinutes, setWorkMinutes] = useState(props.minutesData.workMinutes);
-  const [shortBreakMinutes, setShortBreakMinutes] = useState(props.minutesData.shortBreakMinutes);
-  const [longBreakMinutes, setLongBreakMinutes] = useState(props.minutesData.longBreakMinutes);
+  const [restMinutes, setRestMinutes] = useState(props.minutesData.restMinutes);
+  const [breakMinutes, setBreakMinutes] = useState(props.minutesData.breakMinutes);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -12,37 +12,34 @@ const SetTimer = props => {
     props.setMinutesData({
       ...props.minutesData,
       workMinutes: +workMinutes,
-      shortBreakMinutes: +shortBreakMinutes,
-      longBreakMinutes: +longBreakMinutes,
+      shortBreakMinutes: +restMinutes,
+      longBreakMinutes: +breakMinutes,
     });
-    
-    
     props.changeIsSetting(false);
   }
-  // TODO: Add new button for adjusting current timer
-  const submitAndChangeTimerHandler = event => {
-    // event.preventDefault();
-    props.setMinutesData({
-      ...props.minutesData,
-      workMinutes: +workMinutes,
-      currentMinutes: +workMinutes,
-      shortBreakMinutes: +shortBreakMinutes,
-      longBreakMinutes: +longBreakMinutes,
-    });
+  // Nice to have #1
+  // const submitAndChangeTimerHandler = event => {
+  //   props.setMinutesData({
+  //     ...props.minutesData,
+  //     workMinutes: +workMinutes,
+  //     currentMinutes: +workMinutes,
+  //     restMinutes: +restMinutes,
+  //     breakMinutes: +breakMinutes,
+  //   });
 
-    props.changeIsSetting(false);
-  }
+  //   props.changeIsSetting(false);
+  // }
 
   const workChangeHandler = event => {
     setWorkMinutes(event.target.value);
   }
 
   const shortBreakChangeHandler = event => {
-    setShortBreakMinutes(event.target.value);
+    setRestMinutes(event.target.value);
   }
 
   const longBreakChangeHandler = event => {
-    setLongBreakMinutes(event.target.value);
+    setBreakMinutes(event.target.value);
   }
 
 
@@ -58,15 +55,15 @@ const SetTimer = props => {
       </div>
       <div>
         <label>Short break minutes:</label>
-        <input type="number" onChange={shortBreakChangeHandler} value={shortBreakMinutes}/>
+        <input type="number" onChange={shortBreakChangeHandler} value={restMinutes}/>
       </div>
       <div>
         <label>Long break minutes:</label>
-        <input type="number" onChange={longBreakChangeHandler} value={longBreakMinutes}/>
+        <input type="number" onChange={longBreakChangeHandler} value={breakMinutes}/>
       </div>
       <footer>
         <Button type="submit">Save</Button>
-        <Button onClick={submitAndChangeTimerHandler}>Save and adjust current timer</Button>
+        {/* <Button onClick={submitAndChangeTimerHandler}>Save and adjust current timer</Button> */}
       </footer>
     </form>
   )

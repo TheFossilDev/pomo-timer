@@ -12,7 +12,6 @@ export default function useInterval(callback, delay) {
     if (!delay) {
       return () => {};
     }
-
     const interval = setInterval(() => {
       callbacRef.current && callbacRef.current();
     }, delay);
