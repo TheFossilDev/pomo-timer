@@ -1,8 +1,19 @@
-.flexContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: lightgray;
+.mainContainer {
   min-height: 100vh;
+  margin: 0rem auto;
+}
+
+.title {
+  padding: 0;
+  margin: 0;
+}
+
+.mainContainer.work {
+  background-color: #FF858D;
+}
+.mainContainer.rest {
+  background-color: #9292fc;
+}
+.mainContainer.break {
+  background-color: #9739fc;
 }

@@ -32,6 +32,7 @@ const App = () => {
   const [timerData, setTimerData] = useState({
     timerType: "work",
     isActive: false,
+    autoStart: false,
     pomosCompleted: 0,
     workMinutes: 25,
     restMinutes: 5,
@@ -48,17 +49,14 @@ const App = () => {
   //   breakMinutes: 2,
   //   currentMinutes: 1,
   // });
-  const updateTimes = (times) => {
-    setTimerData(times);
-  };
 
   return (
-    <div className={styles.flexContainer}>
-      <h3>Pomodoro Timer</h3>
+    <div className={`${styles["mainContainer"]} ${styles[timerData.timerType]}`}>
+      <h3 className={styles.title}>Pomodoro Timer</h3>
       {isSetting && (
         <SetTimer
-        minutesData={timerData}
-        setMinutesData={updateTimes}
+        timerData={timerData}
+        setTimerData={setTimerData}
         changeIsSetting={changeIsSetting}
         />
       )}

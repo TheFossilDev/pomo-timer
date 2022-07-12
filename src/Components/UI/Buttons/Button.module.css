@@ -1,0 +1,17 @@
+.button {
+  background-color: #FF858D;
+  display: block;
+  /* border: 10px; */
+  border-color: black;
+
+  padding: 0.4rem;
+  margin: 1rem auto;
+
+  border-radius: 5px;
+}
+.button.flex {
+  display: flex;
+  flex-basis: auto;
+  align-self: center;
+  margin: auto 0.25rem;
+}
