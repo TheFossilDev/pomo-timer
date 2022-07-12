@@ -1,18 +1,26 @@
 .timerContainer {
-  width: 50%;
-  max-height: 50%;
-  background-color: blueviolet;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  flex-basis: auto;
-
+  width: 75%;
+  max-height: 75%;
+  max-width: 40%;
+  margin: 2rem auto;
+  padding: 2rem;
+  display: block;
+  background-color: #ECE5F0;
   border-radius: 10px;
+}
+.buttonsContainer {
+  display: flex;
+  margin: 1rem auto;
+  justify-content: center;
 }
 
 .time {
-  color: white;
+  color: black;
   font-size: 7em;
+  text-align: center;
+  margin: 1rem auto;
+}
+
+.timerTypeLabel {
+  text-align: center;
 }
