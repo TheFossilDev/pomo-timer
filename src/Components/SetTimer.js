@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./UI/Buttons/Button";
 import styles from "./SetTimer.module.css";
 
@@ -9,6 +9,13 @@ const SetTimer = (props) => {
     props.timerData.breakMinutes
   );
 
+  // useEffect(() => {
+  //   localStorage.setItem("workMinutes", workMinutes);
+  //   localStorage.setItem("restMinutes", restMinutes);
+  //   localStorage.setItem("breakMinutes", breakMinutes);
+  // }, [props.timerData.workMinutes, props.timerData.restMinutes, props.timerData.breakMinutes])
+  
+
   const submitHandler = (event) => {
     event.preventDefault();
     let data = {
@@ -17,6 +24,9 @@ const SetTimer = (props) => {
       restMinutes: +restMinutes,
       breakMinutes: +breakMinutes,
     };
+    localStorage.setItem("workMinutes", workMinutes);
+    localStorage.setItem("restMinutes", restMinutes);
+    localStorage.setItem("breakMinutes", breakMinutes);
 
     if (!props.timerData.isActive) {
       switch (props.timerData.timerType) {

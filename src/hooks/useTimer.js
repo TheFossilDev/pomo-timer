@@ -85,7 +85,7 @@ const useTimer = (timerData, setTimerData, audio) => {
     isRunning ? DEFAULT_DELAY : null
   );
 
-  return { seconds, timerData, isRunning, start, pause, resume, skip };
+  return { seconds, isRunning, start, pause, resume, skip };
 };
 
 export default useTimer;

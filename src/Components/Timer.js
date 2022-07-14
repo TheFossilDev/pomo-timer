@@ -21,6 +21,7 @@ const Timer = (props) => {
   };
   
   const flipAutoStartHandler = () => {
+    localStorage.setItem("autoStart", !props.timerData.autoStart);
     props.setTimerData({
       ...props.timerData,
       autoStart: !props.timerData.autoStart,

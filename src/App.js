@@ -29,17 +29,46 @@ const App = () => {
 
   const [isSetting, changeIsSetting] = useState(false);
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer")
+
+  const fetchFromAppStorage = (key, backupValue) => {
+    const value = localStorage.getItem(key);
+    if (value != null && value != undefined) {
+      // Has entry
+      console.log('Had entry');
+      console.log(value);
+      return +value;
+    } else {
+      // No entry yet
+      console.log('No entry');
+      return backupValue;
+    }
+  }
+  const fetchAutoStartData = (backupValue) => {
+    const value = localStorage.getItem("autoStart");
+    if (value != null && value != undefined) {
+      // Has entry
+      console.log('Had entry');
+      console.log(value);
+      return value === 'true';
+    } else {
+      // No entry yet
+      console.log('No entry');
+      return backupValue;
+    }
+  }
+
+
   // Data:
   // timerType: "work", "rest"(small), "break"(long)
   const [timerData, setTimerData] = useState({
     timerType: "work",
     isActive: false,
-    autoStart: false,
+    autoStart: fetchAutoStartData(false),
     pomosCompleted: 0,
-    workMinutes: 25,
-    restMinutes: 5,
-    breakMinutes: 30,
-    currentMinutes: 25,
+    workMinutes: fetchFromAppStorage("workMinutes", 25),
+    restMinutes: fetchFromAppStorage("restMinutes", 5),
+    breakMinutes: fetchFromAppStorage("breakMinutes", 30),
+    currentMinutes: fetchFromAppStorage("workMinutes", 25),
   });
 
   const modalClickHandler = () => {
