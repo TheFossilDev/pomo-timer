@@ -1,0 +1,25 @@
+.timerContainer {
+  max-width: 30rem;
+  max-height: 30rem;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: block;
+  background-color: #ECE5F0;
+  border-radius: 10px;
+}
+.buttonsContainer {
+  display: flex;
+  margin: 1rem auto;
+  justify-content: center;
+}
+
+.time {
+  color: black;
+  font-size: 7em;
+  text-align: center;
+  margin: 1rem auto;
+}
+
+.timerTypeLabel {
+  text-align: center;
+}
