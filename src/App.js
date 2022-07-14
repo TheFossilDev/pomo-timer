@@ -61,7 +61,7 @@ const App = () => {
       default:
         setHeaderLabel("Broken!");
     }
-  }, [timerData.timerType, timerData.isActive])
+  }, [timerData.timerType, timerData.isActive, timerData.pomosCompleted])
   
 
   return (
