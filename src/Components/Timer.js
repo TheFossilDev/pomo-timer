@@ -3,18 +3,18 @@ import Button from "./UI/Buttons/Button";
 import BigButton from "./UI/Buttons/BigButton";
 import useTimer from "../hooks/useTimer";
 import { Update, UpdateDisabled, SkipNext } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import PomoSound from '../assets/PomoTimer.mp3';
 
 const Timer = (props) => {
+  const audio = new Audio(PomoSound);
   const { seconds, isRunning, start, pause, resume, skip } = useTimer(
     props.timerData,
-    props.setTimerData
+    props.setTimerData,
+    audio
   );
 
-  const [bigLabel, setBigLabel] = useState("Start");
-  const [timerTypeLabel, setTimerTypeLabel] = useState(
-    "Time for a work period!"
-  );
+  const [bigLabel, setBigLabel] = useState();
 
   const setHandler = () => {
     props.changeIsSetting(!props.isSetting);
@@ -39,29 +39,44 @@ const Timer = (props) => {
         return "whoops, defaulted";
     }
   };
+  // Change timer label
+  useEffect(() => {
+    if (props.timerData.isActive) {
+      if (isRunning) {
+        setBigLabel("Pause");
+      } else {
+        setBigLabel("Resume");
+      }
+    } else {
+      setBigLabel("Start");
+    }
+  }, [props.timerData.isActive, isRunning]);
 
   const timerChangeHandler = () => {
+    // WHEN THE BUTTON GETS CLICKED
     if (props.timerData.isActive) {
       // Is active
       if (isRunning) {
         // Is running
-        setBigLabel("Pause");
         pause();
+        // setBigLabel("Resume");
       } else {
         // Isn't running
-        setBigLabel("Resume");
         resume();
+        // setBigLabel("Pause");
       }
     } else {
       // Isn't running yet
-      setBigLabel("Start");
+      // setBigLabel("Pause");
       start();
     }
   };
 
   return (
     <div className={styles.timerContainer}>
-      <Button onClick={setHandler}>Set</Button>
+      <Button size={"medium"} onClick={setHandler}>
+        Set
+      </Button>
       <h3 className={styles.timerTypeLabel}>{getTimerTypeLabel()}</h3>
       <h2 className={styles.time}>
         {props.timerData.currentMinutes < 10 ? (
@@ -75,13 +90,6 @@ const Timer = (props) => {
         <Button flex={true} onClick={flipAutoStartHandler}>
           {props.timerData.autoStart ? <Update /> : <UpdateDisabled />}
         </Button>
-        {/* {!props.timerData.isActive && (
-          <BigButton onClick={start}>Start</BigButton>
-        )} */}
-        {/* {isRunning && <BigButton onClick={pause}>Stop</BigButton>}
-        {!isRunning && props.timerData.isActive && (
-          <BigButton onClick={resume}>Resume</BigButton>
-        )} */}
         <BigButton onClick={timerChangeHandler}>{bigLabel}</BigButton>
         <Button flex={true} onClick={skip}>
           <SkipNext />

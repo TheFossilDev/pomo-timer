@@ -1,0 +1,31 @@
+input {
+  width: 100%;
+  display: flex;
+  background-color: #EEE;
+  border: 0;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-weight: bold;
+}
+label {
+  font-weight: bold;
+  display: block;
+  font-size: 0.75em;
+}
+.header {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.setTimerBody {
+  display: flex;
+  justify-content: space-between;
+}
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 0 4px;
+}

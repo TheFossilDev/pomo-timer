@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from "./UI/Buttons/Button";
+import styles from "./SetTimer.module.css";
 
 const SetTimer = (props) => {
   const [workMinutes, setWorkMinutes] = useState(props.timerData.workMinutes);
@@ -20,14 +21,16 @@ const SetTimer = (props) => {
     if (!props.timerData.isActive) {
       switch (props.timerData.timerType) {
         case "work":
-          data = {...data, currentMinutes: +workMinutes};
+          data = { ...data, currentMinutes: +workMinutes };
           break;
         case "rest":
-          data = {...data, currentMinutes: +restMinutes};
+          data = { ...data, currentMinutes: +restMinutes };
           break;
         case "break":
-          data = {...data, currentMinutes: +breakMinutes};
+          data = { ...data, currentMinutes: +breakMinutes };
           break;
+        default:
+          console.error('Set timer broke');
       }
     }
     props.setTimerData(data);
@@ -61,23 +64,33 @@ const SetTimer = (props) => {
   return (
     <form onSubmit={submitHandler}>
       <header>
-        <h2>Timer durations:</h2>
+        <h2 className={styles.header}>Timer durations (minutes):</h2>
       </header>
-      <div>
-        <label>Work minutes:</label>
-        <input type="number" onChange={workChangeHandler} value={workMinutes} />
-      </div>
-      <div>
-        <label>Short break minutes:</label>
-        <input type="number" onChange={restChangeHandler} value={restMinutes} />
-      </div>
-      <div>
-        <label>Long break minutes:</label>
-        <input
-          type="number"
-          onChange={breakChangeHandler}
-          value={breakMinutes}
-        />
+      <div className={styles.setTimerBody}>
+        <div className={styles.inputContainer}>
+          <label>Work: </label>
+          <input
+            type="number"
+            onChange={workChangeHandler}
+            value={workMinutes}
+          />
+        </div>
+        <div className={styles.inputContainer}>
+          <label>Short break: </label>
+          <input
+            type="number"
+            onChange={restChangeHandler}
+            value={restMinutes}
+          />
+        </div>
+        <div className={styles.inputContainer}>
+          <label>Long break: </label>
+          <input
+            type="number"
+            onChange={breakChangeHandler}
+            value={breakMinutes}
+          />
+        </div>
       </div>
       <footer>
         <Button type="submit">Save</Button>

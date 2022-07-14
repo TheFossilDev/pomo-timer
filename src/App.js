@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Timer from "./Components/Timer";
 import SetTimer from "./Components/SetTimer";
 import styles from "./App.module.css";
+import Modal from "./Components/UI/Modal";
+import './assets/PomoTimer.mp3';
 
 const App = () => {
   // pomodor.io url?
-
   // TODO: Feature list
   /*
   Diversions:
   1. Timer broke, needed to make one
   2. Didn't update, state issues (took a while)
   */
- /* TODO:
+  /* TODO:
   1. Set timer duration
   2. Work mode, short break
     a. Input validation and timer adjustment handling
@@ -27,7 +28,8 @@ const App = () => {
   */
 
   const [isSetting, changeIsSetting] = useState(false);
-  // Data: 
+  const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer")
+  // Data:
   // timerType: "work", "rest"(small), "break"(long)
   const [timerData, setTimerData] = useState({
     timerType: "work",
@@ -39,34 +41,52 @@ const App = () => {
     breakMinutes: 30,
     currentMinutes: 25,
   });
-  // Debug data: 
-  // const [timerData, setTimerData] = useState({
-  //   timerType: "work",
-  //   isActive: false,
-  //   pomosCompleted: 2,
-  //   workMinutes: 1,
-  //   restMinutes: 1,
-  //   breakMinutes: 2,
-  //   currentMinutes: 1,
-  // });
+
+  const modalClickHandler = () => {
+    changeIsSetting(false);
+  };
+
+  useEffect(() => {
+    if (timerData.pomosCompleted === 0 && !timerData.isActive) return;
+    switch (timerData.timerType) {
+      case "work":
+        setHeaderLabel(`Pomodoro #${timerData.pomosCompleted + 1}`);
+        break;
+      case "rest":
+        setHeaderLabel("Short Break");
+        break;
+      case "break":
+        setHeaderLabel("Long Break");
+        break;
+      default:
+        setHeaderLabel("Broken!");
+    }
+  }, [timerData.timerType, timerData.isActive])
+  
 
   return (
-    <div className={`${styles["mainContainer"]} ${styles[timerData.timerType]}`}>
-      <h3 className={styles.title}>Pomodoro Timer</h3>
+    <>
       {isSetting && (
-        <SetTimer
-        timerData={timerData}
-        setTimerData={setTimerData}
-        changeIsSetting={changeIsSetting}
-        />
+        <Modal clickHandler={modalClickHandler}>
+          <SetTimer
+            timerData={timerData}
+            setTimerData={setTimerData}
+            changeIsSetting={changeIsSetting}
+          />
+        </Modal>
       )}
-      <Timer
-        timerData={timerData}
-        setTimerData={setTimerData}
-        changeIsSetting={changeIsSetting}
-        isSetting={isSetting}
-      />
-    </div>
+      <div
+        className={`${styles["mainContainer"]} ${styles[timerData.timerType]}`}
+      >
+        <h3 className={styles.title}>{headerLabel}</h3>
+        <Timer
+          timerData={timerData}
+          setTimerData={setTimerData}
+          changeIsSetting={changeIsSetting}
+          isSetting={isSetting}
+        />
+      </div>
+    </>
   );
 };
 

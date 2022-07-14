@@ -3,11 +3,16 @@
   display: block;
   /* border: 10px; */
   border-color: black;
+  color: black;
+  font-weight: bold;
 
   padding: 0.4rem;
   margin: 1rem auto;
 
   border-radius: 5px;
+}
+.button.medium {
+  font-size: large;
 }
 .button.flex {
   display: flex;

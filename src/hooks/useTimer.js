@@ -1,12 +1,14 @@
 import { useState } from "react";
 import useInterval from "./useInterval";
 
-const useTimer = (timerData, setTimerData) => {
+const useTimer = (timerData, setTimerData, audio) => {
   const DEFAULT_DELAY = 1000;
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
-  const HandleExpire = () => {
+  const HandleExpire = (skipped = false) => {
+    if (!skipped) audio.play();
+    let data = timerData;
     /* High level logic
     1. Sets running to false to stop timer (delay to null)
     2. Moves onto next section (decides)
@@ -15,66 +17,41 @@ const useTimer = (timerData, setTimerData) => {
     5. 
      */
     if (!timerData.autoStart) {
+      // Autostart disabled
       setIsRunning(false);
-      setTimerData({
-        ...timerData,
-        isActive: false,
-      })
+      // setTimerData({
+      //   ...timerData,
+      //   isActive: false,
+      // })
+      data = {...data, isActive: false};
     }
     // cases: work > rest, work > break, others > work
     if (timerData.timerType === "work") {
+      data = {...data, pomosCompleted: timerData.pomosCompleted + 1};
       // log completed pomo and decide rest or break
-      if (timerData.pomosCompleted % 3 === 0 && timerData.pomosCompleted > 0) {
-        // console.log(`PomosCompleted: ${timerData.pomosCompleted % 4}`);
-        setTimerData({
-          ...timerData,
-          timerType: "break",
-          currentMinutes: timerData.breakMinutes,
-          pomosCompleted: timerData.pomosCompleted + 1,
-          // isActive: false,
-        });
+      if (data.pomosCompleted % 4 === 0 && data.pomosCompleted > 0) {
+        data = {...data, timerType: "break", currentMinutes: timerData.breakMinutes, pomosCompleted: timerData.pomosCompleted + 1};
       } else {
-        setTimerData({
-          ...timerData,
+        data = {
+          ...data,
           timerType: "rest",
           currentMinutes: timerData.restMinutes,
           pomosCompleted: timerData.pomosCompleted + 1,
-          // isActive: false,
-        });
+        };
       }
     } else {
-      setTimerData({
-        ...timerData,
+      data = {
+        ...data,
         timerType: "work",
         currentMinutes: timerData.workMinutes,
-        // isActive: false,
-      });
+      };
     }
+    setTimerData(data);
   };
 
   const start = () => {
-    // Random
-    console.log(timerData.timerType === "work");
-
-    switch (timerData.timerType) {
-      case "work":
-        setTimerData({ ...timerData, currentMinutes: timerData.workMinutes, isActive: true });
-        setIsRunning(true);
-        break;
-      case "rest":
-        setTimerData({ ...timerData, currentMinutes: timerData.restMinutes, isActive: true });
-        setIsRunning(true);
-        break;
-      case "break":
-        setTimerData({ ...timerData, currentMinutes: timerData.breakMinutes, isActive: true });
-        setIsRunning(true);
-        break;
-      default:
-        console.log("I broke :(");
-        break;
-    }
-    // setTimerData({ ...timerData, isActive: true });
-    // setIsRunning(true);
+    setTimerData({ ...timerData, isActive: true });
+    setIsRunning(true);
   };
 
   const pause = () => {
@@ -87,16 +64,14 @@ const useTimer = (timerData, setTimerData) => {
 
   const skip = () => {
     setSeconds(0);
-    HandleExpire();
+    HandleExpire(true);
     // setTimerData({...timerData, isActive: false});
   };
 
   useInterval(
     () => {
       // TODO: Fix weird off by one error
-      // console.log(`Seconds before set: ${seconds}`);
       setSeconds(seconds - 1);
-      // console.log(`Seconds after set: ${seconds}`);
       if (seconds <= 1 && timerData.currentMinutes <= 0) {
         HandleExpire();
       } else if (seconds <= 1) {
