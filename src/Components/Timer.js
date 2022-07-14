@@ -19,7 +19,7 @@ const Timer = (props) => {
   const setHandler = () => {
     props.changeIsSetting(!props.isSetting);
   };
-
+  
   const flipAutoStartHandler = () => {
     props.setTimerData({
       ...props.timerData,
