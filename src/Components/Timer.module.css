@@ -13,6 +13,11 @@
   justify-content: center;
 }
 
+.topButtonsContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .time {
   color: black;
   font-size: 7em;

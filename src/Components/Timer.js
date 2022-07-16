@@ -2,13 +2,13 @@ import styles from "./Timer.module.css";
 import Button from "./UI/Buttons/Button";
 import BigButton from "./UI/Buttons/BigButton";
 import useTimer from "../hooks/useTimer";
-import { Update, UpdateDisabled, SkipNext } from "@mui/icons-material";
+import { Update, UpdateDisabled, SkipNext, Delete } from "@mui/icons-material";
 import { useState, useEffect } from "react";
-import PomoSound from '../assets/PomoTimer.mp3';
+import PomoSound from "../assets/PomoTimer.mp3";
 
 const Timer = (props) => {
   const audio = new Audio(PomoSound);
-  const { seconds, isRunning, start, pause, resume, skip } = useTimer(
+  const { isRunning, start, pause, resume, skip } = useTimer(
     props.timerData,
     props.setTimerData,
     audio
@@ -19,7 +19,7 @@ const Timer = (props) => {
   const setHandler = () => {
     props.changeIsSetting(!props.isSetting);
   };
-  
+
   const flipAutoStartHandler = () => {
     localStorage.setItem("autoStart", !props.timerData.autoStart);
     props.setTimerData({
@@ -75,9 +75,14 @@ const Timer = (props) => {
 
   return (
     <div className={styles.timerContainer}>
-      <Button size={"medium"} onClick={setHandler}>
-        Set
-      </Button>
+      <div className={styles.topButtonsContainer}>
+        <Button size={"medium"} flex={true} onClick={setHandler}>
+          Set
+        </Button>
+        <Button size={"medium"} flex={true} onClick={props.flipIsConfirming}>
+          <Delete />
+        </Button>
+      </div>
       <h3 className={styles.timerTypeLabel}>{getTimerTypeLabel()}</h3>
       <h2 className={styles.time}>
         {props.timerData.currentMinutes < 10 ? (
@@ -85,7 +90,12 @@ const Timer = (props) => {
         ) : (
           <span>{props.timerData.currentMinutes}</span>
         )}
-        :{seconds < 10 ? <span>0{seconds}</span> : <span>{seconds}</span>}
+        :
+        {props.timerData.currentSeconds < 10 ? (
+          <span>0{props.timerData.currentSeconds}</span>
+        ) : (
+          <span>{props.timerData.currentSeconds}</span>
+        )}
       </h2>
       <div className={styles.buttonsContainer}>
         <Button flex={true} onClick={flipAutoStartHandler}>

@@ -3,12 +3,16 @@ import useInterval from "./useInterval";
 
 const useTimer = (timerData, setTimerData, audio) => {
   const DEFAULT_DELAY = 1000;
-  const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
   const HandleExpire = (skipped = false) => {
-    if (!skipped) audio.play();
     let data = timerData;
+    if (skipped) {
+      data = { ...timerData, currentSeconds: 0 };
+      localStorage.setItem("currentSeconds", 0);
+    } else {
+      audio.play();
+    }
     /* High level logic
     1. Sets running to false to stop timer (delay to null)
     2. Moves onto next section (decides)
@@ -19,18 +23,21 @@ const useTimer = (timerData, setTimerData, audio) => {
     if (!timerData.autoStart) {
       // Autostart disabled
       setIsRunning(false);
-      // setTimerData({
-      //   ...timerData,
-      //   isActive: false,
-      // })
-      data = {...data, isActive: false};
+      data = { ...data, isActive: false };
     }
     // cases: work > rest, work > break, others > work
     if (timerData.timerType === "work") {
-      data = {...data, pomosCompleted: timerData.pomosCompleted + 1};
-      // log completed pomo and decide rest or break
+      data = { ...data, pomosCompleted: timerData.pomosCompleted + 1 };
+      localStorage.setItem("pomosCompleted", timerData.pomosCompleted + 1);
       if (data.pomosCompleted % 4 === 0 && data.pomosCompleted > 0) {
-        data = {...data, timerType: "break", currentMinutes: timerData.breakMinutes, pomosCompleted: timerData.pomosCompleted + 1};
+        data = {
+          ...data,
+          timerType: "break",
+          currentMinutes: timerData.breakMinutes,
+          pomosCompleted: timerData.pomosCompleted + 1,
+        };
+        localStorage.setItem("timerType", "break");
+        localStorage.setItem("currentMinutes", timerData.breakMinutes);
       } else {
         data = {
           ...data,
@@ -38,6 +45,8 @@ const useTimer = (timerData, setTimerData, audio) => {
           currentMinutes: timerData.restMinutes,
           pomosCompleted: timerData.pomosCompleted + 1,
         };
+        localStorage.setItem("timerType", "rest");
+        localStorage.setItem("currentMinutes", timerData.restMinutes);
       }
     } else {
       data = {
@@ -45,6 +54,8 @@ const useTimer = (timerData, setTimerData, audio) => {
         timerType: "work",
         currentMinutes: timerData.workMinutes,
       };
+      localStorage.setItem("timerType", "work");
+      localStorage.setItem("currentMinutes", timerData.workMinutes);
     }
     setTimerData(data);
   };
@@ -63,29 +74,38 @@ const useTimer = (timerData, setTimerData, audio) => {
   };
 
   const skip = () => {
-    setSeconds(0);
+    // setTimerData({...timerData, currentSeconds: 0});
     HandleExpire(true);
     // setTimerData({...timerData, isActive: false});
   };
 
   useInterval(
     () => {
-      // TODO: Fix weird off by one error
-      setSeconds(seconds - 1);
-      if (seconds <= 1 && timerData.currentMinutes <= 0) {
+      if (
+        timerData.currentSeconds - 1 < 0 &&
+        timerData.currentMinutes - 1 < 0
+      ) {
         HandleExpire();
-      } else if (seconds <= 1) {
+      } else if (timerData.currentSeconds - 1 < 0) {
         setTimerData({
           ...timerData,
+          currentSeconds: 59,
           currentMinutes: timerData.currentMinutes - 1,
         });
-        setSeconds(59);
+          localStorage.setItem("currentSeconds", 59);
+          localStorage.setItem("currentMinutes", timerData.currentMinutes - 1);
+      } else {
+        setTimerData({
+          ...timerData,
+          currentSeconds: timerData.currentSeconds - 1,
+        });
+        localStorage.setItem("currentSeconds", timerData.currentSeconds - 1);
       }
     },
     isRunning ? DEFAULT_DELAY : null
   );
 
-  return { seconds, isRunning, start, pause, resume, skip };
+  return { isRunning, start, pause, resume, skip };
 };
 
 export default useTimer;

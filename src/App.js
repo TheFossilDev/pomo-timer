@@ -4,7 +4,8 @@ import Timer from "./Components/Timer";
 import SetTimer from "./Components/SetTimer";
 import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
-import './assets/PomoTimer.mp3';
+import ConfirmationBox from "./Components/ResetData/ConfirmationBox";
+import "./assets/PomoTimer.mp3";
 
 const App = () => {
   // pomodor.io url?
@@ -28,47 +29,65 @@ const App = () => {
   */
 
   const [isSetting, changeIsSetting] = useState(false);
-  const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer")
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
+
+  const flipIsConfirming = () => {
+    setIsConfirming(!isConfirming);
+  };
 
   const fetchFromAppStorage = (key, backupValue) => {
     const value = localStorage.getItem(key);
     if (value != null && value != undefined) {
       // Has entry
-      console.log('Had entry');
-      console.log(value);
+      // console.log('Had entry');
+      // console.log(value);
       return +value;
     } else {
       // No entry yet
-      console.log('No entry');
+      // console.log('No entry');
       return backupValue;
     }
-  }
+  };
+  const fetchStringFromAppStorage = (key, backupValue) => {
+    const value = localStorage.getItem(key);
+    if (value != null && value != undefined) {
+      // Has entry
+      // console.log('Had entry');
+      // console.log(value);
+      return value;
+    } else {
+      // No entry yet
+      // console.log('No entry');
+      return backupValue;
+    }
+  };
   const fetchAutoStartData = (backupValue) => {
     const value = localStorage.getItem("autoStart");
     if (value != null && value != undefined) {
       // Has entry
-      console.log('Had entry');
-      console.log(value);
-      return value === 'true';
+      // console.log('Had entry');
+      // console.log(value);
+      return value === "true";
     } else {
       // No entry yet
-      console.log('No entry');
+      // console.log('No entry');
       return backupValue;
     }
-  }
-
+  };
 
   // Data:
   // timerType: "work", "rest"(small), "break"(long)
   const [timerData, setTimerData] = useState({
-    timerType: "work",
+    timerType: fetchStringFromAppStorage("timerType", "work"),
     isActive: false,
     autoStart: fetchAutoStartData(false),
-    pomosCompleted: 0,
+    pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
     workMinutes: fetchFromAppStorage("workMinutes", 25),
     restMinutes: fetchFromAppStorage("restMinutes", 5),
     breakMinutes: fetchFromAppStorage("breakMinutes", 30),
-    currentMinutes: fetchFromAppStorage("workMinutes", 25),
+    currentMinutes: fetchFromAppStorage("currentMinutes", 25),
+    currentSeconds: fetchFromAppStorage("currentSeconds", 0),
   });
 
   const modalClickHandler = () => {
@@ -90,8 +109,7 @@ const App = () => {
       default:
         setHeaderLabel("Broken!");
     }
-  }, [timerData.timerType, timerData.isActive, timerData.pomosCompleted])
-  
+  }, [timerData.timerType, timerData.isActive, timerData.pomosCompleted]);
 
   return (
     <>
@@ -104,6 +122,13 @@ const App = () => {
           />
         </Modal>
       )}
+      {isConfirming && (
+        <ConfirmationBox
+          flipIsConfirming={flipIsConfirming}
+          setTimerData={setTimerData}
+          timerData={timerData}
+        ></ConfirmationBox>
+      )}
       <div
         className={`${styles["mainContainer"]} ${styles[timerData.timerType]}`}
       >
@@ -113,6 +138,7 @@ const App = () => {
           setTimerData={setTimerData}
           changeIsSetting={changeIsSetting}
           isSetting={isSetting}
+          flipIsConfirming={flipIsConfirming}
         />
       </div>
     </>
