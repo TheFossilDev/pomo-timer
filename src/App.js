@@ -38,7 +38,7 @@ const App = () => {
 
   const fetchFromAppStorage = (key, backupValue) => {
     const value = localStorage.getItem(key);
-    if (value != null && value != undefined) {
+    if (value !== null && value !== undefined) {
       // Has entry
       // console.log('Had entry');
       // console.log(value);
@@ -51,7 +51,7 @@ const App = () => {
   };
   const fetchStringFromAppStorage = (key, backupValue) => {
     const value = localStorage.getItem(key);
-    if (value != null && value != undefined) {
+    if (value !== null && value !== undefined) {
       // Has entry
       // console.log('Had entry');
       // console.log(value);
@@ -64,7 +64,7 @@ const App = () => {
   };
   const fetchAutoStartData = (backupValue) => {
     const value = localStorage.getItem("autoStart");
-    if (value != null && value != undefined) {
+    if (value !== null && value !== undefined) {
       // Has entry
       // console.log('Had entry');
       // console.log(value);

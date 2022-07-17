@@ -25,6 +25,36 @@
   touch-action: manipulation;
 }
 
+@media only screen and (max-width: 600px) {
+  .bigButton {
+    align-items: center;
+    /* flex-basis: 3rem; */
+    width: 90%;
+    height: 7rem;
+  
+    background-color: #fee6e3;
+    margin: 0.25rem;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    /* font-family: Inter,sans-serif; */
+    font-size: 2em;
+    justify-content: center;
+    line-height: 24px;
+    padding: 3rem 25px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    order: 2;
+  }
+  
+}
+
 /* .bigButton:after {
   background-color: #111;
   border-radius: 8px;
