@@ -5,7 +5,10 @@ const Button = (props) => {
   return (
     <button
       onClick={props.onClick}
-      className={`${styles["button"]} ${props.flex ? styles["flex"] : ""} ${styles[props.size]}`}
+      className={`${styles["button"]} ${props.flex ? styles["flex"] : ""} ${
+        styles[props.size]
+      }`}
+      title={props.title || ""}
     >
       {props.children}
     </button>

@@ -9,16 +9,28 @@
   padding: 0.5rem 1rem;
   margin: 0 auto;
   text-align: center;
-  background-color: #ECE5F0;
+  background-color: #ece5f0;
   border-radius: 10px 10px 0 0;
 }
 
 .mainContainer.work {
-  background-color: #FF858D;
+  background-color: #ff858d;
 }
 .mainContainer.rest {
   background-color: #9292fc;
 }
 .mainContainer.break {
   background-color: #9739fc;
+}
+
+@media only screen and (max-width: 600px) {
+  .title {
+    width: 10rem;
+    padding: 0.5rem 1rem;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #ece5f0;
+    border-radius: 10px 10px 0 0;
+    font-size: medium;
+  }
 }
