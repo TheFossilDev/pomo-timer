@@ -6,10 +6,8 @@ import { Update, UpdateDisabled, SkipNext, Delete } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { timerActions } from "../store/timerReducer";
 import { useState, useEffect } from "react";
-import PomoSound from "../assets/PomoTimer.mp3";
 
 const Timer = (props) => {
-  const audio = new Audio(PomoSound);
   const dispatch = useDispatch();
   const timerType = useSelector((state) => state.timer.timerType);
   const seconds = useSelector((state) => state.timer.seconds);
@@ -18,7 +16,7 @@ const Timer = (props) => {
   const isActive = useSelector((state) => state.timer.isActive);
   const autoStart = useSelector((state) => state.timer.autoStart);
 
-  useTimer(props.timerData, props.setTimerData, audio);
+  useTimer();
 
   const [bigLabel, setBigLabel] = useState();
 

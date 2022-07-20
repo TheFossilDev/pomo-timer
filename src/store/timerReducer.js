@@ -1,56 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
+import PomoSound from "../assets/PomoTimer.mp3";
 
 const fetchFromAppStorage = (key, backupValue) => {
   const value = localStorage.getItem(key);
   if (value !== null && value !== undefined) {
-    // Has entry
-    // console.log('Had entry');
-    // console.log(value);
     return +value;
   } else {
-    // No entry yet
-    // console.log('No entry');
     return backupValue;
   }
 };
 const fetchStringFromAppStorage = (key, backupValue) => {
   const value = localStorage.getItem(key);
   if (value !== null && value !== undefined) {
-    // Has entry
-    // console.log('Had entry');
-    // console.log(value);
     return value;
   } else {
-    // No entry yet
-    // console.log('No entry');
     return backupValue;
   }
 };
 const fetchAutoStartData = (backupValue) => {
   const value = localStorage.getItem("autoStart");
   if (value !== null && value !== undefined) {
-    // Has entry
-    // console.log('Had entry');
-    // console.log(value);
     return value === "true";
   } else {
-    // No entry yet
-    // console.log('No entry');
     return backupValue;
   }
 };
-
-// const initialTimerState = {
-//     timerType: fetchStringFromAppStorage("timerType", "work"),
-//     isActive: false,
-//     autoStart: fetchAutoStartData(false),
-//     pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
-//     workMinutes: fetchFromAppStorage("workMinutes", 25),
-//     restMinutes: fetchFromAppStorage("restMinutes", 5),
-//     breakMinutes: fetchFromAppStorage("breakMinutes", 30),
-//     minutes: fetchFromAppStorage("currentMinutes", 25),
-//     seconds: fetchFromAppStorage("currentSeconds", 0),
-// };
 
 const initialTimerState = {
   timerType: fetchStringFromAppStorage("timerType", "work"),
@@ -148,6 +122,9 @@ const timerSlice = createSlice({
     awareDecrease(state) {
       if (state.seconds - 1 < 0) {
         if (state.minutes - 1 < 0) {
+          const audio = new Audio(PomoSound);
+          audio.play();
+
           timerSlice.caseReducers.advanceTimer(state);
         } else {
           state.seconds = 59;

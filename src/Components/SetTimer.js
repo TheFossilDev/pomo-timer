@@ -60,6 +60,8 @@ const SetTimer = (props) => {
           <label>Work: </label>
           <input
             type="number"
+            min={1}
+            max={99}
             onChange={workChangeHandler}
             value={workMinutesInput}
           />
@@ -68,6 +70,8 @@ const SetTimer = (props) => {
           <label>Short break: </label>
           <input
             type="number"
+            min={1}
+            max={99}
             onChange={restChangeHandler}
             value={restMinutesInput}
           />
@@ -76,6 +80,8 @@ const SetTimer = (props) => {
           <label>Long break: </label>
           <input
             type="number"
+            min={1}
+            max={99}
             onChange={breakChangeHandler}
             value={breakMinutesInput}
           />
