@@ -77,19 +77,22 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (pomosCompleted === 0 && !isActive) return;
-    switch (timerType) {
-      case "work":
-        setHeaderLabel(`Pomodoro #${pomosCompleted + 1}`);
-        break;
-      case "rest":
-        setHeaderLabel("Short Break");
-        break;
-      case "break":
-        setHeaderLabel("Long Break");
-        break;
-      default:
-        setHeaderLabel("Broken!");
+    if (pomosCompleted === 0 && !isActive) {
+      setHeaderLabel("Pomodoro Timer");
+    } else {
+      switch (timerType) {
+        case "work":
+          setHeaderLabel(`Pomodoro #${pomosCompleted + 1}`);
+          break;
+        case "rest":
+          setHeaderLabel("Short Break");
+          break;
+        case "break":
+          setHeaderLabel("Long Break");
+          break;
+        default:
+          setHeaderLabel("Broken!");
+      }
     }
   }, [timerType, isActive, pomosCompleted]);
 
