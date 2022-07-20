@@ -1,74 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "./UI/Buttons/Button";
 import styles from "./SetTimer.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { timerActions } from "../store/timerReducer";
 
 const SetTimer = (props) => {
-  const [workMinutes, setWorkMinutes] = useState(props.timerData.workMinutes);
-  const [restMinutes, setRestMinutes] = useState(props.timerData.restMinutes);
-  const [breakMinutes, setBreakMinutes] = useState(
-    props.timerData.breakMinutes
-  );
+  const dispatch = useDispatch();
+  const workMinutes = useSelector((state) => state.timer.workMinutes);
+  const restMinutes = useSelector((state) => state.timer.restMinutes);
+  const breakMinutes = useSelector((state) => state.timer.breakMinutes);
+
+  const [workMinutesInput, setWorkMinutesInput] = useState(workMinutes);
+  const [restMinutesInput, setRestMinutesInput] = useState(restMinutes);
+  const [breakMinutesInput, setBreakMinutesInput] = useState(breakMinutes);
 
   // useEffect(() => {
   //   localStorage.setItem("workMinutes", workMinutes);
   //   localStorage.setItem("restMinutes", restMinutes);
   //   localStorage.setItem("breakMinutes", breakMinutes);
   // }, [props.timerData.workMinutes, props.timerData.restMinutes, props.timerData.breakMinutes])
-  
 
   const submitHandler = (event) => {
     event.preventDefault();
-    let data = {
-      ...props.timerData,
-      workMinutes: +workMinutes,
-      restMinutes: +restMinutes,
-      breakMinutes: +breakMinutes,
-    };
+
     localStorage.setItem("workMinutes", workMinutes);
     localStorage.setItem("restMinutes", restMinutes);
     localStorage.setItem("breakMinutes", breakMinutes);
 
-    if (!props.timerData.isActive) {
-      switch (props.timerData.timerType) {
-        case "work":
-          data = { ...data, currentMinutes: +workMinutes };
-          break;
-        case "rest":
-          data = { ...data, currentMinutes: +restMinutes };
-          break;
-        case "break":
-          data = { ...data, currentMinutes: +breakMinutes };
-          break;
-        default:
-          console.error('Set timer broke');
-      }
-    }
-    props.setTimerData(data);
+    dispatch(
+      timerActions.setTimerSettings({
+        newWorkMinutes: +workMinutesInput,
+        newRestMinutes: +restMinutesInput,
+        newBreakMinutes: +breakMinutesInput,
+      })
+    );
+
     props.changeIsSetting(false);
   };
-  // Nice to have #1
-  // const submitAndChangeTimerHandler = event => {
-  //   props.setTimerData({
-  //     ...props.timerData,
-  //     workMinutes: +workMinutes,
-  //     currentMinutes: +workMinutes,
-  //     restMinutes: +restMinutes,
-  //     breakMinutes: +breakMinutes,
-  //   });
-
-  //   props.changeIsSetting(false);
-  // }
 
   const workChangeHandler = (event) => {
-    setWorkMinutes(event.target.value);
+    setWorkMinutesInput(event.target.value);
   };
 
   const restChangeHandler = (event) => {
-    setRestMinutes(event.target.value);
+    setRestMinutesInput(event.target.value);
   };
 
   const breakChangeHandler = (event) => {
-    setBreakMinutes(event.target.value);
+    setBreakMinutesInput(event.target.value);
   };
 
   return (
@@ -82,7 +61,7 @@ const SetTimer = (props) => {
           <input
             type="number"
             onChange={workChangeHandler}
-            value={workMinutes}
+            value={workMinutesInput}
           />
         </div>
         <div className={styles.inputContainer}>
@@ -90,7 +69,7 @@ const SetTimer = (props) => {
           <input
             type="number"
             onChange={restChangeHandler}
-            value={restMinutes}
+            value={restMinutesInput}
           />
         </div>
         <div className={styles.inputContainer}>
@@ -98,7 +77,7 @@ const SetTimer = (props) => {
           <input
             type="number"
             onChange={breakChangeHandler}
-            value={breakMinutes}
+            value={breakMinutesInput}
           />
         </div>
       </div>

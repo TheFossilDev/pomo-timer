@@ -8,6 +8,7 @@ const Button = (props) => {
       className={`${styles["button"]} ${props.flex ? styles["flex"] : ""} ${
         styles[props.size]
       }`}
+      title={props.title || ""}
     >
       {props.children}
     </button>

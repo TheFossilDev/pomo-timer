@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import Timer from "./Components/Timer";
 import SetTimer from "./Components/SetTimer";
@@ -31,74 +32,55 @@ const App = () => {
   const [isSetting, changeIsSetting] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
+  const timerType = useSelector((state) => state.timer.timerType);
+  const isActive = useSelector((state) => state.timer.isActive);
+  const isRunning = useSelector((state) => state.timer.isRunning);
+  const autoStart = useSelector((state) => state.timer.autoStart);
+  const pomosCompleted = useSelector((state) => state.timer.pomosCompleted);
+  const workMinutes = useSelector((state) => state.timer.workMinutes);
+  const restMinutes = useSelector((state) => state.timer.restMinutes);
+  const breakMinutes = useSelector((state) => state.timer.breakMinutes);
+  const minutes = useSelector((state) => state.timer.minutes);
+  const seconds = useSelector((state) => state.timer.seconds);
+
+  // Sync progress to localstorage on each update
+  useEffect(() => {
+    localStorage.setItem("timerType", timerType);
+    localStorage.setItem("isActive", isActive);
+    localStorage.setItem("isRunning", isRunning);
+    localStorage.setItem("autoStart", autoStart);
+    localStorage.setItem("pomosCompleted", pomosCompleted);
+    localStorage.setItem("workMinutes", workMinutes);
+    localStorage.setItem("restMinutes", restMinutes);
+    localStorage.setItem("breakMinutes", breakMinutes);
+    localStorage.setItem("minutes", minutes);
+    localStorage.setItem("seconds", seconds);
+  }, [
+    timerType,
+    isActive,
+    isRunning,
+    autoStart,
+    pomosCompleted,
+    workMinutes,
+    restMinutes,
+    breakMinutes,
+    minutes,
+    seconds,
+  ]);
 
   const flipIsConfirming = () => {
     setIsConfirming(!isConfirming);
   };
-
-  const fetchFromAppStorage = (key, backupValue) => {
-    const value = localStorage.getItem(key);
-    if (value !== null && value !== undefined) {
-      // Has entry
-      // console.log('Had entry');
-      // console.log(value);
-      return +value;
-    } else {
-      // No entry yet
-      // console.log('No entry');
-      return backupValue;
-    }
-  };
-  const fetchStringFromAppStorage = (key, backupValue) => {
-    const value = localStorage.getItem(key);
-    if (value !== null && value !== undefined) {
-      // Has entry
-      // console.log('Had entry');
-      // console.log(value);
-      return value;
-    } else {
-      // No entry yet
-      // console.log('No entry');
-      return backupValue;
-    }
-  };
-  const fetchAutoStartData = (backupValue) => {
-    const value = localStorage.getItem("autoStart");
-    if (value !== null && value !== undefined) {
-      // Has entry
-      // console.log('Had entry');
-      // console.log(value);
-      return value === "true";
-    } else {
-      // No entry yet
-      // console.log('No entry');
-      return backupValue;
-    }
-  };
-
-  // Data:
-  // timerType: "work", "rest"(small), "break"(long)
-  const [timerData, setTimerData] = useState({
-    timerType: fetchStringFromAppStorage("timerType", "work"),
-    isActive: false,
-    autoStart: fetchAutoStartData(false),
-    pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
-    workMinutes: fetchFromAppStorage("workMinutes", 25),
-    restMinutes: fetchFromAppStorage("restMinutes", 5),
-    breakMinutes: fetchFromAppStorage("breakMinutes", 30),
-    currentMinutes: fetchFromAppStorage("currentMinutes", 25),
-    currentSeconds: fetchFromAppStorage("currentSeconds", 0),
-  });
 
   const modalClickHandler = () => {
     changeIsSetting(false);
   };
 
   useEffect(() => {
-    if (timerData.pomosCompleted === 0 && !timerData.isActive) return;
-    switch (timerData.timerType) {
+    if (pomosCompleted === 0 && !isActive) return;
+    switch (timerType) {
       case "work":
-        setHeaderLabel(`Pomodoro #${timerData.pomosCompleted + 1}`);
+        setHeaderLabel(`Pomodoro #${pomosCompleted + 1}`);
         break;
       case "rest":
         setHeaderLabel("Short Break");
@@ -109,33 +91,21 @@ const App = () => {
       default:
         setHeaderLabel("Broken!");
     }
-  }, [timerData.timerType, timerData.isActive, timerData.pomosCompleted]);
+  }, [timerType, isActive, pomosCompleted]);
 
   return (
     <>
       {isSetting && (
         <Modal clickHandler={modalClickHandler}>
-          <SetTimer
-            timerData={timerData}
-            setTimerData={setTimerData}
-            changeIsSetting={changeIsSetting}
-          />
+          <SetTimer changeIsSetting={changeIsSetting} />
         </Modal>
       )}
       {isConfirming && (
-        <ConfirmationBox
-          flipIsConfirming={flipIsConfirming}
-          setTimerData={setTimerData}
-          timerData={timerData}
-        ></ConfirmationBox>
+        <ConfirmationBox flipIsConfirming={flipIsConfirming}></ConfirmationBox>
       )}
-      <div
-        className={`${styles["mainContainer"]} ${styles[timerData.timerType]}`}
-      >
+      <div className={`${styles["mainContainer"]} ${styles[timerType]}`}>
         <h3 className={styles.title}>{headerLabel}</h3>
         <Timer
-          timerData={timerData}
-          setTimerData={setTimerData}
           changeIsSetting={changeIsSetting}
           isSetting={isSetting}
           flipIsConfirming={flipIsConfirming}

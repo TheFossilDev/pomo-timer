@@ -3,16 +3,22 @@ import Button from "./UI/Buttons/Button";
 import BigButton from "./UI/Buttons/BigButton";
 import useTimer from "../hooks/useTimer";
 import { Update, UpdateDisabled, SkipNext, Delete } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { timerActions } from "../store/timerReducer";
 import { useState, useEffect } from "react";
 import PomoSound from "../assets/PomoTimer.mp3";
 
 const Timer = (props) => {
   const audio = new Audio(PomoSound);
-  const { isRunning, start, pause, resume, skip } = useTimer(
-    props.timerData,
-    props.setTimerData,
-    audio
-  );
+  const dispatch = useDispatch();
+  const timerType = useSelector((state) => state.timer.timerType);
+  const seconds = useSelector((state) => state.timer.seconds);
+  const minutes = useSelector((state) => state.timer.minutes);
+  const isRunning = useSelector((state) => state.timer.isRunning);
+  const isActive = useSelector((state) => state.timer.isActive);
+  const autoStart = useSelector((state) => state.timer.autoStart);
+
+  useTimer(props.timerData, props.setTimerData, audio);
 
   const [bigLabel, setBigLabel] = useState();
 
@@ -21,15 +27,12 @@ const Timer = (props) => {
   };
 
   const flipAutoStartHandler = () => {
-    localStorage.setItem("autoStart", !props.timerData.autoStart);
-    props.setTimerData({
-      ...props.timerData,
-      autoStart: !props.timerData.autoStart,
-    });
+    // localStorage.setItem("autoStart", !props.timerData.autoStart);
+    dispatch(timerActions.flipAutoStart());
   };
 
   const getTimerTypeLabel = () => {
-    switch (props.timerData.timerType) {
+    switch (timerType) {
       case "work":
         return "Time for a work period!";
       case "rest":
@@ -42,7 +45,7 @@ const Timer = (props) => {
   };
   // Change timer label
   useEffect(() => {
-    if (props.timerData.isActive) {
+    if (isActive) {
       if (isRunning) {
         setBigLabel("Pause");
       } else {
@@ -51,58 +54,67 @@ const Timer = (props) => {
     } else {
       setBigLabel("Start");
     }
-  }, [props.timerData.isActive, isRunning]);
+  }, [isActive, isRunning]);
 
   const timerChangeHandler = () => {
     // WHEN THE BUTTON GETS CLICKED
-    if (props.timerData.isActive) {
+    if (isActive) {
       // Is active
       if (isRunning) {
         // Is running
-        pause();
+        dispatch(timerActions.flipIsRunning());
         // setBigLabel("Resume");
       } else {
         // Isn't running
-        resume();
+        dispatch(timerActions.flipIsRunning());
         // setBigLabel("Pause");
       }
     } else {
       // Isn't running yet
       // setBigLabel("Pause");
-      start();
+      dispatch(timerActions.start());
     }
+  };
+
+  const skipHandler = () => {
+    dispatch(timerActions.skip());
   };
 
   return (
     <div className={styles.timerContainer}>
       <div className={styles.topButtonsContainer}>
-        <Button size={"medium"} flex={true} onClick={setHandler}>
+        <Button
+          size={"medium"}
+          flex={true}
+          onClick={setHandler}
+          title={"Change timer lengths"}
+        >
           Set
         </Button>
-        <Button size={"medium"} flex={true} onClick={props.flipIsConfirming}>
+        <Button
+          size={"medium"}
+          flex={true}
+          onClick={props.flipIsConfirming}
+          title={"Reset your saved progress"}
+        >
           <Delete />
         </Button>
       </div>
       <h3 className={styles.timerTypeLabel}>{getTimerTypeLabel()}</h3>
       <h2 className={styles.time}>
-        {props.timerData.currentMinutes < 10 ? (
-          <span>0{props.timerData.currentMinutes}</span>
-        ) : (
-          <span>{props.timerData.currentMinutes}</span>
-        )}
-        :
-        {props.timerData.currentSeconds < 10 ? (
-          <span>0{props.timerData.currentSeconds}</span>
-        ) : (
-          <span>{props.timerData.currentSeconds}</span>
-        )}
+        {minutes < 10 ? <span>0{minutes}</span> : <span>{minutes}</span>}:
+        {seconds < 10 ? <span>0{seconds}</span> : <span>{seconds}</span>}
       </h2>
       <div className={styles.buttonsContainer}>
-        <Button flex={true} onClick={flipAutoStartHandler}>
-          {props.timerData.autoStart ? <Update /> : <UpdateDisabled />}
+        <Button
+          flex={true}
+          onClick={flipAutoStartHandler}
+          title={"Automatically start next timer"}
+        >
+          {autoStart ? <Update /> : <UpdateDisabled />}
         </Button>
         <BigButton onClick={timerChangeHandler}>{bigLabel}</BigButton>
-        <Button flex={true} onClick={skip}>
+        <Button flex={true} onClick={skipHandler} title={"Skip this timer"}>
           <SkipNext />
         </Button>
       </div>

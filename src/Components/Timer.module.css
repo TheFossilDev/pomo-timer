@@ -4,7 +4,7 @@
   margin: 0 auto;
   padding: 1rem 2rem;
   display: block;
-  background-color: #ECE5F0;
+  background-color: #ece5f0;
   border-radius: 10px;
 }
 
@@ -26,28 +26,28 @@
   justify-content: center;
 }
 
-
 .timerTypeLabel {
   text-align: center;
 }
 
 @media only screen and (max-width: 600px) {
   .timerContainer {
-    max-width: 15rem;
-    max-height: 25rem;
+    max-width: 17rem;
+    max-height: 30rem;
     margin: 0 auto;
     padding: 1rem 1.5rem;
     display: block;
-    background-color: #ECE5F0;
+    background-color: #ece5f0;
     border-radius: 10px;
   }
 
   .time {
     color: black;
-    font-size: 4em;
+    font-size: 5em;
     text-align: center;
     margin: 1rem auto;
   }
+
   .buttonsContainer {
     display: flex;
     margin: 1rem auto;

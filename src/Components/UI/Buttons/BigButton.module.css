@@ -31,7 +31,7 @@
     /* flex-basis: 3rem; */
     width: 90%;
     height: 7rem;
-  
+
     background-color: #fee6e3;
     margin: 0.25rem;
     border: 2px solid #111;
@@ -52,7 +52,6 @@
     touch-action: manipulation;
     order: 2;
   }
-  
 }
 
 /* .bigButton:after {
