@@ -1,36 +1,135 @@
+:root {
+  --PI: 3.14159265358979;
+  --circleSize: 16rem;
+  --circleCirc: calc(2 * var(--PI) * var(--circleSize));
+}
+
+
 .mainContainer {
   min-height: 100vh;
   margin: 0rem auto;
-  padding-top: 4rem;
+  padding-top: 2rem;
+}
+
+.centerContainer {
+  width: 40rem;
+  height: 40rem;
+  border-radius: 10%;
+
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+#circle {
+  width: 33rem;
+  height: 33rem;
+  border-radius: 50%;
+  border-color: aliceblue;
+  margin: 0;
+  z-index: 50;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#BarSvg {
+  position: absolute;
+  width: 33rem;
+  height: 33rem;
+  margin: auto;
+  z-index: 2;
+}
+
+.BaseCircle {
+  stroke-width: 6px;
+  stroke: darkgray;
+  z-index: 3;
+}
+
+.ProgressCircle {
+  stroke-dasharray: var(--circleCirc) var(--circleCirc);
+  stroke-dashoffset: var(--circleCirc);
+  stroke-opacity: 90%;
+  stroke-width: 6px;
+  stroke: white;
+  transform-origin: 50% 50%;
+  transform: rotate(-0.25turn);
+  z-index: 4;
+}
+
+.ProgressCircle.fill {
+  stroke-dashoffset: 0;
+}
+
+.mainContainer.light.work {
+  background-color: #FA89C4;
+}
+.mainContainer.light.rest {
+  background-color: #C9E1A3;
+}
+.mainContainer.light.break {
+  background-color: #8AC6F9;
+}
+.centerContainer.light.work {
+  background-color: #F962B0;
+}
+.centerContainer.light.rest {
+  background-color: #AED274;
+}
+.centerContainer.light.break {
+  background-color: #51A9F6;
+}
+
+.mainContainer.dark.work {
+  background-color: #2E0219;
+}
+.mainContainer.dark.rest {
+  background-color: #222E0F;
+}
+.mainContainer.dark.break {
+  background-color: #02182B;
+}
+.centerContainer.dark.work {
+  background-color: #4E032A;
+}
+.centerContainer.dark.rest {
+  background-color: #2E3E14;
+}
+.centerContainer.dark.break {
+  background-color: #053661;
+}
+
+#icon {
+  height: 200px;
+  width: 200px;
 }
 
 .title {
-  width: 15rem;
-  padding: 0.5rem 1rem;
-  margin: 0 auto;
-  text-align: center;
-  background-color: #ece5f0;
-  border-radius: 10px 10px 0 0;
+  padding: 0;
+  display: flex;
+  margin: 1rem;
+  margin-right: auto;
+  max-width: 20rem;
+  /* color: aliceblue; */
+  justify-self: flex-start;
 }
 
-.mainContainer.work {
-  background-color: #ff858d;
+.title.dark {
+  color: white;
 }
-.mainContainer.rest {
-  background-color: #9292fc;
-}
-.mainContainer.break {
-  background-color: #9739fc;
-}
-
-@media only screen and (max-width: 600px) {
-  .title {
-    width: 10rem;
-    padding: 0.5rem 1rem;
-    margin: 0 auto;
-    text-align: center;
-    background-color: #ece5f0;
-    border-radius: 10px 10px 0 0;
-    font-size: medium;
-  }
+.title.light {
+  color: black;
 }

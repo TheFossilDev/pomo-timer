@@ -1,36 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { themeActions } from "./store/themeReducer";
 
 import Timer from "./Components/Timer";
+import Button from "./Components/UI/Buttons/Button";
 import SetTimer from "./Components/SetTimer";
 import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
 import ConfirmationBox from "./Components/ResetData/ConfirmationBox";
 import "./assets/PomoTimer.mp3";
+import deleteBlack from "./assets/deleteBlack.png";
+import darkModeBlack from "./assets/darkModeBlack.png";
 
 const App = () => {
-  // pomodor.io url?
-  // TODO: Feature list
-  /*
-  Diversions:
-  1. Timer broke, needed to make one
-  2. Didn't update, state issues (took a while)
-  */
-  /* TODO:
-  1. Set timer duration
-  2. Work mode, short break
-    a. Input validation and timer adjustment handling
-  3. Auto advance / auto repeat
-  4. Long break
-  5. Basic UI styling
-
-
-  Nice to have's:
-  * Functionality to adjust current timer instead of next timer
-  */
+  const dispatch = useDispatch();
 
   const [isSetting, changeIsSetting] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
+
+  const [move, setMove] = useState(false);
+
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
   const timerType = useSelector((state) => state.timer.timerType);
   const isActive = useSelector((state) => state.timer.isActive);
@@ -42,6 +31,8 @@ const App = () => {
   const breakMinutes = useSelector((state) => state.timer.breakMinutes);
   const minutes = useSelector((state) => state.timer.minutes);
   const seconds = useSelector((state) => state.timer.seconds);
+
+  const darkMode = useSelector((state) => state.theme.darkMode);
 
   // Sync progress to localstorage on each update
   useEffect(() => {
@@ -68,12 +59,21 @@ const App = () => {
     seconds,
   ]);
 
+  const setHandler = () => {
+    changeIsSetting(!isSetting);
+  };
+
   const flipIsConfirming = () => {
     setIsConfirming(!isConfirming);
   };
 
   const modalClickHandler = () => {
     changeIsSetting(false);
+  };
+
+  const darkModeClickHandler = () => {
+    localStorage.setItem("darkMode", !darkMode);
+    dispatch(themeActions.flipDarkMode());
   };
 
   useEffect(() => {
@@ -96,6 +96,12 @@ const App = () => {
     }
   }, [timerType, isActive, pomosCompleted]);
 
+  const movingHandler = () => {
+    setMove(!move);
+  }
+
+
+
   return (
     <>
       {isSetting && (
@@ -106,13 +112,84 @@ const App = () => {
       {isConfirming && (
         <ConfirmationBox flipIsConfirming={flipIsConfirming}></ConfirmationBox>
       )}
-      <div className={`${styles["mainContainer"]} ${styles[timerType]}`}>
-        <h3 className={styles.title}>{headerLabel}</h3>
-        <Timer
-          changeIsSetting={changeIsSetting}
-          isSetting={isSetting}
-          flipIsConfirming={flipIsConfirming}
-        />
+      <div
+        className={`${styles["mainContainer"]} ${
+          darkMode ? styles["dark"] : styles["light"]
+        } ${styles[timerType]}`}
+      >
+        <div
+          className={`${styles["centerContainer"]} ${
+            darkMode ? styles["dark"] : styles["light"]
+          } ${styles[timerType]}`}
+        >
+          <header>
+            <h3
+              className={`${styles.title} ${
+                darkMode ? styles["dark"] : styles["light"]
+              }`}
+            >
+              {headerLabel}
+            </h3>
+            <Button
+              size={"medium"}
+              flex={true}
+              onClick={setHandler}
+              title={"Change timer lengths"}
+            >
+              Set
+            </Button>
+            <Button
+              size={"medium"}
+              flex={true}
+              onClick={flipIsConfirming}
+              title={"Reset your saved progress"}
+            >
+              <img src={deleteBlack} alt="Black trash can icon" />
+            </Button>
+            <Button
+              title={"Change between light mode and dark mode"}
+              onClick={darkModeClickHandler}
+            >
+              <img src={darkModeBlack} alt="Black cresent moon icon" />
+            </Button>
+            <Button
+              onClick={movingHandler}
+            >
+
+            </Button>
+          </header>
+          <div id={styles.circle}>
+          <svg
+          id={styles["BarSvg"]}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <circle
+              className={styles["BaseCircle"]}
+              id={styles["BaseCircle"]}
+              cx="50%"
+              cy="50%"
+              r="16rem"
+            />
+
+            <circle
+              className={`${styles["ProgressCircle"]} ${move ? styles["fill"] : ""}`}
+              id={styles["ProgressCircle"]}
+              style={{transition: `stroke-dashoffset ${minutes * 60}s linear`}}
+              cx="50%"
+              cy="50%"
+              r="16rem"
+            />
+          </g>
+        </svg>
+              <Timer
+                changeIsSetting={changeIsSetting}
+                isSetting={isSetting}
+                flipIsConfirming={flipIsConfirming}
+              />
+            </div>
+        </div>
       </div>
     </>
   );

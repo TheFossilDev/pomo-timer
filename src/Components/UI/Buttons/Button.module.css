@@ -1,22 +1,22 @@
 .button {
-  background-color: #ff858d;
-  display: block;
-  /* border: 10px; */
-  border-color: black;
-  color: black;
-  font-weight: bold;
-
-  padding: 0.4rem;
-  margin: 1rem auto;
-
-  border-radius: 5px;
-}
-.button.medium {
-  font-size: large;
-}
-.button.flex {
+  background-color: aliceblue;
+  width: 3rem;
+  height: 3rem;
   display: flex;
-  flex-basis: auto;
-  align-self: center;
-  margin: auto 0.25rem;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.1rem;
+  margin: 1rem;
+  
+  border: 0px;
+  border-radius: 10%;
 }
+
+#bigButton {
+  font-size: 3em;
+  font-weight: bold;
+  width: 10rem;
+  height: 5rem;
+}
+

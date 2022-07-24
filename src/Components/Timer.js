@@ -1,11 +1,12 @@
 import styles from "./Timer.module.css";
 import Button from "./UI/Buttons/Button";
-import BigButton from "./UI/Buttons/BigButton";
 import useTimer from "../hooks/useTimer";
-import { Update, UpdateDisabled, SkipNext, Delete } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { timerActions } from "../store/timerReducer";
 import { useState, useEffect } from "react";
+
+import skipBlack from "../assets/skipNextBlack.png";
+import fastForwardBlack from "../assets/fastForwardBlack.png";
 
 const Timer = (props) => {
   const dispatch = useDispatch();
@@ -14,15 +15,13 @@ const Timer = (props) => {
   const minutes = useSelector((state) => state.timer.minutes);
   const isRunning = useSelector((state) => state.timer.isRunning);
   const isActive = useSelector((state) => state.timer.isActive);
-  const autoStart = useSelector((state) => state.timer.autoStart);
+
+  const darkMode = useSelector((state) => state.theme.darkMode);
 
   useTimer();
 
   const [bigLabel, setBigLabel] = useState();
 
-  const setHandler = () => {
-    props.changeIsSetting(!props.isSetting);
-  };
 
   const flipAutoStartHandler = () => {
     // localStorage.setItem("autoStart", !props.timerData.autoStart);
@@ -80,26 +79,8 @@ const Timer = (props) => {
 
   return (
     <div className={styles.timerContainer}>
-      <div className={styles.topButtonsContainer}>
-        <Button
-          size={"medium"}
-          flex={true}
-          onClick={setHandler}
-          title={"Change timer lengths"}
-        >
-          Set
-        </Button>
-        <Button
-          size={"medium"}
-          flex={true}
-          onClick={props.flipIsConfirming}
-          title={"Reset your saved progress"}
-        >
-          <Delete />
-        </Button>
-      </div>
-      <h3 className={styles.timerTypeLabel}>{getTimerTypeLabel()}</h3>
-      <h2 className={styles.time}>
+      <h3 className={`${styles.timerTypeLabel} ${darkMode ? styles["dark"] : styles["light"]}`}>{getTimerTypeLabel()}</h3>
+      <h2 className={`${styles.time} ${darkMode ? styles["dark"] : styles["light"]}`}>
         {minutes < 10 ? <span>0{minutes}</span> : <span>{minutes}</span>}:
         {seconds < 10 ? <span>0{seconds}</span> : <span>{seconds}</span>}
       </h2>
@@ -109,11 +90,12 @@ const Timer = (props) => {
           onClick={flipAutoStartHandler}
           title={"Automatically start next timer"}
         >
-          {autoStart ? <Update /> : <UpdateDisabled />}
+          {/* {autoStart ? : } */}
+          <img src={fastForwardBlack} alt="Black fast forward icon"/>
         </Button>
-        <BigButton onClick={timerChangeHandler}>{bigLabel}</BigButton>
+        <Button onClick={timerChangeHandler} id={"bigButton"}>{bigLabel}</Button>
         <Button flex={true} onClick={skipHandler} title={"Skip this timer"}>
-          <SkipNext />
+          <img src={skipBlack} alt="Black skip forward button"/>
         </Button>
       </div>
     </div>
