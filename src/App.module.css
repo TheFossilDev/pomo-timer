@@ -1,14 +1,15 @@
-:root {
-  --PI: 3.14159265358979;
-  --circleSize: 16rem;
-  --circleCirc: calc(2 * var(--PI) * var(--circleSize));
-}
-
-
 .mainContainer {
   min-height: 100vh;
   margin: 0rem auto;
   padding-top: 2rem;
+}
+
+.mainContainer.light {
+  background-color: #EAE0CC;
+}
+
+.centerContainer.light {
+  background-color: #D2BBB1;
 }
 
 .centerContainer {
@@ -45,73 +46,6 @@ header {
   align-items: center;
 }
 
-#BarSvg {
-  position: absolute;
-  width: 33rem;
-  height: 33rem;
-  margin: auto;
-  z-index: 2;
-}
-
-.BaseCircle {
-  stroke-width: 6px;
-  stroke: darkgray;
-  z-index: 3;
-}
-
-.ProgressCircle {
-  stroke-dasharray: var(--circleCirc) var(--circleCirc);
-  stroke-dashoffset: var(--circleCirc);
-  stroke-opacity: 90%;
-  stroke-width: 6px;
-  stroke: white;
-  transform-origin: 50% 50%;
-  transform: rotate(-0.25turn);
-  z-index: 4;
-}
-
-.ProgressCircle.fill {
-  stroke-dashoffset: 0;
-}
-
-.mainContainer.light.work {
-  background-color: #FA89C4;
-}
-.mainContainer.light.rest {
-  background-color: #C9E1A3;
-}
-.mainContainer.light.break {
-  background-color: #8AC6F9;
-}
-.centerContainer.light.work {
-  background-color: #F962B0;
-}
-.centerContainer.light.rest {
-  background-color: #AED274;
-}
-.centerContainer.light.break {
-  background-color: #51A9F6;
-}
-
-.mainContainer.dark.work {
-  background-color: #2E0219;
-}
-.mainContainer.dark.rest {
-  background-color: #222E0F;
-}
-.mainContainer.dark.break {
-  background-color: #02182B;
-}
-.centerContainer.dark.work {
-  background-color: #4E032A;
-}
-.centerContainer.dark.rest {
-  background-color: #2E3E14;
-}
-.centerContainer.dark.break {
-  background-color: #053661;
-}
-
 #icon {
   height: 200px;
   width: 200px;
@@ -123,7 +57,6 @@ header {
   margin: 1rem;
   margin-right: auto;
   max-width: 20rem;
-  /* color: aliceblue; */
   justify-self: flex-start;
 }
 

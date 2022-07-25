@@ -5,6 +5,7 @@ import { themeActions } from "./store/themeReducer";
 import Timer from "./Components/Timer";
 import Button from "./Components/UI/Buttons/Button";
 import SetTimer from "./Components/SetTimer";
+import TimerRing from "./Components/TimerRing";
 import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
 import ConfirmationBox from "./Components/ResetData/ConfirmationBox";
@@ -115,12 +116,12 @@ const App = () => {
       <div
         className={`${styles["mainContainer"]} ${
           darkMode ? styles["dark"] : styles["light"]
-        } ${styles[timerType]}`}
+        }`}
       >
         <div
           className={`${styles["centerContainer"]} ${
             darkMode ? styles["dark"] : styles["light"]
-          } ${styles[timerType]}`}
+          }`}
         >
           <header>
             <h3
@@ -159,30 +160,9 @@ const App = () => {
             </Button>
           </header>
           <div id={styles.circle}>
-          <svg
-          id={styles["BarSvg"]}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g>
-            <circle
-              className={styles["BaseCircle"]}
-              id={styles["BaseCircle"]}
-              cx="50%"
-              cy="50%"
-              r="16rem"
+            <TimerRing 
+              move={move}
             />
-
-            <circle
-              className={`${styles["ProgressCircle"]} ${move ? styles["fill"] : ""}`}
-              id={styles["ProgressCircle"]}
-              style={{transition: `stroke-dashoffset ${minutes * 60}s linear`}}
-              cx="50%"
-              cy="50%"
-              r="16rem"
-            />
-          </g>
-        </svg>
               <Timer
                 changeIsSetting={changeIsSetting}
                 isSetting={isSetting}
