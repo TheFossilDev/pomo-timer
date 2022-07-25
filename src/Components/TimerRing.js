@@ -10,6 +10,7 @@ const TimerRing = (props) => {
   const restMinutes = useSelector((state) => state.timer.restMinutes);
   const breakMinutes = useSelector((state) => state.timer.breakMinutes);
   const timerType = useSelector((state) => state.timer.timerType);
+  const autoStart = useSelector((state) => state.timer.autoStart);
 
   const radius =
     parseFloat(getComputedStyle(document.documentElement).fontSize) * 16;
@@ -29,11 +30,19 @@ const TimerRing = (props) => {
   // -- Simple remaining seconds
   // Set the offset as max again
 
+  /* ================= CALC SECONDS REMAINING ================= */
   useEffect(() => {
     setSecondsRemaining((minutes * 60) + seconds)
   }, [seconds, minutes])
 
+  /* ================= TIMERTYPE CHANGES (NEW TIMER) ================= */
   useEffect(() => {
+    console.log('TIMER CHANGES');
+    setLinePos(0);
+    if (autoStart) {
+      setTransitionBody(``);
+      setTransitionBody(`stroke-dashoffset ${secondsRemaining}s linear`);
+    }
     switch (timerType) {
       case 'work':
         setMaxSeconds(workMinutes * 60);
@@ -51,8 +60,9 @@ const TimerRing = (props) => {
   
   }, [timerType, workMinutes, restMinutes, breakMinutes])
   
-
+  /* ================= TIMER PAUSES / STARTS ================= */
   useEffect(() => {
+    console.log('TIMER PAUSES / STARTS');
     if (isRunning) {
       // Timer has been started / resumed
       console.log('Started!');
