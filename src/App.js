@@ -19,8 +19,6 @@ const App = () => {
   const [isSetting, changeIsSetting] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
 
-  const [move, setMove] = useState(false);
-
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
   const timerType = useSelector((state) => state.timer.timerType);
   const isActive = useSelector((state) => state.timer.isActive);
@@ -97,11 +95,6 @@ const App = () => {
     }
   }, [timerType, isActive, pomosCompleted]);
 
-  const movingHandler = () => {
-    setMove(!move);
-  }
-
-
 
   return (
     <>
@@ -153,16 +146,9 @@ const App = () => {
             >
               <img src={darkModeBlack} alt="Black cresent moon icon" />
             </Button>
-            <Button
-              onClick={movingHandler}
-            >
-
-            </Button>
           </header>
           <div id={styles.circle}>
-            <TimerRing 
-              move={move}
-            />
+            <TimerRing />
               <Timer
                 changeIsSetting={changeIsSetting}
                 isSetting={isSetting}

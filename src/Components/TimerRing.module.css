@@ -21,8 +21,6 @@
 }
 
 .ProgressCircle {
-  stroke-dasharray: var(--circleCirc) var(--circleCirc);
-  stroke-dashoffset: var(--circleCirc);
   stroke-opacity: 90%;
   stroke-width: 6px;
   stroke: white;
