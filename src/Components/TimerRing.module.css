@@ -36,11 +36,8 @@
   z-index: 5;
 }
 
-@keyframes timerRingMove {
-  from {
-    stroke-dashoffset: var(--circleCirc);
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+.SmoothCircle {
+  stroke-opacity: 100%;
+  stroke-width: 6px;
+  stroke: white;
 }

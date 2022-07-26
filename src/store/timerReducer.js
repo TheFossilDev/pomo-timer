@@ -50,17 +50,18 @@ const initialTimerState = {
   timerState: "ready",
   autoStart: false,
   pomosCompleted: 0,
-  workMinutes: 25,
-  restMinutes: 5,
-  breakMinutes: 30,
-  minutes: 25,
+  workMinutes: 1,
+  restMinutes: 1,
+  breakMinutes: 1,
+  minutes: 1,
   seconds: 0,
 
   transition: ``, 
-  animationState: 'paused',
   skipTransition: ``,
   linePos: circleCirc,
   skipLinePos: circleCirc,
+  smoothOpacity: '100%',
+  strokeFadeTransition: '',
 };
 
 const timerSlice = createSlice({
@@ -70,23 +71,29 @@ const timerSlice = createSlice({
     advanceTimer(state) {
       if (!state.autoStart) {
         state.timerState = "ready";
+      } else {
+        state.timerState = "running";
       }
 
-      timerSlice.caseReducers.start(state);
-
+      state.transition = ``
+      state.smoothOpacity = '100%'
+      
       state.seconds = 0;
       // Decide on next section, then reset timer
       if (state.timerType !== "work") {
         state.timerType = "work";
+        timerSlice.caseReducers.startRing(state, state.workMinutes);
         state.minutes = state.workMinutes;
         state.pomosCompleted++;
       } else {
         // Was a work period
         if (state.pomosCompleted % 4 === 0 && state.pomosCompleted > 0) {
           state.timerType = "break";
+          timerSlice.caseReducers.startRing(state, state.breakMinutes);
           state.minutes = state.breakMinutes;
         } else {
           state.timerType = "rest";
+          timerSlice.caseReducers.startRing(state, state.restMinutes);
           state.minutes = state.restMinutes;
         }
       }
@@ -94,12 +101,10 @@ const timerSlice = createSlice({
 
     start(state) {
       state.timerState = "running";
-      state.animationState = "running";
     },
 
     pause(state) {
       state.timerState = "paused";
-      state.animationState = "paused";
     },
 
     resume(state) {
@@ -112,6 +117,7 @@ const timerSlice = createSlice({
 
     flipAutoStart(state) {
       state.autoStart = !state.autoStart;
+      console.log(`Autostart is ${state.autoStart}`);
     },
 
     setTimerSettings(state, action) {
@@ -149,6 +155,12 @@ const timerSlice = createSlice({
     },
 
     awareDecrease(state) {
+      if (state.seconds - 1 < 1 && state.minutes - 1 < 0) {
+        // timerSlice.caseReducers.hideRing(state);
+        // state.strokeFade = true;
+        state.transition = `stroke-opacity 1s linear`;
+        state.smoothOpacity = '0%'
+      } 
       if (state.seconds - 1 < 0) {
         if (state.minutes - 1 < 0) {
           const audio = new Audio(PomoSound);
@@ -170,28 +182,31 @@ const timerSlice = createSlice({
       state.skipLinePos = 0;
     },
     handleTransitionEnd(state) {
-      if (state.autoStart) {
-        switch (state.timerType) {
-          case "work":
-            state.transition = `stroke-dashoffset ${state.workMinutes}s linear`;
-            break;
-          case "rest":
-            state.transition = `stroke-dashoffset ${state.restMinutes}s linear`;
-            break;
-          case "break":
-            state.transition = `stroke-dashoffset ${state.breakMinutes}s linear`;
-            break;
-          default:
-            console.error("Timerring transition failed");
-        }
-        state.linePos = 0;
-      } else {
-          state.transition = '';
-          state.linePos = circleCirc;
-          state.skipTransition = '';
-          state.skipLinePos = circleCirc;
-      }
-      console.log('Ended');
+      
+
+
+      // if (state.autoStart) {
+      //   switch (state.timerType) {
+      //     case "work":
+      //       state.transition = `stroke-dashoffset ${state.workMinutes}s linear`;
+      //       break;
+      //     case "rest":
+      //       state.transition = `stroke-dashoffset ${state.restMinutes}s linear`;
+      //       break;
+      //     case "break":
+      //       state.transition = `stroke-dashoffset ${state.breakMinutes}s linear`;
+      //       break;
+      //     default:
+      //       console.error("Timerring transition failed");
+      //   }
+      //   state.linePos = 0;
+      // } else {
+      //     state.transition = '';
+      //     state.linePos = circleCirc;
+      //     state.skipTransition = '';
+      //     state.skipLinePos = circleCirc;
+      // }
+      // console.log('Ended');
     },
     startRing(state, action) {
       state.transition = `stroke-dashoffset ${action.payload}s linear`;
@@ -208,8 +223,11 @@ const timerSlice = createSlice({
     hideRing(state) {
       state.transition = '';
       state.linePos = circleCirc;
-    }
-
+    },
+    showSmoothRing(state) {
+      state.smoothOpacity = '100%'
+      state.strokeFadeTransition = `stroke-opacity 1s linear`;
+    },
 
 
   },

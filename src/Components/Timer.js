@@ -64,7 +64,7 @@ const Timer = (props) => {
     switch (timerState) {
       case "ready":
         dispatch(timerActions.start());
-        // dispatch(timerActions.startRing(minutes * 60 + seconds));
+        dispatch(timerActions.startRing(minutes * 60 + seconds));
         break;
       case "running":
         dispatch(timerActions.pause());

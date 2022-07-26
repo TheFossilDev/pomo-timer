@@ -17,8 +17,10 @@ const TimerRing = (props) => {
 
   const linePos = useSelector((state) => state.timer.linePos);
   const skipLinePos = useSelector((state) => state.timer.skipLinePos);
-  const animationState = useSelector((state) => state.timer.animationState);
+  const transition = useSelector((state) => state.timer.transition);
   const skipTransition = useSelector((state) => state.timer.skipTransition);
+  const smoothOpacity = useSelector((state) => state.timer.smoothOpacity);
+  const strokeFadeTransition = useSelector((state) => state.timer.strokeFadeTransition);
 
   const radius =
     parseFloat(getComputedStyle(document.documentElement).fontSize) * 16;
@@ -86,34 +88,6 @@ const TimerRing = (props) => {
     dispatch(timerActions.handleTransitionEnd());
   }
 
-  const ringMove = keyframes`
-  from {
-    stroke-dashoffset: ${circleCirc};
-  }
-  
-  to {
-    stroke-dashoffset: 0;
-  }
-  `
-
-
-  const ProgressCircle = styled.circle`
-  stroke-opacity: 100%;
-  stroke-width: 6px;
-  stroke: white;
-  transform-origin: 50% 50%;
-  transform: rotate(-0.25turn);
-  z-index: 4;
-
-  stroke-dasharray: ${circleCirc} ${circleCirc};
-  animation-name: ${ringMove};
-  animation-duration: 3s;
-  animation-timing-function: linear;
-  animation-play-state: ${animationState};
-  `;
-
-
-
   return (
     <svg id={styles["BarSvg"]} fill="none" xmlns="http://www.w3.org/2000/svg">
       <g>
@@ -124,26 +98,20 @@ const TimerRing = (props) => {
           cy="50%"
           r="16rem"
         />
-        <ProgressCircle 
-          cx="50%"
-          cy="50%"
-          r="16rem"
-        
-        />
-        {/* <circle
+        <circle
           className={styles["ProgressCircle"]}
           id={styles["ProgressCircle"]}
           style={{
             strokeDasharray: [circleCirc, circleCirc],
-            animation: `10s linear 0s 0 ${animationState} timerRingMove`,
-            // strokeDashoffset: `${linePos}`,
+            strokeDashoffset: `${linePos}`,
+            transition: `${transition}`,
+            strokeOpacity: `${smoothOpacity}`,
           }}
-          onTransitionEnd={handleTransitonEnd}
           cx="50%"
           cy="50%"
           r="16rem"
-        /> */}
-        {/* <circle
+        />
+        <circle
           className={styles["SkipCircle"]}
           id={styles["SkipCircle"]}
           style={{
@@ -151,7 +119,18 @@ const TimerRing = (props) => {
             transition: `${skipTransition}`,
             strokeDashoffset: `${skipLinePos}`,
           }}
-          onTransitionEnd={handleTransitonEnd}
+          cx="50%"
+          cy="50%"
+          r="16rem"
+        />
+        {/* <circle
+          className={styles["SmoothCircle"]}
+          id={styles["SmoothCircle"]}
+          style={{
+            strokeDasharray: [circleCirc, circleCirc],
+            transition: `${strokeFadeTransition}`,
+            strokeOpacity: `${smoothOpacity}`
+          }}
           cx="50%"
           cy="50%"
           r="16rem"
