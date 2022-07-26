@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { themeActions } from "./store/themeReducer";
 import { timerActions } from "./store/timerReducer";
-import { timerRingActions } from "./store/timerRingReducer";
 
 import Timer from "./Components/Timer";
 import Button from "./Components/UI/Buttons/Button";
@@ -24,8 +23,7 @@ const App = () => {
 
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
   const timerType = useSelector((state) => state.timer.timerType);
-  const isActive = useSelector((state) => state.timer.isActive);
-  const isRunning = useSelector((state) => state.timer.isRunning);
+  const timerState = useSelector((state) => state.timer.timerState);
   const autoStart = useSelector((state) => state.timer.autoStart);
   const pomosCompleted = useSelector((state) => state.timer.pomosCompleted);
   const workMinutes = useSelector((state) => state.timer.workMinutes);
@@ -39,8 +37,7 @@ const App = () => {
   // Sync progress to localstorage on each update
   useEffect(() => {
     localStorage.setItem("timerType", timerType);
-    localStorage.setItem("isActive", isActive);
-    localStorage.setItem("isRunning", isRunning);
+    localStorage.setItem("timerState", timerState)
     localStorage.setItem("autoStart", autoStart);
     localStorage.setItem("pomosCompleted", pomosCompleted);
     localStorage.setItem("workMinutes", workMinutes);
@@ -50,8 +47,7 @@ const App = () => {
     localStorage.setItem("seconds", seconds);
   }, [
     timerType,
-    isActive,
-    isRunning,
+    timerState,
     autoStart,
     pomosCompleted,
     workMinutes,
@@ -86,7 +82,8 @@ const App = () => {
   };
 
   const handleSkipConfirm = () => {
-    dispatch(timerRingActions.playSkipAnimation());
+    dispatch(timerActions.playSkipAnimation());
+    dispatch(timerActions.hideRing());
     flipIsSkipConfirming();
     dispatch(timerActions.skip());
   }
@@ -101,7 +98,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (pomosCompleted === 0 && !isActive) {
+    if (pomosCompleted === 0 && timerState === "ready") {
       setHeaderLabel("Pomodoro Timer");
     } else {
       switch (timerType) {
@@ -118,7 +115,7 @@ const App = () => {
           setHeaderLabel("Broken!");
       }
     }
-  }, [timerType, isActive, pomosCompleted]);
+  }, [timerType, timerState, pomosCompleted]);
 
 
   return (

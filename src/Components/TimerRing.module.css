@@ -4,8 +4,6 @@
   --circleCirc: calc(2 * var(--PI) * var(--circleSize));
 }
 
-
-
 #BarSvg {
   position: absolute;
   width: 33rem;
@@ -21,7 +19,7 @@
 }
 
 .ProgressCircle {
-  stroke-opacity: 90%;
+  stroke-opacity: 100%;
   stroke-width: 6px;
   stroke: white;
   transform-origin: 50% 50%;
@@ -29,6 +27,20 @@
   z-index: 4;
 }
 
-.ProgressCircle.fill {
-  stroke-dashoffset: 0;
+.SkipCircle {
+  stroke-opacity: 100%;
+  stroke-width: 6px;
+  stroke: white;
+  transform-origin: 50% 50%;
+  transform: rotate(-0.25turn);
+  z-index: 5;
+}
+
+@keyframes timerRingMove {
+  from {
+    stroke-dashoffset: var(--circleCirc);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }

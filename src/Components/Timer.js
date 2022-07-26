@@ -3,7 +3,6 @@ import Button from "./UI/Buttons/Button";
 import useTimer from "../hooks/useTimer";
 import { useDispatch, useSelector } from "react-redux";
 import { timerActions } from "../store/timerReducer";
-import { timerRingActions } from "../store/timerRingReducer";
 import { useState, useEffect } from "react";
 
 import skipBlack from "../assets/skipNextBlack.png";
@@ -14,8 +13,7 @@ const Timer = (props) => {
   const timerType = useSelector((state) => state.timer.timerType);
   const seconds = useSelector((state) => state.timer.seconds);
   const minutes = useSelector((state) => state.timer.minutes);
-  const isRunning = useSelector((state) => state.timer.isRunning);
-  const isActive = useSelector((state) => state.timer.isActive);
+  const timerState = useSelector((state) => state.timer.timerState);
 
   const workMinutes = useSelector((state) => state.timer.workMinutes);
   const restMinutes = useSelector((state) => state.timer.restMinutes);
@@ -47,39 +45,61 @@ const Timer = (props) => {
   };
   // Change timer label
   useEffect(() => {
-    if (isActive) {
-      if (isRunning) {
+    switch (timerState) {
+      case "ready":
+        setBigLabel("Start");
+        break;
+      case "running":
         setBigLabel("Pause");
-      } else {
+        break;
+      case "paused":
         setBigLabel("Resume");
-      }
-    } else {
-      setBigLabel("Start");
+        break;
+      default:
+        console.error('Improper timer state');
     }
-  }, [isActive, isRunning]);
+  }, [timerState]);
 
   const timerChangeHandler = () => {
+    switch (timerState) {
+      case "ready":
+        dispatch(timerActions.start());
+        // dispatch(timerActions.startRing(minutes * 60 + seconds));
+        break;
+      case "running":
+        dispatch(timerActions.pause());
+        dispatch(timerActions.pauseRing(durationCompletedHelper()));
+        break;
+      case "paused":
+        dispatch(timerActions.resume());
+        dispatch(timerActions.resumeRing(minutes * 60 + seconds));
+        break;
+      default:
+        console.error('Improper timer state');
+
+
     // WHEN THE BUTTON GETS CLICKED
-    if (isActive) {
-      // Is active
-      if (isRunning) {
-        // Is running
-        dispatch(timerActions.flipIsRunning());
-        dispatch(timerRingActions.pauseRing(durationCompletedHelper()))
-        // setBigLabel("Resume");
-      } else {
-        // Isn't running
-        dispatch(timerActions.flipIsRunning());
-        dispatch(timerRingActions.resumeRing(minutes * 60 + seconds));
-        // setBigLabel("Pause");
-      }
-    } else {
-      // Isn't running yet
-      // setBigLabel("Pause");
-      dispatch(timerActions.start());
-      dispatch(
-        timerRingActions.startRing(minutes * 60 + seconds)
-      );
+    // if (isActive) {
+    //   // Is active
+    //   if (isRunning) {
+    //     // Is running
+    //     dispatch(timerActions.flipIsRunning());
+    //     dispatch(timerActions.pauseRing(durationCompletedHelper()))
+    //     // setBigLabel("Resume");
+    //   } else {
+    //     // Isn't running
+    //     dispatch(timerActions.flipIsRunning());
+    //     dispatch(timerActions.resumeRing(minutes * 60 + seconds));
+    //     // setBigLabel("Pause");
+    //   }
+    // } else {
+    //   // Isn't running yet
+    //   // setBigLabel("Pause");
+    //   dispatch(timerActions.start());
+    //   dispatch(
+    //     timerActions.startRing(minutes * 60 + seconds)
+    //   );
+    // }
     }
   };
 
@@ -100,8 +120,8 @@ const Timer = (props) => {
 
   const skipHandler = () => {
     props.flipIsSkipConfirming();
-    dispatch(timerActions.flipIsRunning());
-    dispatch(timerRingActions.pauseRing());
+    dispatch(timerActions.pause());
+    dispatch(timerActions.pauseRing());
   };
 
   return (

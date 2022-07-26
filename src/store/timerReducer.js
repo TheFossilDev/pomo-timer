@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import PomoSound from "../assets/PomoTimer.mp3";
 
+const radius =
+parseFloat(getComputedStyle(document.documentElement).fontSize) * 16;
+const circleCirc = 2 * Math.PI * radius;
+
 const fetchFromAppStorage = (key, backupValue) => {
   const value = localStorage.getItem(key);
   if (value !== null && value !== undefined) {
@@ -26,17 +30,37 @@ const fetchAutoStartData = (backupValue) => {
   }
 };
 
+// Localstorage enabled
+// const initialTimerState = {
+//   timerType: fetchStringFromAppStorage("timerType", "work"),
+//   isActive: fetchFromAppStorage("isActive", false),
+//   isRunning: fetchFromAppStorage("isRunning", false),
+//   autoStart: fetchAutoStartData(false),
+//   pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
+//   workMinutes: fetchFromAppStorage("workMinutes", 25),
+//   restMinutes: fetchFromAppStorage("restMinutes", 5),
+//   breakMinutes: fetchFromAppStorage("breakMinutes", 30),
+//   minutes: fetchFromAppStorage("minutes", 25),
+//   seconds: fetchFromAppStorage("seconds", 0),
+// };
+
 const initialTimerState = {
-  timerType: fetchStringFromAppStorage("timerType", "work"),
-  isActive: fetchFromAppStorage("isActive", false),
-  isRunning: fetchFromAppStorage("isRunning", false),
-  autoStart: fetchAutoStartData(false),
-  pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
-  workMinutes: fetchFromAppStorage("workMinutes", 25),
-  restMinutes: fetchFromAppStorage("restMinutes", 5),
-  breakMinutes: fetchFromAppStorage("breakMinutes", 30),
-  minutes: fetchFromAppStorage("minutes", 25),
-  seconds: fetchFromAppStorage("seconds", 0),
+  timerType: "work",
+  // Timer states: ready (not started), running, paused
+  timerState: "ready",
+  autoStart: false,
+  pomosCompleted: 0,
+  workMinutes: 25,
+  restMinutes: 5,
+  breakMinutes: 30,
+  minutes: 25,
+  seconds: 0,
+
+  transition: ``, 
+  animationState: 'paused',
+  skipTransition: ``,
+  linePos: circleCirc,
+  skipLinePos: circleCirc,
 };
 
 const timerSlice = createSlice({
@@ -45,9 +69,10 @@ const timerSlice = createSlice({
   reducers: {
     advanceTimer(state) {
       if (!state.autoStart) {
-        state.isRunning = false;
-        state.isActive = false;
+        state.timerState = "ready";
       }
+
+      timerSlice.caseReducers.start(state);
 
       state.seconds = 0;
       // Decide on next section, then reset timer
@@ -68,12 +93,17 @@ const timerSlice = createSlice({
     },
 
     start(state) {
-      state.isActive = true;
-      state.isRunning = true;
+      state.timerState = "running";
+      state.animationState = "running";
     },
 
-    flipIsRunning(state) {
-      state.isRunning = !state.isRunning;
+    pause(state) {
+      state.timerState = "paused";
+      state.animationState = "paused";
+    },
+
+    resume(state) {
+      state.timerState = "running";
     },
 
     skip(state) {
@@ -108,8 +138,7 @@ const timerSlice = createSlice({
 
     returnTimerToDefault(state) {
       state.timerType = "work";
-      state.isActive = false;
-      state.isRunning = false;
+      state.timerState = "ready";
       state.autoStart = false;
       state.pomosCompleted = 0;
       state.workMinutes = 25;
@@ -134,6 +163,55 @@ const timerSlice = createSlice({
         state.seconds--;
       }
     },
+
+    /* ====================== TIMERRING SECTION ====================== */
+    playSkipAnimation(state) {
+      state.skipTransition = 'stroke-dashoffset 2s ease';
+      state.skipLinePos = 0;
+    },
+    handleTransitionEnd(state) {
+      if (state.autoStart) {
+        switch (state.timerType) {
+          case "work":
+            state.transition = `stroke-dashoffset ${state.workMinutes}s linear`;
+            break;
+          case "rest":
+            state.transition = `stroke-dashoffset ${state.restMinutes}s linear`;
+            break;
+          case "break":
+            state.transition = `stroke-dashoffset ${state.breakMinutes}s linear`;
+            break;
+          default:
+            console.error("Timerring transition failed");
+        }
+        state.linePos = 0;
+      } else {
+          state.transition = '';
+          state.linePos = circleCirc;
+          state.skipTransition = '';
+          state.skipLinePos = circleCirc;
+      }
+      console.log('Ended');
+    },
+    startRing(state, action) {
+      state.transition = `stroke-dashoffset ${action.payload}s linear`;
+      state.linePos = 0;
+    },
+    pauseRing(state, action) {
+      state.linePos = circleCirc * action.payload;
+      state.transition = '';
+    },
+    resumeRing(state, action) {
+      state.transition = `stroke-dashoffset ${action.payload}s linear`;
+      state.linePos = 0;
+    },
+    hideRing(state) {
+      state.transition = '';
+      state.linePos = circleCirc;
+    }
+
+
+
   },
 });
 

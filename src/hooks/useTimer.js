@@ -6,13 +6,13 @@ import { timerActions } from "../store/timerReducer";
 const useTimer = () => {
   const DEFAULT_DELAY = 1000;
   const dispatch = useDispatch();
-  const isRunning = useSelector((state) => state.timer.isRunning);
+  const timerState = useSelector((state) => state.timer.timerState);
 
   useInterval(
     () => {
       dispatch(timerActions.awareDecrease());
     },
-    isRunning ? DEFAULT_DELAY : null
+    timerState === "running" ? DEFAULT_DELAY : null
   );
 };
 

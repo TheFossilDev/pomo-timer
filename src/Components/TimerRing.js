@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
 import styles from "./TimerRing.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { timerRingActions } from "../store/timerRingReducer";
+import { timerActions } from "../store/timerReducer";
+import styled from 'styled-components';
+import { keyframes } from "styled-components";
 
 const TimerRing = (props) => {
   const dispatch = useDispatch();
   const minutes = useSelector((state) => state.timer.minutes);
   const seconds = useSelector((state) => state.timer.seconds);
-  const isRunning = useSelector((state) => state.timer.isRunning);
   const workMinutes = useSelector((state) => state.timer.workMinutes);
   const restMinutes = useSelector((state) => state.timer.restMinutes);
   const breakMinutes = useSelector((state) => state.timer.breakMinutes);
   const timerType = useSelector((state) => state.timer.timerType);
   const autoStart = useSelector((state) => state.timer.autoStart);
 
-  const linePos = useSelector((state) => state.timerRing.linePos);
-  const transition = useSelector((state) => state.timerRing.transition);
+  const linePos = useSelector((state) => state.timer.linePos);
+  const skipLinePos = useSelector((state) => state.timer.skipLinePos);
+  const animationState = useSelector((state) => state.timer.animationState);
+  const skipTransition = useSelector((state) => state.timer.skipTransition);
 
   const radius =
     parseFloat(getComputedStyle(document.documentElement).fontSize) * 16;
@@ -80,8 +83,36 @@ const TimerRing = (props) => {
   // }, [isRunning, secondsRemaining, maxSeconds, circleCirc, timerType])
   
   const handleTransitonEnd = () => {
-    dispatch(timerRingActions.handleTransitionEnd());
+    dispatch(timerActions.handleTransitionEnd());
   }
+
+  const ringMove = keyframes`
+  from {
+    stroke-dashoffset: ${circleCirc};
+  }
+  
+  to {
+    stroke-dashoffset: 0;
+  }
+  `
+
+
+  const ProgressCircle = styled.circle`
+  stroke-opacity: 100%;
+  stroke-width: 6px;
+  stroke: white;
+  transform-origin: 50% 50%;
+  transform: rotate(-0.25turn);
+  z-index: 4;
+
+  stroke-dasharray: ${circleCirc} ${circleCirc};
+  animation-name: ${ringMove};
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-play-state: ${animationState};
+  `;
+
+
 
   return (
     <svg id={styles["BarSvg"]} fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,19 +124,38 @@ const TimerRing = (props) => {
           cy="50%"
           r="16rem"
         />
-        <circle
+        <ProgressCircle 
+          cx="50%"
+          cy="50%"
+          r="16rem"
+        
+        />
+        {/* <circle
           className={styles["ProgressCircle"]}
           id={styles["ProgressCircle"]}
           style={{
             strokeDasharray: [circleCirc, circleCirc],
-            transition: `${transition}`,
-            strokeDashoffset: `${linePos}`,
+            animation: `10s linear 0s 0 ${animationState} timerRingMove`,
+            // strokeDashoffset: `${linePos}`,
           }}
           onTransitionEnd={handleTransitonEnd}
           cx="50%"
           cy="50%"
           r="16rem"
-        />
+        /> */}
+        {/* <circle
+          className={styles["SkipCircle"]}
+          id={styles["SkipCircle"]}
+          style={{
+            strokeDasharray: [circleCirc, circleCirc],
+            transition: `${skipTransition}`,
+            strokeDashoffset: `${skipLinePos}`,
+          }}
+          onTransitionEnd={handleTransitonEnd}
+          cx="50%"
+          cy="50%"
+          r="16rem"
+        /> */}
       </g>
     </svg>
   );
