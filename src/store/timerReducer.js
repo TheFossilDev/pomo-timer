@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import PomoSound from "../assets/PomoTimer.mp3";
 
-const radius =
-parseFloat(getComputedStyle(document.documentElement).fontSize) * 16;
-const circleCirc = 2 * Math.PI * radius;
-
 const fetchFromAppStorage = (key, backupValue) => {
   const value = localStorage.getItem(key);
   if (value !== null && value !== undefined) {
@@ -55,13 +51,6 @@ const initialTimerState = {
   breakMinutes: 1,
   minutes: 1,
   seconds: 0,
-
-  transition: ``, 
-  skipTransition: ``,
-  linePos: circleCirc,
-  skipLinePos: circleCirc,
-  smoothOpacity: '100%',
-  strokeFadeTransition: '',
 };
 
 const timerSlice = createSlice({
@@ -74,26 +63,20 @@ const timerSlice = createSlice({
       } else {
         state.timerState = "running";
       }
-
-      state.transition = ``
-      state.smoothOpacity = '100%'
       
       state.seconds = 0;
       // Decide on next section, then reset timer
       if (state.timerType !== "work") {
         state.timerType = "work";
-        timerSlice.caseReducers.startRing(state, state.workMinutes);
         state.minutes = state.workMinutes;
         state.pomosCompleted++;
       } else {
         // Was a work period
         if (state.pomosCompleted % 4 === 0 && state.pomosCompleted > 0) {
           state.timerType = "break";
-          timerSlice.caseReducers.startRing(state, state.breakMinutes);
           state.minutes = state.breakMinutes;
         } else {
           state.timerType = "rest";
-          timerSlice.caseReducers.startRing(state, state.restMinutes);
           state.minutes = state.restMinutes;
         }
       }
@@ -155,17 +138,10 @@ const timerSlice = createSlice({
     },
 
     awareDecrease(state) {
-      if (state.seconds - 1 < 1 && state.minutes - 1 < 0) {
-        // timerSlice.caseReducers.hideRing(state);
-        // state.strokeFade = true;
-        state.transition = `stroke-opacity 1s linear`;
-        state.smoothOpacity = '0%'
-      } 
       if (state.seconds - 1 < 0) {
         if (state.minutes - 1 < 0) {
           const audio = new Audio(PomoSound);
           audio.play();
-
           timerSlice.caseReducers.advanceTimer(state);
         } else {
           state.seconds = 59;
@@ -175,61 +151,6 @@ const timerSlice = createSlice({
         state.seconds--;
       }
     },
-
-    /* ====================== TIMERRING SECTION ====================== */
-    playSkipAnimation(state) {
-      state.skipTransition = 'stroke-dashoffset 2s ease';
-      state.skipLinePos = 0;
-    },
-    handleTransitionEnd(state) {
-      
-
-
-      // if (state.autoStart) {
-      //   switch (state.timerType) {
-      //     case "work":
-      //       state.transition = `stroke-dashoffset ${state.workMinutes}s linear`;
-      //       break;
-      //     case "rest":
-      //       state.transition = `stroke-dashoffset ${state.restMinutes}s linear`;
-      //       break;
-      //     case "break":
-      //       state.transition = `stroke-dashoffset ${state.breakMinutes}s linear`;
-      //       break;
-      //     default:
-      //       console.error("Timerring transition failed");
-      //   }
-      //   state.linePos = 0;
-      // } else {
-      //     state.transition = '';
-      //     state.linePos = circleCirc;
-      //     state.skipTransition = '';
-      //     state.skipLinePos = circleCirc;
-      // }
-      // console.log('Ended');
-    },
-    startRing(state, action) {
-      state.transition = `stroke-dashoffset ${action.payload}s linear`;
-      state.linePos = 0;
-    },
-    pauseRing(state, action) {
-      state.linePos = circleCirc * action.payload;
-      state.transition = '';
-    },
-    resumeRing(state, action) {
-      state.transition = `stroke-dashoffset ${action.payload}s linear`;
-      state.linePos = 0;
-    },
-    hideRing(state) {
-      state.transition = '';
-      state.linePos = circleCirc;
-    },
-    showSmoothRing(state) {
-      state.smoothOpacity = '100%'
-      state.strokeFadeTransition = `stroke-opacity 1s linear`;
-    },
-
-
   },
 });
 

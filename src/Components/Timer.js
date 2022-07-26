@@ -15,10 +15,6 @@ const Timer = (props) => {
   const minutes = useSelector((state) => state.timer.minutes);
   const timerState = useSelector((state) => state.timer.timerState);
 
-  const workMinutes = useSelector((state) => state.timer.workMinutes);
-  const restMinutes = useSelector((state) => state.timer.restMinutes);
-  const breakMinutes = useSelector((state) => state.timer.breakMinutes);
-
   const darkMode = useSelector((state) => state.theme.darkMode);
 
   
@@ -64,64 +60,21 @@ const Timer = (props) => {
     switch (timerState) {
       case "ready":
         dispatch(timerActions.start());
-        dispatch(timerActions.startRing(minutes * 60 + seconds));
         break;
       case "running":
         dispatch(timerActions.pause());
-        dispatch(timerActions.pauseRing(durationCompletedHelper()));
         break;
       case "paused":
         dispatch(timerActions.resume());
-        dispatch(timerActions.resumeRing(minutes * 60 + seconds));
         break;
       default:
         console.error('Improper timer state');
-
-
-    // WHEN THE BUTTON GETS CLICKED
-    // if (isActive) {
-    //   // Is active
-    //   if (isRunning) {
-    //     // Is running
-    //     dispatch(timerActions.flipIsRunning());
-    //     dispatch(timerActions.pauseRing(durationCompletedHelper()))
-    //     // setBigLabel("Resume");
-    //   } else {
-    //     // Isn't running
-    //     dispatch(timerActions.flipIsRunning());
-    //     dispatch(timerActions.resumeRing(minutes * 60 + seconds));
-    //     // setBigLabel("Pause");
-    //   }
-    // } else {
-    //   // Isn't running yet
-    //   // setBigLabel("Pause");
-    //   dispatch(timerActions.start());
-    //   dispatch(
-    //     timerActions.startRing(minutes * 60 + seconds)
-    //   );
-    // }
-    }
-  };
-
-  const durationCompletedHelper = () => {
-    switch (timerType) {
-      case "work":
-        console.log(`Work ratio: ${((minutes * 60) + seconds) / (workMinutes * 60)}`);
-        return ((minutes * 60) + seconds) / (workMinutes * 60);
-      case "rest":
-        return ((minutes * 60) + seconds) / (restMinutes * 60);
-      case "break":
-        return ((minutes * 60) + seconds) / (breakMinutes * 60);
-      default:
-        console.error('Invalid timer type');
-        break;
     }
   };
 
   const skipHandler = () => {
     props.flipIsSkipConfirming();
-    dispatch(timerActions.pause());
-    dispatch(timerActions.pauseRing());
+    if (timerState === "running") dispatch(timerActions.pause());
   };
 
   return (

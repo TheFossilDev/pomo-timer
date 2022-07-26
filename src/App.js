@@ -6,7 +6,6 @@ import { timerActions } from "./store/timerReducer";
 import Timer from "./Components/Timer";
 import Button from "./Components/UI/Buttons/Button";
 import SetTimer from "./Components/SetTimer";
-import TimerRing from "./Components/TimerRing";
 import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
 import ConfirmationBox from "./Components/ResetData/ConfirmationBox";
@@ -82,8 +81,6 @@ const App = () => {
   };
 
   const handleSkipConfirm = () => {
-    dispatch(timerActions.playSkipAnimation());
-    dispatch(timerActions.hideRing());
     flipIsSkipConfirming();
     dispatch(timerActions.skip());
   }
@@ -136,51 +133,48 @@ const App = () => {
           darkMode ? styles["dark"] : styles["light"]
         }`}
       >
+        <header>
+          <h3
+            className={`${styles.title} ${
+              darkMode ? styles["dark"] : styles["light"]
+            }`}
+          >
+            {headerLabel}
+          </h3>
+          <Button
+            size={"medium"}
+            flex={true}
+            onClick={setHandler}
+            title={"Change timer lengths"}
+          >
+            Set
+          </Button>
+          <Button
+            size={"medium"}
+            flex={true}
+            onClick={flipIsConfirming}
+            title={"Reset your saved progress"}
+          >
+            <img src={deleteBlack} alt="Black trash can icon" />
+          </Button>
+          <Button
+            title={"Change between light mode and dark mode"}
+            onClick={darkModeClickHandler}
+          >
+            <img src={darkModeBlack} alt="Black cresent moon icon" />
+          </Button>
+        </header>
         <div
           className={`${styles["centerContainer"]} ${
             darkMode ? styles["dark"] : styles["light"]
           }`}
         >
-          <header>
-            <h3
-              className={`${styles.title} ${
-                darkMode ? styles["dark"] : styles["light"]
-              }`}
-            >
-              {headerLabel}
-            </h3>
-            <Button
-              size={"medium"}
-              flex={true}
-              onClick={setHandler}
-              title={"Change timer lengths"}
-            >
-              Set
-            </Button>
-            <Button
-              size={"medium"}
-              flex={true}
-              onClick={flipIsConfirming}
-              title={"Reset your saved progress"}
-            >
-              <img src={deleteBlack} alt="Black trash can icon" />
-            </Button>
-            <Button
-              title={"Change between light mode and dark mode"}
-              onClick={darkModeClickHandler}
-            >
-              <img src={darkModeBlack} alt="Black cresent moon icon" />
-            </Button>
-          </header>
-          <div id={styles.circle}>
-            <TimerRing />
-              <Timer
-                changeIsSetting={changeIsSetting}
-                isSetting={isSetting}
-                flipIsConfirming={flipIsConfirming}
-                flipIsSkipConfirming={flipIsSkipConfirming}
-              />
-            </div>
+            <Timer
+              changeIsSetting={changeIsSetting}
+              isSetting={isSetting}
+              flipIsConfirming={flipIsConfirming}
+              flipIsSkipConfirming={flipIsSkipConfirming}
+            />
         </div>
       </div>
     </>

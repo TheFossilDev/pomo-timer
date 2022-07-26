@@ -16,13 +16,14 @@
   width: 40rem;
   height: 40rem;
   border-radius: 10%;
+  box-shadow: 0px 15px 13px 12px rgba(0,0,0,0.1);
 
   margin: 0 auto;
   padding: 1rem;
+
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 header {
@@ -30,20 +31,7 @@ header {
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-}
-
-#circle {
-  width: 33rem;
-  height: 33rem;
-  border-radius: 50%;
-  border-color: aliceblue;
-  margin: 0;
-  z-index: 50;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin-bottom: 0;
 }
 
 #icon {
@@ -57,7 +45,6 @@ header {
   margin: 1rem;
   margin-right: auto;
   max-width: 20rem;
-  justify-self: flex-start;
 }
 
 .title.dark {
