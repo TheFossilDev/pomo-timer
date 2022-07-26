@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { themeActions } from "./store/themeReducer";
+import { timerActions } from "./store/timerReducer";
+import { timerRingActions } from "./store/timerRingReducer";
 
 import Timer from "./Components/Timer";
 import Button from "./Components/UI/Buttons/Button";
@@ -18,6 +20,7 @@ const App = () => {
 
   const [isSetting, changeIsSetting] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [isSkipConfirming, setIsSkipConfirming] = useState(false);
 
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
   const timerType = useSelector((state) => state.timer.timerType);
@@ -58,14 +61,36 @@ const App = () => {
     seconds,
   ]);
 
+  
   const setHandler = () => {
     changeIsSetting(!isSetting);
   };
-
+  
   const flipIsConfirming = () => {
+    console.log('Hello again');
     setIsConfirming(!isConfirming);
   };
 
+  const flipIsSkipConfirming = () => {
+    console.log('Hello skipper');
+    setIsSkipConfirming(!isSkipConfirming);
+  }
+
+  const onConfirming = () => {
+    flipIsConfirming();
+    console.log('Hello');
+    localStorage.clear();
+
+    // Reset to defaults
+    dispatch(timerActions.returnTimerToDefault());
+  };
+
+  const handleSkipConfirm = () => {
+    dispatch(timerRingActions.playSkipAnimation());
+    flipIsSkipConfirming();
+    dispatch(timerActions.skip());
+  }
+  
   const modalClickHandler = () => {
     changeIsSetting(false);
   };
@@ -104,7 +129,10 @@ const App = () => {
         </Modal>
       )}
       {isConfirming && (
-        <ConfirmationBox flipIsConfirming={flipIsConfirming}></ConfirmationBox>
+        <ConfirmationBox flipIsConfirming={flipIsConfirming} onConfirming={onConfirming} />
+      )}
+      {isSkipConfirming && (
+        <ConfirmationBox flipIsConfirming={flipIsSkipConfirming} onConfirming={handleSkipConfirm} />
       )}
       <div
         className={`${styles["mainContainer"]} ${
@@ -153,6 +181,7 @@ const App = () => {
                 changeIsSetting={changeIsSetting}
                 isSetting={isSetting}
                 flipIsConfirming={flipIsConfirming}
+                flipIsSkipConfirming={flipIsSkipConfirming}
               />
             </div>
         </div>

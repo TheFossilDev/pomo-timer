@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import styles from "./TimerRing.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { timerRingActions } from "../store/timerRingReducer";
 
 const TimerRing = (props) => {
+  const dispatch = useDispatch();
   const minutes = useSelector((state) => state.timer.minutes);
   const seconds = useSelector((state) => state.timer.seconds);
   const isRunning = useSelector((state) => state.timer.isRunning);
@@ -12,13 +14,14 @@ const TimerRing = (props) => {
   const timerType = useSelector((state) => state.timer.timerType);
   const autoStart = useSelector((state) => state.timer.autoStart);
 
+  const linePos = useSelector((state) => state.timerRing.linePos);
+  const transition = useSelector((state) => state.timerRing.transition);
+
   const radius =
     parseFloat(getComputedStyle(document.documentElement).fontSize) * 16;
   const circleCirc = 2 * Math.PI * radius;
   const [secondsRemaining, setSecondsRemaining] = useState((minutes * 60) + seconds);
   const [maxSeconds, setMaxSeconds] = useState(workMinutes * 60);
-  const [transitionBody, setTransitionBody] = useState(`stroke-dashoffset ${secondsRemaining}s linear`);
-  const [linePos, setLinePos] = useState(circleCirc);
 
   // Ring normal function
   // Goes from 0 to circumference as the ending point
@@ -31,51 +34,54 @@ const TimerRing = (props) => {
   // Set the offset as max again
 
   /* ================= CALC SECONDS REMAINING ================= */
-  useEffect(() => {
-    setSecondsRemaining((minutes * 60) + seconds)
-  }, [seconds, minutes])
+  // useEffect(() => {
+  //   setSecondsRemaining((minutes * 60) + seconds)
+  // }, [seconds, minutes])
 
   /* ================= TIMERTYPE CHANGES (NEW TIMER) ================= */
-  useEffect(() => {
-    console.log('TIMER CHANGES');
-    setLinePos(0);
-    if (autoStart) {
-      setTransitionBody(``);
-      setTransitionBody(`stroke-dashoffset ${secondsRemaining}s linear`);
-    }
-    switch (timerType) {
-      case 'work':
-        setMaxSeconds(workMinutes * 60);
-        break;
-      case 'rest':
-        setMaxSeconds(restMinutes * 60);
-        break;
-      case 'break':
-        setMaxSeconds(breakMinutes * 60);
-        break;
-      default:
-        console.error('TimerRing error');
-        break;
-    }
+  // useEffect(() => {
+  //   console.log('TIMER CHANGES');
+  //   setLinePos(0);
+  //   if (autoStart) {
+  //     setTransitionBody(``);
+  //     setTransitionBody(`stroke-dashoffset ${secondsRemaining}s linear`);
+  //   }
+  //   switch (timerType) {
+  //     case 'work':
+  //       setMaxSeconds(workMinutes * 60);
+  //       break;
+  //     case 'rest':
+  //       setMaxSeconds(restMinutes * 60);
+  //       break;
+  //     case 'break':
+  //       setMaxSeconds(breakMinutes * 60);
+  //       break;
+  //     default:
+  //       console.error('TimerRing error');
+  //       break;
+  //   }
   
-  }, [timerType, workMinutes, restMinutes, breakMinutes])
+  // }, [timerType, workMinutes, restMinutes, breakMinutes])
   
   /* ================= TIMER PAUSES / STARTS ================= */
-  useEffect(() => {
-    console.log('TIMER PAUSES / STARTS');
-    if (isRunning) {
-      // Timer has been started / resumed
-      console.log('Started!');
-      setTransitionBody(`stroke-dashoffset ${secondsRemaining}s linear`);
-      setLinePos(``);
-    } else {
-      // Timer has been paused, skipped, ended
-      console.log('Paused!');
-      setLinePos(circleCirc * (secondsRemaining / maxSeconds))
-      setTransitionBody(``);
-    }
-  }, [isRunning, secondsRemaining, maxSeconds, circleCirc, timerType])
+  // useEffect(() => {
+  //   console.log('TIMER PAUSES / STARTS');
+  //   if (isRunning) {
+  //     // Timer has been started / resumed
+  //     console.log('Started!');
+  //     setTransitionBody(`stroke-dashoffset ${secondsRemaining}s linear`);
+  //     setLinePos(``);
+  //   } else {
+  //     // Timer has been paused, skipped, ended
+  //     console.log('Paused!');
+  //     setLinePos(circleCirc * (secondsRemaining / maxSeconds))
+  //     setTransitionBody(``);
+  //   }
+  // }, [isRunning, secondsRemaining, maxSeconds, circleCirc, timerType])
   
+  const handleTransitonEnd = () => {
+    dispatch(timerRingActions.handleTransitionEnd());
+  }
 
   return (
     <svg id={styles["BarSvg"]} fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,10 +97,11 @@ const TimerRing = (props) => {
           className={styles["ProgressCircle"]}
           id={styles["ProgressCircle"]}
           style={{
-            transition: `${transitionBody}`,
             strokeDasharray: [circleCirc, circleCirc],
+            transition: `${transition}`,
             strokeDashoffset: `${linePos}`,
           }}
+          onTransitionEnd={handleTransitonEnd}
           cx="50%"
           cy="50%"
           r="16rem"
