@@ -26,10 +26,11 @@ const fetchAutoStartData = (backupValue) => {
   }
 };
 
+// Localstorage enabled
 const initialTimerState = {
   timerType: fetchStringFromAppStorage("timerType", "work"),
-  isActive: fetchFromAppStorage("isActive", false),
-  isRunning: fetchFromAppStorage("isRunning", false),
+  // Timer states: ready (not started), running, paused
+  timerState: fetchStringFromAppStorage("timerState", "ready"),
   autoStart: fetchAutoStartData(false),
   pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
   workMinutes: fetchFromAppStorage("workMinutes", 25),
@@ -39,14 +40,28 @@ const initialTimerState = {
   seconds: fetchFromAppStorage("seconds", 0),
 };
 
+// const initialTimerState = {
+//   timerType: "work",
+//   // Timer states: ready (not started), running, paused
+//   timerState: "ready",
+//   autoStart: false,
+//   pomosCompleted: 0,
+//   workMinutes: 1,
+//   restMinutes: 1,
+//   breakMinutes: 1,
+//   minutes: 1,
+//   seconds: 0,
+// };
+
 const timerSlice = createSlice({
   name: "timer",
   initialState: initialTimerState,
   reducers: {
     advanceTimer(state) {
       if (!state.autoStart) {
-        state.isRunning = false;
-        state.isActive = false;
+        state.timerState = "ready";
+      } else {
+        state.timerState = "running";
       }
 
       state.seconds = 0;
@@ -68,12 +83,15 @@ const timerSlice = createSlice({
     },
 
     start(state) {
-      state.isActive = true;
-      state.isRunning = true;
+      state.timerState = "running";
     },
 
-    flipIsRunning(state) {
-      state.isRunning = !state.isRunning;
+    pause(state) {
+      state.timerState = "paused";
+    },
+
+    resume(state) {
+      state.timerState = "running";
     },
 
     skip(state) {
@@ -89,7 +107,7 @@ const timerSlice = createSlice({
       state.restMinutes = action.payload.newRestMinutes;
       state.breakMinutes = action.payload.newBreakMinutes;
 
-      if (!state.isActive) {
+      if (state.timerState === "ready") {
         switch (state.timerType) {
           case "work":
             state.minutes = action.payload.newWorkMinutes;
@@ -108,8 +126,7 @@ const timerSlice = createSlice({
 
     returnTimerToDefault(state) {
       state.timerType = "work";
-      state.isActive = false;
-      state.isRunning = false;
+      state.timerState = "ready";
       state.autoStart = false;
       state.pomosCompleted = 0;
       state.workMinutes = 25;
@@ -124,7 +141,6 @@ const timerSlice = createSlice({
         if (state.minutes - 1 < 0) {
           const audio = new Audio(PomoSound);
           audio.play();
-
           timerSlice.caseReducers.advanceTimer(state);
         } else {
           state.seconds = 59;

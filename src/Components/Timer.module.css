@@ -1,57 +1,57 @@
 .timerContainer {
-  max-width: 30rem;
-  max-height: 30rem;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  display: block;
-  background-color: #ece5f0;
-  border-radius: 10px;
+  z-index: 5;
+}
+
+img {
+  width: 100%;
+  height: 100%;
 }
 
 .time {
-  color: black;
-  font-size: 7em;
   text-align: center;
-  margin: 1rem auto;
+  font-size: 10rem;
+  margin: 0.1em;
+
+  transition: color 1s ease;
+}
+
+.time.dark {
+  color: white;
+}
+.time.light {
+  color: black;
 }
 
 .buttonsContainer {
+  position: relative;
   display: flex;
-  margin: 1rem auto;
+  align-items: center;
   justify-content: center;
+}
+
+#fastForwardButton {
+  background-color: blue;
+}
+
+#skipButton {
+  background-color: blue;
 }
 
 .topButtonsContainer {
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
 .timerTypeLabel {
   text-align: center;
+
+  transition: color 1s ease;
 }
 
-@media only screen and (max-width: 600px) {
-  .timerContainer {
-    max-width: 17rem;
-    max-height: 30rem;
-    margin: 0 auto;
-    padding: 1rem 1.5rem;
-    display: block;
-    background-color: #ece5f0;
-    border-radius: 10px;
-  }
-
-  .time {
-    color: black;
-    font-size: 5em;
-    text-align: center;
-    margin: 1rem auto;
-  }
-
-  .buttonsContainer {
-    display: flex;
-    margin: 1rem auto;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+.timerTypeLabel.dark {
+  color: white;
+}
+.timerTypeLabel.light {
+  color: black;
 }
