@@ -1,22 +1,32 @@
 .mainContainer {
   min-height: 100vh;
   margin: 0rem auto;
-  padding-top: 2rem;
+  padding-bottom: 4rem;
+
+  transition: background-color 1s ease;
 }
 
 .mainContainer.light {
-  background-color: #EAE0CC;
+  background-color: white;
 }
 
 .centerContainer.light {
-  background-color: #D2BBB1;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mainContainer.dark {
+  background-color: #0d1117;
+}
+
+.centerContainer.dark {
+  background-color: #161b22;
 }
 
 .centerContainer {
-  width: 40rem;
-  height: 40rem;
+  width: 35rem;
+  height: 35rem;
   border-radius: 10%;
-  box-shadow: 0px 15px 13px 12px rgba(0,0,0,0.1);
+  box-shadow: 0px 15px 13px 12px rgba(0, 0, 0, 0.1);
 
   margin: 0 auto;
   padding: 1rem;
@@ -24,13 +34,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition: background-color 1s ease;
 }
 
-header {
+.mainHeader {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 100%;
+  width: 35rem;
+  margin: 0 auto;
   margin-bottom: 0;
 }
 
@@ -45,6 +58,8 @@ header {
   margin: 1rem;
   margin-right: auto;
   max-width: 20rem;
+
+  transition: color 1s ease;
 }
 
 .title.dark {

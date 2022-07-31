@@ -1,12 +1,11 @@
 import styles from "./Timer.module.css";
-import Button from "./UI/Buttons/Button";
+import BigButton from "./UI/Buttons/BigButton";
 import useTimer from "../hooks/useTimer";
 import { useDispatch, useSelector } from "react-redux";
 import { timerActions } from "../store/timerReducer";
 import { useState, useEffect } from "react";
-
-import skipBlack from "../assets/skipNextBlack.png";
-import fastForwardBlack from "../assets/fastForwardBlack.png";
+import FastForward from "./Icons/FastForward";
+import Skip from "./Icons/Skip";
 
 const Timer = (props) => {
   const dispatch = useDispatch();
@@ -17,13 +16,11 @@ const Timer = (props) => {
 
   const darkMode = useSelector((state) => state.theme.darkMode);
 
-  
   useTimer();
-  
+
   const [bigLabel, setBigLabel] = useState();
 
   const flipAutoStartHandler = () => {
-    // localStorage.setItem("autoStart", !props.timerData.autoStart);
     dispatch(timerActions.flipAutoStart());
   };
 
@@ -52,7 +49,7 @@ const Timer = (props) => {
         setBigLabel("Resume");
         break;
       default:
-        console.error('Improper timer state');
+        console.error("Improper timer state");
     }
   }, [timerState]);
 
@@ -68,7 +65,7 @@ const Timer = (props) => {
         dispatch(timerActions.resume());
         break;
       default:
-        console.error('Improper timer state');
+        console.error("Improper timer state");
     }
   };
 
@@ -95,19 +92,11 @@ const Timer = (props) => {
         {seconds < 10 ? <span>0{seconds}</span> : <span>{seconds}</span>}
       </h2>
       <div className={styles.buttonsContainer}>
-        <Button
-          flex={true}
-          onClick={flipAutoStartHandler}
-          title={"Automatically start next timer"}
-        >
-          <img src={fastForwardBlack} alt="Black fast forward icon" />
-        </Button>
-        <Button onClick={timerChangeHandler} id={"bigButton"}>
+        <FastForward onClick={flipAutoStartHandler}></FastForward>
+        <BigButton onClick={timerChangeHandler} id={"bigButton"}>
           {bigLabel}
-        </Button>
-        <Button flex={true} onClick={skipHandler} title={"Skip this timer"}>
-          <img src={skipBlack} alt="Black skip forward button" />
-        </Button>
+        </BigButton>
+        <Skip onClick={skipHandler}></Skip>
       </div>
     </div>
   );

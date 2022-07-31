@@ -1,22 +1,16 @@
 .button {
-  background-color: aliceblue;
+  background-color: #eee;
+
   width: 3rem;
   height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  padding: 0.1rem;
+  padding: 0.25rem;
   margin: 1rem;
-  
+
   border: 0px;
   border-radius: 10%;
+  cursor: pointer;
 }
-
-#bigButton {
-  font-size: 2.3em;
-  font-weight: bold;
-  width: 10rem;
-  height: 5rem;
-}
-

@@ -9,7 +9,9 @@ const fetchBoolFromLocalStorage = (key, backupValue) => {
   }
 };
 
-const initialThemeState = { darkMode: fetchBoolFromLocalStorage("darkMode", false) };
+const initialThemeState = {
+  darkMode: fetchBoolFromLocalStorage("darkMode", false),
+};
 
 const themeSlice = createSlice({
   name: "theme",
@@ -17,8 +19,8 @@ const themeSlice = createSlice({
   reducers: {
     flipDarkMode(state) {
       state.darkMode = !state.darkMode;
-    } 
-  }
+    },
+  },
 });
 
 export const themeActions = themeSlice.actions;

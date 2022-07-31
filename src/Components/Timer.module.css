@@ -8,10 +8,11 @@ img {
 }
 
 .time {
-  /* color: aliceblue; */
   text-align: center;
   font-size: 10rem;
   margin: 0.1em;
+
+  transition: color 1s ease;
 }
 
 .time.dark {
@@ -22,9 +23,18 @@ img {
 }
 
 .buttonsContainer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#fastForwardButton {
+  background-color: blue;
+}
+
+#skipButton {
+  background-color: blue;
 }
 
 .topButtonsContainer {
@@ -34,8 +44,9 @@ img {
 }
 
 .timerTypeLabel {
-  /* color: aliceblue; */
   text-align: center;
+
+  transition: color 1s ease;
 }
 
 .timerTypeLabel.dark {

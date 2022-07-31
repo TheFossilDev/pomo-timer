@@ -27,31 +27,31 @@ const fetchAutoStartData = (backupValue) => {
 };
 
 // Localstorage enabled
-// const initialTimerState = {
-//   timerType: fetchStringFromAppStorage("timerType", "work"),
-//   isActive: fetchFromAppStorage("isActive", false),
-//   isRunning: fetchFromAppStorage("isRunning", false),
-//   autoStart: fetchAutoStartData(false),
-//   pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
-//   workMinutes: fetchFromAppStorage("workMinutes", 25),
-//   restMinutes: fetchFromAppStorage("restMinutes", 5),
-//   breakMinutes: fetchFromAppStorage("breakMinutes", 30),
-//   minutes: fetchFromAppStorage("minutes", 25),
-//   seconds: fetchFromAppStorage("seconds", 0),
-// };
-
 const initialTimerState = {
-  timerType: "work",
+  timerType: fetchStringFromAppStorage("timerType", "work"),
   // Timer states: ready (not started), running, paused
-  timerState: "ready",
-  autoStart: false,
-  pomosCompleted: 0,
-  workMinutes: 1,
-  restMinutes: 1,
-  breakMinutes: 1,
-  minutes: 1,
-  seconds: 0,
+  timerState: fetchStringFromAppStorage("timerState", "ready"),
+  autoStart: fetchAutoStartData(false),
+  pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
+  workMinutes: fetchFromAppStorage("workMinutes", 25),
+  restMinutes: fetchFromAppStorage("restMinutes", 5),
+  breakMinutes: fetchFromAppStorage("breakMinutes", 30),
+  minutes: fetchFromAppStorage("minutes", 25),
+  seconds: fetchFromAppStorage("seconds", 0),
 };
+
+// const initialTimerState = {
+//   timerType: "work",
+//   // Timer states: ready (not started), running, paused
+//   timerState: "ready",
+//   autoStart: false,
+//   pomosCompleted: 0,
+//   workMinutes: 1,
+//   restMinutes: 1,
+//   breakMinutes: 1,
+//   minutes: 1,
+//   seconds: 0,
+// };
 
 const timerSlice = createSlice({
   name: "timer",
@@ -63,7 +63,7 @@ const timerSlice = createSlice({
       } else {
         state.timerState = "running";
       }
-      
+
       state.seconds = 0;
       // Decide on next section, then reset timer
       if (state.timerType !== "work") {
@@ -100,7 +100,6 @@ const timerSlice = createSlice({
 
     flipAutoStart(state) {
       state.autoStart = !state.autoStart;
-      console.log(`Autostart is ${state.autoStart}`);
     },
 
     setTimerSettings(state, action) {
@@ -108,7 +107,7 @@ const timerSlice = createSlice({
       state.restMinutes = action.payload.newRestMinutes;
       state.breakMinutes = action.payload.newBreakMinutes;
 
-      if (!state.isActive) {
+      if (state.timerState === "ready") {
         switch (state.timerType) {
           case "work":
             state.minutes = action.payload.newWorkMinutes;

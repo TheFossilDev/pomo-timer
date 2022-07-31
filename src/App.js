@@ -9,9 +9,11 @@ import SetTimer from "./Components/SetTimer";
 import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
 import ConfirmationBox from "./Components/ResetData/ConfirmationBox";
+
+import DarkMode from "./Components/Icons/DarkMode";
+import TrashCan from "./Components/Icons/TrashCan";
+import Gear from "./Components/Icons/Gear";
 import "./assets/PomoTimer.mp3";
-import deleteBlack from "./assets/deleteBlack.png";
-import darkModeBlack from "./assets/darkModeBlack.png";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const App = () => {
   // Sync progress to localstorage on each update
   useEffect(() => {
     localStorage.setItem("timerType", timerType);
-    localStorage.setItem("timerState", timerState)
+    localStorage.setItem("timerState", timerState);
     localStorage.setItem("autoStart", autoStart);
     localStorage.setItem("pomosCompleted", pomosCompleted);
     localStorage.setItem("workMinutes", workMinutes);
@@ -56,24 +58,20 @@ const App = () => {
     seconds,
   ]);
 
-  
   const setHandler = () => {
     changeIsSetting(!isSetting);
   };
-  
+
   const flipIsConfirming = () => {
-    console.log('Hello again');
     setIsConfirming(!isConfirming);
   };
 
   const flipIsSkipConfirming = () => {
-    console.log('Hello skipper');
     setIsSkipConfirming(!isSkipConfirming);
-  }
+  };
 
   const onConfirming = () => {
     flipIsConfirming();
-    console.log('Hello');
     localStorage.clear();
 
     // Reset to defaults
@@ -83,8 +81,8 @@ const App = () => {
   const handleSkipConfirm = () => {
     flipIsSkipConfirming();
     dispatch(timerActions.skip());
-  }
-  
+  };
+
   const modalClickHandler = () => {
     changeIsSetting(false);
   };
@@ -114,7 +112,6 @@ const App = () => {
     }
   }, [timerType, timerState, pomosCompleted]);
 
-
   return (
     <>
       {isSetting && (
@@ -123,17 +120,23 @@ const App = () => {
         </Modal>
       )}
       {isConfirming && (
-        <ConfirmationBox flipIsConfirming={flipIsConfirming} onConfirming={onConfirming} />
+        <ConfirmationBox
+          flipIsConfirming={flipIsConfirming}
+          onConfirming={onConfirming}
+        />
       )}
       {isSkipConfirming && (
-        <ConfirmationBox flipIsConfirming={flipIsSkipConfirming} onConfirming={handleSkipConfirm} />
+        <ConfirmationBox
+          flipIsConfirming={flipIsSkipConfirming}
+          onConfirming={handleSkipConfirm}
+        />
       )}
       <div
         className={`${styles["mainContainer"]} ${
           darkMode ? styles["dark"] : styles["light"]
         }`}
       >
-        <header>
+        <header className={styles.mainHeader}>
           <h3
             className={`${styles.title} ${
               darkMode ? styles["dark"] : styles["light"]
@@ -147,7 +150,7 @@ const App = () => {
             onClick={setHandler}
             title={"Change timer lengths"}
           >
-            Set
+            <Gear />
           </Button>
           <Button
             size={"medium"}
@@ -155,13 +158,13 @@ const App = () => {
             onClick={flipIsConfirming}
             title={"Reset your saved progress"}
           >
-            <img src={deleteBlack} alt="Black trash can icon" />
+            <TrashCan />
           </Button>
           <Button
             title={"Change between light mode and dark mode"}
             onClick={darkModeClickHandler}
           >
-            <img src={darkModeBlack} alt="Black cresent moon icon" />
+            <DarkMode />
           </Button>
         </header>
         <div
@@ -169,12 +172,12 @@ const App = () => {
             darkMode ? styles["dark"] : styles["light"]
           }`}
         >
-            <Timer
-              changeIsSetting={changeIsSetting}
-              isSetting={isSetting}
-              flipIsConfirming={flipIsConfirming}
-              flipIsSkipConfirming={flipIsSkipConfirming}
-            />
+          <Timer
+            changeIsSetting={changeIsSetting}
+            isSetting={isSetting}
+            flipIsConfirming={flipIsConfirming}
+            flipIsSkipConfirming={flipIsSkipConfirming}
+          />
         </div>
       </div>
     </>

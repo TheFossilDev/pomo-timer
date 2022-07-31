@@ -4,7 +4,6 @@ import Button from "../UI/Buttons/Button";
 import styles from "./ConfirmationBox.module.css";
 
 const ConfirmationBox = (props) => {
-
   return (
     <Modal clickHandler={props.flipIsConfirming}>
       <h3>Do you want to reset your saved timer durations and progress?</h3>
