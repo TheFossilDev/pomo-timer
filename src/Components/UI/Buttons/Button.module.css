@@ -1,22 +1,16 @@
 .button {
-  background-color: #ff858d;
-  display: block;
-  /* border: 10px; */
-  border-color: black;
-  color: black;
-  font-weight: bold;
+  background-color: #eee;
 
-  padding: 0.4rem;
-  margin: 1rem auto;
-
-  border-radius: 5px;
-}
-.button.medium {
-  font-size: large;
-}
-.button.flex {
+  width: 3rem;
+  height: 3rem;
   display: flex;
-  flex-basis: auto;
-  align-self: center;
-  margin: auto 0.25rem;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.25rem;
+  margin: 1rem;
+
+  border: 0px;
+  border-radius: 10%;
+  cursor: pointer;
 }
