@@ -36,6 +36,31 @@ const FastForward = (props) => {
   .svg:hover #right {
     transform: translateX(100%);
   }
+
+  .fastForwardTipBase {
+    display: block;
+    position: absolute;
+    margin: 0 auto;
+    padding: 0.25em 0.5em;
+    top: 4rem;
+    left: 2rem;
+    background-color: rgba(0, 0, 0, 0.85);
+  
+    border-radius: 20%;
+  
+    transition: opacity 500ms linear 500ms;
+    opacity: 0;
+  }
+  
+  .svg:hover + .fastForwardTipBase {
+    opacity: 1;
+  }
+  
+  .fastForwardTipText {
+    margin: 0;
+    color: white;
+  }
+
   `;
 
   return (
@@ -72,6 +97,9 @@ const FastForward = (props) => {
           />
         </g>
       </svg>
+      <div className="fastForwardTipBase">
+        <p className="fastForwardTipText">Auto Start Timers?</p>
+      </div>
     </>
   );
 };

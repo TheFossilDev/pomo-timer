@@ -22,6 +22,30 @@ const Skip = (props) => {
   .skip:hover {
     transform: scale(1.1);
   }
+
+  .tooltipBase {
+    display: block;
+    position: absolute;
+    margin: 0 auto;
+    padding: 0.25em 0.5em;
+    top: 4rem;
+    right: 2rem;
+    background-color: rgba(0, 0, 0, 0.85);
+  
+    border-radius: 20%;
+  
+    transition: opacity 500ms linear 500ms;
+    opacity: 0;
+  }
+  
+  .skip:hover + .tooltipBase {
+    opacity: 1;
+  }
+  
+  .tooltipText {
+    margin: 0;
+    color: white;
+  }
   `;
   return (
     <>
@@ -54,6 +78,9 @@ const Skip = (props) => {
           />
         </g>
       </svg>
+      <div className="tooltipBase">
+        <p className="tooltipText">Skip Timer?</p>
+      </div>
     </>
   );
 };

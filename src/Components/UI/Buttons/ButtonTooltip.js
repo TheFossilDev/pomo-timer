@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from "./Button.module.css";
+import styles from "./ButtonTooltip.module.css";
 
-const Button = (props) => {
+const ButtonTooltip = (props) => {
   const [showTooltip, setShowTooltip] = useState(false);
   return (
     <div className={styles.relativeContainer}>
@@ -10,13 +10,15 @@ const Button = (props) => {
         onMouseOver={() => setShowTooltip(true)}
         onMouseOut={() => setShowTooltip(false)}
         className={styles["button"]}
-        title={props.title || ""}
         id={styles[props.id]}
       >
         {props.children}
       </button>
+      <div className={styles.tooltipBase}>
+        <p className={styles.tooltipText}>{props.toolTip}</p>
+      </div>
     </div>
   );
 };
 
-export default Button;
+export default ButtonTooltip;

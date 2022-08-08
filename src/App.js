@@ -4,7 +4,7 @@ import { themeActions } from "./store/themeReducer";
 import { timerActions } from "./store/timerReducer";
 
 import Timer from "./Components/Timer";
-import Button from "./Components/UI/Buttons/Button";
+import ButtonTooltip from "./Components/UI/Buttons/ButtonTooltip";
 import SetTimer from "./Components/SetTimer";
 import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
@@ -144,28 +144,28 @@ const App = () => {
           >
             {headerLabel}
           </h3>
-          <Button
+          <ButtonTooltip
             size={"medium"}
             flex={true}
             onClick={setHandler}
-            title={"Change timer lengths"}
+            toolTip={"Change timer lengths"}
           >
             <Gear />
-          </Button>
-          <Button
+          </ButtonTooltip>
+          <ButtonTooltip
             size={"medium"}
             flex={true}
             onClick={flipIsConfirming}
-            title={"Reset your saved progress"}
+            toolTip={"Reset your saved progress"}
           >
             <TrashCan />
-          </Button>
-          <Button
-            title={"Change between light mode and dark mode"}
+          </ButtonTooltip>
+          <ButtonTooltip
+            toolTip={"Change between light mode and dark mode"}
             onClick={darkModeClickHandler}
           >
             <DarkMode />
-          </Button>
+          </ButtonTooltip>
         </header>
         <div
           className={`${styles["centerContainer"]} ${
