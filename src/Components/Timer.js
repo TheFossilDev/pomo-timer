@@ -1,6 +1,6 @@
 import styles from "./Timer.module.css";
 import BigButton from "./UI/Buttons/BigButton";
-import useTimer from "../Hooks/useTimer";
+import useTimer from "../hooks/useTimer";
 import { useDispatch, useSelector } from "react-redux";
 import { timerActions } from "../store/timerReducer";
 import { useState, useEffect } from "react";
