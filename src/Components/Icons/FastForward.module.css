@@ -1,0 +1,63 @@
+.svg {
+  cursor: pointer;
+  transition: all 1s ease;
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  left: 1rem;
+}
+
+#left {
+  transition: all 1s ease;
+  transform: translateX(-100%);
+}
+.svg:hover #left {
+  transform: translateX(0%);
+}
+#middle {
+  transition: all 1s ease;
+} 
+.svg:hover #middle {
+  transform: translateX(20%);
+}
+
+#right {
+  transition: all 1s ease;
+} 
+.svg:hover #right {
+  transform: translateX(100%);
+}
+
+.fastForwardTipBase {
+  display: block;
+  position: absolute;
+  margin: 0 auto;
+  padding: 0.25em 0.5em;
+  top: 4rem;
+  left: -1rem;
+  background-color: black;
+  z-index: 101;
+
+  border-radius: 5%;
+
+  transition: opacity 500ms linear;
+}
+.fastForwardTipText {
+  cursor: default;
+  margin: 0;
+  color: white;
+}
+
+.fastForwardTipBaseexited {
+  opacity: 0;
+}
+.fastForwardTipBaseentering {
+  opacity: 75%;
+}
+.fastForwardTipBaseentered {
+  opacity: 75%;
+}
+.fastForwardTipBaseexiting {
+  opacity: 0;
+}
+

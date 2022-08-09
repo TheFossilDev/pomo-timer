@@ -11,6 +11,7 @@ const fetchBoolFromLocalStorage = (key, backupValue) => {
 
 const initialThemeState = {
   darkMode: fetchBoolFromLocalStorage("darkMode", false),
+  helpMode: false,
 };
 
 const themeSlice = createSlice({
@@ -20,6 +21,9 @@ const themeSlice = createSlice({
     flipDarkMode(state) {
       state.darkMode = !state.darkMode;
     },
+    flipHelpMode(state) {
+      state.helpMode = !state.helpMode;
+    }
   },
 });
 

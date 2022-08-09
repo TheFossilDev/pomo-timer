@@ -1,25 +1,18 @@
-.relativeContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.skip {
+  cursor: pointer;
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  right: 1rem;
+  transform-origin: center;
 }
 
-.button {
-  background-color: #eee;
+.skip:hover {
+  transform: scale(1.1);
+}
 
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 0.25rem;
-  margin: 1rem;
-
-  border: 0px;
-  border-radius: 10%;
-  cursor: pointer;
+#line, #middle {
+  transition: all 1s ease;
 }
 
 .tooltipBase {
@@ -28,6 +21,7 @@
   margin: 0 auto;
   padding: 0.25em 0.5em;
   top: 4rem;
+  right: 0rem;
   background-color: black;
 
   border-radius: 5%;
@@ -50,8 +44,7 @@
 
 
 .tooltipText {
-  text-align: center;
-  font-size: 0.8rem;
+  cursor: default;
   margin: 0;
   color: white;
 }

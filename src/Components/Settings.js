@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Button from "./UI/Buttons/Button";
-import styles from "./SetTimer.module.css";
+import styles from "./Settings.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { timerActions } from "../store/timerReducer";
+import { timerActions } from "../Store/TimerReducer";
 
-const SetTimer = (props) => {
+const Settings = (props) => {
   const dispatch = useDispatch();
   const workMinutes = useSelector((state) => state.timer.workMinutes);
   const restMinutes = useSelector((state) => state.timer.restMinutes);
@@ -94,4 +94,4 @@ const SetTimer = (props) => {
   );
 };
 
-export default SetTimer;
+export default Settings;

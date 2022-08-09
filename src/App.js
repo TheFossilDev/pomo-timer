@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { themeActions } from "./store/themeReducer";
-import { timerActions } from "./store/timerReducer";
+import { themeActions } from "./Store/ThemeReducer";
+import { timerActions } from "./Store/TimerReducer";
 
 import Timer from "./Components/Timer";
 import ButtonTooltip from "./Components/UI/Buttons/ButtonTooltip";
 import Button from "./Components/UI/Buttons/Button";
-import SetTimer from "./Components/SetTimer";
+import Settings from "./Components/Settings";
 import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
 import ConfirmationBox from "./Components/ResetData/ConfirmationBox";
@@ -14,10 +14,10 @@ import ConfirmationBox from "./Components/ResetData/ConfirmationBox";
 import DarkMode from "./Components/Icons/DarkMode";
 import TrashCan from "./Components/Icons/TrashCan";
 import Gear from "./Components/Icons/Gear";
+import Help from "./Components/Icons/Help";
 import "./assets/PomoTimer.mp3";
 
 const App = () => {
-  // TODO: Add timer changing based on time
   const dispatch = useDispatch();
 
   const [isSetting, changeIsSetting] = useState(false);
@@ -36,6 +36,7 @@ const App = () => {
   const seconds = useSelector((state) => state.timer.seconds);
 
   const darkMode = useSelector((state) => state.theme.darkMode);
+  const helpMode = useSelector((state) => state.theme.helpMode);
 
   // Sync progress to localstorage on each update
   useEffect(() => {
@@ -114,23 +115,19 @@ const App = () => {
 
   return (
     <>
-      {isSetting && (
-        <Modal clickHandler={modalClickHandler}>
-          <SetTimer changeIsSetting={changeIsSetting} />
-        </Modal>
-      )}
-      {isConfirming && (
-        <ConfirmationBox
-          flipIsConfirming={flipIsConfirming}
-          onConfirming={onConfirming}
-        />
-      )}
-      {isSkipConfirming && (
-        <ConfirmationBox
-          flipIsConfirming={flipIsSkipConfirming}
-          onConfirming={handleSkipConfirm}
-        />
-      )}
+      <Modal clickHandler={modalClickHandler} in={isSetting}>
+        <Settings changeIsSetting={changeIsSetting} />
+      </Modal>
+      <ConfirmationBox
+        in={isConfirming}
+        flipIsConfirming={flipIsConfirming}
+        onConfirming={onConfirming}
+      />
+      <ConfirmationBox
+        in={isSkipConfirming}
+        flipIsConfirming={flipIsSkipConfirming}
+        onConfirming={handleSkipConfirm}
+      />
       <div
         className={`${styles["mainContainer"]} ${
           darkMode ? styles["dark"] : styles["light"]
@@ -144,24 +141,21 @@ const App = () => {
           >
             {headerLabel}
           </h3>
-          <Button
-            size={"medium"}
-            flex={true}
-            onClick={setHandler}
-          >
+          <Button size={"medium"} flex={true} onClick={() => dispatch(themeActions.flipHelpMode())}>
+            <Help />
+          </Button>
+          <Button size={"medium"} flex={true} onClick={setHandler}>
             <Gear />
           </Button>
           <ButtonTooltip
             size={"medium"}
             flex={true}
             onClick={flipIsConfirming}
-            toolTip={"Reset progress"}
+            in={helpMode}
           >
             <TrashCan />
           </ButtonTooltip>
-          <Button
-            onClick={darkModeClickHandler}
-          >
+          <Button onClick={darkModeClickHandler}>
             <DarkMode />
           </Button>
         </header>

@@ -1,3 +1,7 @@
+:root {
+  --duration: 600ms;
+}
+
 .modalContainer {
   position: fixed;
   top: 30%;
@@ -8,12 +12,52 @@
   padding: 0.1rem 0.75rem;
   background-color: white;
   border-radius: 10px;
+  transition: top var(--duration) ease-out;
+}
+
+.modalContainerentering {
+  top: 30%;
+}
+
+.modalContainerentered {
+  transition: top var(--duration) ease-in;
+  top: 30%;
+}
+
+.modalContainerexiting {
+  transition: top var(--duration) ease-in;
+  top: -50%;
+}
+.modalContainerexited {
+  top: -50%;
 }
 
 .modalBackground {
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: black;
+  transition: opacity var(--duration) ease-in;
+  opacity: 35%;
   width: 100%;
   height: 100vh;
   z-index: 99;
+}
+
+.modalBackgroundentering {
+  opacity: 35%;
+}
+
+.modalBackgroundentered {
+  transition: opacity var(--duration) ease-in;
+  opacity: 35%;
+
+}
+
+.modalBackgroundexiting {
+  transition: opacity var(--duration) ease-in;
+  opacity: 0;
+
+}
+.modalBackgroundexited {
+  opacity: 0;
+
 }
