@@ -5,6 +5,7 @@ import { timerActions } from "./store/timerReducer";
 
 import Timer from "./Components/Timer";
 import ButtonTooltip from "./Components/UI/Buttons/ButtonTooltip";
+import Button from "./Components/UI/Buttons/Button";
 import SetTimer from "./Components/SetTimer";
 import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
@@ -16,6 +17,7 @@ import Gear from "./Components/Icons/Gear";
 import "./assets/PomoTimer.mp3";
 
 const App = () => {
+  // TODO: Add timer changing based on time
   const dispatch = useDispatch();
 
   const [isSetting, changeIsSetting] = useState(false);
@@ -72,8 +74,6 @@ const App = () => {
 
   const onConfirming = () => {
     flipIsConfirming();
-    localStorage.clear();
-
     // Reset to defaults
     dispatch(timerActions.returnTimerToDefault());
   };
@@ -144,28 +144,26 @@ const App = () => {
           >
             {headerLabel}
           </h3>
-          <ButtonTooltip
+          <Button
             size={"medium"}
             flex={true}
             onClick={setHandler}
-            toolTip={"Change timer lengths"}
           >
             <Gear />
-          </ButtonTooltip>
+          </Button>
           <ButtonTooltip
             size={"medium"}
             flex={true}
             onClick={flipIsConfirming}
-            toolTip={"Reset your saved progress"}
+            toolTip={"Reset progress"}
           >
             <TrashCan />
           </ButtonTooltip>
-          <ButtonTooltip
-            toolTip={"Change between light mode and dark mode"}
+          <Button
             onClick={darkModeClickHandler}
           >
             <DarkMode />
-          </ButtonTooltip>
+          </Button>
         </header>
         <div
           className={`${styles["centerContainer"]} ${

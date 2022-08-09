@@ -43,12 +43,13 @@ const FastForward = (props) => {
     margin: 0 auto;
     padding: 0.25em 0.5em;
     top: 4rem;
-    left: 2rem;
+    left: -1rem;
     background-color: rgba(0, 0, 0, 0.85);
+    z-index: 101;
   
-    border-radius: 20%;
+    border-radius: 5%;
   
-    transition: opacity 500ms linear 500ms;
+    transition: opacity 100ms linear 500ms;
     opacity: 0;
   }
   

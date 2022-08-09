@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const Skip = (props) => {
@@ -29,12 +30,12 @@ const Skip = (props) => {
     margin: 0 auto;
     padding: 0.25em 0.5em;
     top: 4rem;
-    right: 2rem;
+    right: 0rem;
     background-color: rgba(0, 0, 0, 0.85);
   
-    border-radius: 20%;
+    border-radius: 5%;
   
-    transition: opacity 500ms linear 500ms;
+    transition: opacity 100ms linear 500ms;
     opacity: 0;
   }
   
