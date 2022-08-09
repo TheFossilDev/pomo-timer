@@ -2,8 +2,10 @@
 
 Pomodoro timer is a productivity tool based around the concepts of the pomodoro technique.
 
-## TODO:
+## FEATURE IDEAS:
 
-1. Add hover tooltips to buttons
-2. Add modal hover in / hover out animation
-3. Add fade in between sun / moon animation
+1. To-do list based on pomos spent on task
+
+## UI TODO:
+
+1. Add fade in between sun / moon animation

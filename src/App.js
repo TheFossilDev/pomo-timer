@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { themeActions } from "./Store/themeReducer";
-import { timerActions } from "./Store/timerReducer";
+import { themeActions } from "./store/themeReducer";
+import { timerActions } from "./store/timerReducer";
 
 import Timer from "./Components/Timer";
 import ButtonTooltip from "./Components/UI/Buttons/ButtonTooltip";

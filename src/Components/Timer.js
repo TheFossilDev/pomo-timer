@@ -2,7 +2,7 @@ import styles from "./Timer.module.css";
 import BigButton from "./UI/Buttons/BigButton";
 import useTimer from "../Hooks/useTimer";
 import { useDispatch, useSelector } from "react-redux";
-import { timerActions } from "../Store/timerReducer";
+import { timerActions } from "../store/timerReducer";
 import { useState, useEffect } from "react";
 import FastForward from "./Icons/FastForward";
 import Skip from "./Icons/Skip";
