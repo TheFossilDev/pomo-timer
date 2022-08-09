@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import useInterval from "./useInterval";
 
-import { timerActions } from "../store/timerReducer";
+import { timerActions } from "../Store/timerReducer";
 
 const useTimer = () => {
   const DEFAULT_DELAY = 1000;

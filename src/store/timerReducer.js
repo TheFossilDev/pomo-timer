@@ -38,20 +38,9 @@ const initialTimerState = {
   breakMinutes: fetchFromAppStorage("breakMinutes", 30),
   minutes: fetchFromAppStorage("minutes", 25),
   seconds: fetchFromAppStorage("seconds", 0),
-};
 
-// const initialTimerState = {
-//   timerType: "work",
-//   // Timer states: ready (not started), running, paused
-//   timerState: "ready",
-//   autoStart: false,
-//   pomosCompleted: 0,
-//   workMinutes: 1,
-//   restMinutes: 1,
-//   breakMinutes: 1,
-//   minutes: 1,
-//   seconds: 0,
-// };
+  timerLabel: "Pomo Timer"
+};
 
 const timerSlice = createSlice({
   name: "timer",
@@ -84,6 +73,7 @@ const timerSlice = createSlice({
 
     start(state) {
       state.timerState = "running";
+      state.timerLabel = "Timer Started!";
     },
 
     pause(state) {
@@ -125,9 +115,19 @@ const timerSlice = createSlice({
     },
 
     returnTimerToDefault(state) {
+      localStorage.setItem("timerType", "work");
+      localStorage.setItem("timerState", "ready");
+      localStorage.setItem("pomosCompleted", 0);
+      localStorage.setItem("workMinutes", 25);
+      localStorage.setItem("restMinutes", 5);
+      localStorage.setItem("breakMinutes", 30);
+      localStorage.setItem("minutes", 25);
+      localStorage.setItem("seconds", 0);
+
+
+
       state.timerType = "work";
       state.timerState = "ready";
-      state.autoStart = false;
       state.pomosCompleted = 0;
       state.workMinutes = 25;
       state.restMinutes = 5;
@@ -150,6 +150,9 @@ const timerSlice = createSlice({
         state.seconds--;
       }
     },
+    setTimerLabel(state) {
+      state.timerLabel = `${state.timerType === "work" ? "Work:" : "Break:"} ${state.minutes}:${state.seconds >= 10 ? state.seconds : `0${state.seconds}`}`;
+    }
   },
 });
 

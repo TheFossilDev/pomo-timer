@@ -10,7 +10,7 @@ img {
 .time {
   text-align: center;
   font-size: 10rem;
-  margin: 0.1em;
+  margin: 0.25em;
 
   transition: color 1s ease;
 }
