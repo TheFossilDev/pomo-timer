@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Button from "./UI/Buttons/Button";
-import styles from "./SetTimer.module.css";
+import styles from "./Settings.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { timerActions } from "../store/timerReducer";
 
-const SetTimer = (props) => {
+const Settings = (props) => {
   const dispatch = useDispatch();
   const workMinutes = useSelector((state) => state.timer.workMinutes);
   const restMinutes = useSelector((state) => state.timer.restMinutes);
@@ -13,12 +13,6 @@ const SetTimer = (props) => {
   const [workMinutesInput, setWorkMinutesInput] = useState(workMinutes);
   const [restMinutesInput, setRestMinutesInput] = useState(restMinutes);
   const [breakMinutesInput, setBreakMinutesInput] = useState(breakMinutes);
-
-  // useEffect(() => {
-  //   localStorage.setItem("workMinutes", workMinutes);
-  //   localStorage.setItem("restMinutes", restMinutes);
-  //   localStorage.setItem("breakMinutes", breakMinutes);
-  // }, [props.timerData.workMinutes, props.timerData.restMinutes, props.timerData.breakMinutes])
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -88,10 +82,12 @@ const SetTimer = (props) => {
         </div>
       </div>
       <footer>
-        <Button type="submit">Save</Button>
+        <Button type="submit" style={{
+          marginLeft: "auto"
+        }}>Save</Button>
       </footer>
     </form>
   );
 };
 
-export default SetTimer;
+export default Settings;
