@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "./UI/Buttons/Button";
 import styles from "./Settings.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { timerActions } from "../Store/timerReducer";
+import { timerActions } from "../store/timerReducer";
 
 const Settings = (props) => {
   const dispatch = useDispatch();
