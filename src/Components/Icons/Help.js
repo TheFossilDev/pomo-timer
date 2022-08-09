@@ -9,7 +9,7 @@ const css = `
   margin: "2px";
 }
 .helpIcon:hover {
-  transform: rotate(30deg);
+  transform: rotate(15deg);
 }
 `;
 

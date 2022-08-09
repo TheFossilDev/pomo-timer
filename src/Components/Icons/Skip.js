@@ -9,7 +9,7 @@ const Skip = (props) => {
   const helpMode = useSelector((state) => state.theme.helpMode);
   const autoStart = useSelector((state) => state.timer.autoStart);
 
-  const duration = 250;
+  const duration = 500;
   return (
     <>
       <svg

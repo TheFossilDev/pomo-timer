@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "./UI/Buttons/Button";
 import styles from "./Settings.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { timerActions } from "../Store/TimerReducer";
+import { timerActions } from "../Store/timerReducer";
 
 const Settings = (props) => {
   const dispatch = useDispatch();
@@ -13,12 +13,6 @@ const Settings = (props) => {
   const [workMinutesInput, setWorkMinutesInput] = useState(workMinutes);
   const [restMinutesInput, setRestMinutesInput] = useState(restMinutes);
   const [breakMinutesInput, setBreakMinutesInput] = useState(breakMinutes);
-
-  // useEffect(() => {
-  //   localStorage.setItem("workMinutes", workMinutes);
-  //   localStorage.setItem("restMinutes", restMinutes);
-  //   localStorage.setItem("breakMinutes", breakMinutes);
-  // }, [props.timerData.workMinutes, props.timerData.restMinutes, props.timerData.breakMinutes])
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -88,7 +82,9 @@ const Settings = (props) => {
         </div>
       </div>
       <footer>
-        <Button type="submit">Save</Button>
+        <Button type="submit" style={{
+          marginLeft: "auto"
+        }}>Save</Button>
       </footer>
     </form>
   );

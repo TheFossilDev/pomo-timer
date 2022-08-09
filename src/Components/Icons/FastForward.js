@@ -8,7 +8,7 @@ const FastForward = (props) => {
   const darkMode = useSelector((state) => state.theme.darkMode);
   const helpMode = useSelector((state) => state.theme.helpMode);
 
-  const duration = 250;
+  const duration = 500;
 
   return (
     <>
