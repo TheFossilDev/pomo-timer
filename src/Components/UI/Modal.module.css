@@ -24,6 +24,20 @@
   top: 30%;
 }
 
+@media only screen and (max-width: 600px)  {
+  .modalContainer {
+    display: block;
+    position: absolute;
+    transform: none;
+    left: 5%;
+    width: 90%;
+    margin: auto;
+  }
+  .modalContainerentered {
+    top: 8%;
+  }
+}
+
 .modalContainerexiting {
   transition: top var(--duration) ease-in;
   top: -50%;
