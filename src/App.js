@@ -15,6 +15,7 @@ import DarkMode from "./Components/Icons/DarkMode";
 import TrashCan from "./Components/Icons/TrashCan";
 import Gear from "./Components/Icons/Gear";
 import Help from "./Components/Icons/Help";
+import MobilePreview from "./Components/MobilePreview";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -87,9 +88,11 @@ const App = () => {
 
   return (
     <>
+      {window.innerWidth < 650 ? <MobilePreview /> : null}
       <Modal clickHandler={modalClickHandler} in={isSetting}>
         <Settings changeIsSetting={changeIsSetting} />
       </Modal>
+      
       <ConfirmationBox
         in={isConfirming}
         cancelConfirming={() => setIsConfirming(false)}
