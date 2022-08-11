@@ -2,20 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { themeActions } from "./store/themeReducer";
 import { timerActions } from "./store/timerReducer";
+import styles from "./App.module.css";
 
 import Timer from "./Components/Timer";
 import ButtonTooltip from "./Components/UI/Buttons/ButtonTooltip";
 import Button from "./Components/UI/Buttons/Button";
 import Settings from "./Components/Settings";
-import styles from "./App.module.css";
 import Modal from "./Components/UI/Modal";
-import ConfirmationBox from "./Components/ResetData/ConfirmationBox";
+import ConfirmationBox from "./Components/ResetData/ResetData";
 
 import DarkMode from "./Components/Icons/DarkMode";
 import TrashCan from "./Components/Icons/TrashCan";
 import Gear from "./Components/Icons/Gear";
 import Help from "./Components/Icons/Help";
-import "./assets/PomoTimer.mp3";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,64 +22,37 @@ const App = () => {
   const [isSetting, changeIsSetting] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSkipConfirming, setIsSkipConfirming] = useState(false);
-
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
+
+  // Timer slice
   const timerType = useSelector((state) => state.timer.timerType);
   const timerState = useSelector((state) => state.timer.timerState);
-  const autoStart = useSelector((state) => state.timer.autoStart);
   const pomosCompleted = useSelector((state) => state.timer.pomosCompleted);
-  const workMinutes = useSelector((state) => state.timer.workMinutes);
-  const restMinutes = useSelector((state) => state.timer.restMinutes);
-  const breakMinutes = useSelector((state) => state.timer.breakMinutes);
   const minutes = useSelector((state) => state.timer.minutes);
   const seconds = useSelector((state) => state.timer.seconds);
 
+  // Theme slice
   const darkMode = useSelector((state) => state.theme.darkMode);
   const helpMode = useSelector((state) => state.theme.helpMode);
 
   // Sync progress to localstorage on each update
   useEffect(() => {
-    localStorage.setItem("timerType", timerType);
-    localStorage.setItem("timerState", timerState);
-    localStorage.setItem("autoStart", autoStart);
-    localStorage.setItem("pomosCompleted", pomosCompleted);
-    localStorage.setItem("workMinutes", workMinutes);
-    localStorage.setItem("restMinutes", restMinutes);
-    localStorage.setItem("breakMinutes", breakMinutes);
     localStorage.setItem("minutes", minutes);
     localStorage.setItem("seconds", seconds);
-  }, [
-    timerType,
-    timerState,
-    autoStart,
-    pomosCompleted,
-    workMinutes,
-    restMinutes,
-    breakMinutes,
-    minutes,
-    seconds,
-  ]);
+  }, [minutes, seconds]);
 
   const setHandler = () => {
     changeIsSetting(!isSetting);
   };
 
-  const flipIsConfirming = () => {
-    setIsConfirming(!isConfirming);
-  };
-
-  const flipIsSkipConfirming = () => {
-    setIsSkipConfirming(!isSkipConfirming);
-  };
-
   const onConfirming = () => {
-    flipIsConfirming();
+    setIsConfirming(false);
     // Reset to defaults
     dispatch(timerActions.returnTimerToDefault());
   };
 
   const handleSkipConfirm = () => {
-    flipIsSkipConfirming();
+    setIsSkipConfirming(false);
     dispatch(timerActions.skip());
   };
 
@@ -120,12 +92,12 @@ const App = () => {
       </Modal>
       <ConfirmationBox
         in={isConfirming}
-        flipIsConfirming={flipIsConfirming}
+        cancelConfirming={() => setIsConfirming(false)}
         onConfirming={onConfirming}
       />
       <ConfirmationBox
         in={isSkipConfirming}
-        flipIsConfirming={flipIsSkipConfirming}
+        cancelConfirming={() => setIsSkipConfirming(false)}
         onConfirming={handleSkipConfirm}
       />
       <div
@@ -150,7 +122,7 @@ const App = () => {
           <ButtonTooltip
             size={"medium"}
             flex={true}
-            onClick={flipIsConfirming}
+            onClick={() => setIsConfirming(true)}
             in={helpMode}
           >
             <TrashCan />
@@ -167,8 +139,8 @@ const App = () => {
           <Timer
             changeIsSetting={changeIsSetting}
             isSetting={isSetting}
-            flipIsConfirming={flipIsConfirming}
-            flipIsSkipConfirming={flipIsSkipConfirming}
+            flipIsConfirming={() => setIsConfirming(true)}
+            setIsSkipConfirming={setIsSkipConfirming}
           />
         </div>
       </div>

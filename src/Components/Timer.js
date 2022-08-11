@@ -4,8 +4,8 @@ import useTimer from "../hooks/useTimer";
 import { useDispatch, useSelector } from "react-redux";
 import { timerActions } from "../store/timerReducer";
 import { useState, useEffect } from "react";
-import FastForward from "./Icons/FastForward";
-import Skip from "./Icons/Skip";
+import FastForward from "./UI/Buttons/FastForward";
+import Skip from "./UI/Buttons/Skip";
 
 import clickSound from '../assets/click.mp3';
 import shallowClickSound from '../assets/shallowClick.mp3';
@@ -86,7 +86,7 @@ const Timer = (props) => {
   };
 
   const skipHandler = () => {
-    props.flipIsSkipConfirming();
+    props.setIsSkipConfirming(true);
     if (timerState === "running") dispatch(timerActions.pause());
   };
 

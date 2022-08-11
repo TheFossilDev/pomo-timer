@@ -1,14 +1,14 @@
 import React from "react";
 import Modal from "../UI/Modal";
 import Button from "../UI/Buttons/Button";
-import styles from "./ConfirmationBox.module.css";
+import styles from "./ResetData.module.css";
 
-const ConfirmationBox = (props) => {
+const ResetData = (props) => {
   return (
-    <Modal clickHandler={props.flipIsConfirming} in={props.in}>
+    <Modal clickHandler={props.cancelConfirming} in={props.in}>
       <h3>Do you want to reset your saved timer durations and progress?</h3>
       <div className={styles["buttonsContainer"]}>
-        <Button flex={true} onClick={props.flipIsConfirming}>
+        <Button flex={true} onClick={props.cancelConfirming}>
           No
         </Button>
         <Button flex={true} onClick={props.onConfirming}>
@@ -19,4 +19,4 @@ const ConfirmationBox = (props) => {
   );
 };
 
-export default ConfirmationBox;
+export default ResetData;
