@@ -1,15 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import PomoSound from "../assets/PomoTimer.mp3";
+import timerChime from "../assets/timerChime.mp3";
 
 const fetchFromAppStorage = (key, backupValue) => {
-  const value = localStorage.getItem(key);
-  if (value !== null && value !== undefined) {
-    return +value;
-  } else {
-    return backupValue;
-  }
-};
-const fetchStringFromAppStorage = (key, backupValue) => {
   const value = localStorage.getItem(key);
   if (value !== null && value !== undefined) {
     return value;
@@ -17,29 +9,20 @@ const fetchStringFromAppStorage = (key, backupValue) => {
     return backupValue;
   }
 };
-const fetchAutoStartData = (backupValue) => {
-  const value = localStorage.getItem("autoStart");
-  if (value !== null && value !== undefined) {
-    return value === "true";
-  } else {
-    return backupValue;
-  }
-};
 
-// Localstorage enabled
 const initialTimerState = {
-  timerType: fetchStringFromAppStorage("timerType", "work"),
+  timerType: fetchFromAppStorage("timerType", "work"),
   // Timer states: ready (not started), running, paused
-  timerState: fetchStringFromAppStorage("timerState", "ready"),
-  autoStart: fetchAutoStartData(false),
-  pomosCompleted: fetchFromAppStorage("pomosCompleted", 0),
-  workMinutes: fetchFromAppStorage("workMinutes", 25),
-  restMinutes: fetchFromAppStorage("restMinutes", 5),
-  breakMinutes: fetchFromAppStorage("breakMinutes", 30),
-  minutes: fetchFromAppStorage("minutes", 25),
-  seconds: fetchFromAppStorage("seconds", 0),
+  timerState: fetchFromAppStorage("timerState", "ready"),
+  autoStart: fetchFromAppStorage("autoStart", false) === "true",
+  pomosCompleted: +fetchFromAppStorage("pomosCompleted", 0),
+  workMinutes: +fetchFromAppStorage("workMinutes", 25),
+  restMinutes: +fetchFromAppStorage("restMinutes", 5),
+  breakMinutes: +fetchFromAppStorage("breakMinutes", 30),
+  minutes: +fetchFromAppStorage("minutes", 25),
+  seconds: +fetchFromAppStorage("seconds", 0),
 
-  timerLabel: "Pomo Timer"
+  timerLabel: "Pomo Timer",
 };
 
 const timerSlice = createSlice({
@@ -72,15 +55,18 @@ const timerSlice = createSlice({
     },
 
     start(state) {
+      localStorage.setItem("timerState", "running");
       state.timerState = "running";
       state.timerLabel = "Timer Started!";
     },
 
     pause(state) {
+      localStorage.setItem("timerState", "paused");
       state.timerState = "paused";
     },
 
     resume(state) {
+      localStorage.setItem("timerState", "running");
       state.timerState = "running";
     },
 
@@ -89,6 +75,7 @@ const timerSlice = createSlice({
     },
 
     flipAutoStart(state) {
+      localStorage.setItem("autoStart", !state.autoStart);
       state.autoStart = !state.autoStart;
     },
 
@@ -124,8 +111,6 @@ const timerSlice = createSlice({
       localStorage.setItem("minutes", 25);
       localStorage.setItem("seconds", 0);
 
-
-
       state.timerType = "work";
       state.timerState = "ready";
       state.pomosCompleted = 0;
@@ -139,7 +124,7 @@ const timerSlice = createSlice({
     awareDecrease(state) {
       if (state.seconds - 1 < 0) {
         if (state.minutes - 1 < 0) {
-          const audio = new Audio(PomoSound);
+          const audio = new Audio(timerChime);
           audio.play();
           timerSlice.caseReducers.advanceTimer(state);
         } else {
@@ -151,8 +136,10 @@ const timerSlice = createSlice({
       }
     },
     setTimerLabel(state) {
-      state.timerLabel = `${state.timerType === "work" ? "Work:" : "Break:"} ${state.minutes}:${state.seconds >= 10 ? state.seconds : `0${state.seconds}`}`;
-    }
+      state.timerLabel = `${state.timerType === "work" ? "Work:" : "Break:"} ${
+        state.minutes
+      }:${state.seconds >= 10 ? state.seconds : `0${state.seconds}`}`;
+    },
   },
 });
 
