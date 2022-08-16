@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  position: relative;
+  margin-top: auto;
+  flex: 0 0 4rem;
+
+  justify-content: center;
+  align-items: center;
+
+  border-top: 2px lightgray solid;
+}
+
+.label {
+  position: absolute;
+  left: 24%;
+}
+
+.close {
+  position: absolute;
+  right: 2%;
+  cursor: pointer;
+}
+
+.add {
+  cursor: pointer;
+}

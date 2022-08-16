@@ -16,6 +16,17 @@ import TrashCan from "./Components/Icons/TrashCan";
 import Gear from "./Components/Icons/Gear";
 import Help from "./Components/Icons/Help";
 import MobilePreview from "./Components/MobilePreview";
+import TaskPanel from "./Components/Tasks/TaskPanel";
+import CloseCircle from "./Components/Icons/CloseCircle";
+
+const localStorageGetter = (key, backup) => {
+  const value = localStorage.getItem(key);
+  if (value === null || value === undefined) {
+    return backup;
+  } else {
+    return value;
+  }
+};
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,6 +34,9 @@ const App = () => {
   const [isSetting, changeIsSetting] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSkipConfirming, setIsSkipConfirming] = useState(false);
+  const [isTasksOpen, setIsTasksOpen] = useState(
+    localStorageGetter("TasksOpen", false) === "true"
+  );
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
 
   // Timer slice
@@ -92,7 +106,7 @@ const App = () => {
       <Modal clickHandler={modalClickHandler} in={isSetting}>
         <Settings changeIsSetting={changeIsSetting} />
       </Modal>
-      
+
       <ConfirmationBox
         in={isConfirming}
         cancelConfirming={() => setIsConfirming(false)}
@@ -103,37 +117,41 @@ const App = () => {
         cancelConfirming={() => setIsSkipConfirming(false)}
         onConfirming={handleSkipConfirm}
       />
+      <header className={styles.mainHeader}>
+        <h3
+          className={`${styles.title} ${
+            darkMode ? styles["dark"] : styles["light"]
+          }`}
+        >
+          {headerLabel}
+        </h3>
+        <Button
+          size={"medium"}
+          flex={true}
+          onClick={() => dispatch(themeActions.flipHelpMode())}
+        >
+          <Help />
+        </Button>
+        <Button size={"medium"} flex={true} onClick={setHandler}>
+          <Gear />
+        </Button>
+        <ButtonTooltip
+          size={"medium"}
+          flex={true}
+          onClick={() => setIsConfirming(true)}
+          in={helpMode}
+        >
+          <TrashCan />
+        </ButtonTooltip>
+        <Button onClick={darkModeClickHandler}>
+          <DarkMode />
+        </Button>
+      </header>
       <div
         className={`${styles["mainContainer"]} ${
           darkMode ? styles["dark"] : styles["light"]
         }`}
       >
-        <header className={styles.mainHeader}>
-          <h3
-            className={`${styles.title} ${
-              darkMode ? styles["dark"] : styles["light"]
-            }`}
-          >
-            {headerLabel}
-          </h3>
-          <Button size={"medium"} flex={true} onClick={() => dispatch(themeActions.flipHelpMode())}>
-            <Help />
-          </Button>
-          <Button size={"medium"} flex={true} onClick={setHandler}>
-            <Gear />
-          </Button>
-          <ButtonTooltip
-            size={"medium"}
-            flex={true}
-            onClick={() => setIsConfirming(true)}
-            in={helpMode}
-          >
-            <TrashCan />
-          </ButtonTooltip>
-          <Button onClick={darkModeClickHandler}>
-            <DarkMode />
-          </Button>
-        </header>
         <div
           className={`${styles["centerContainer"]} ${
             darkMode ? styles["dark"] : styles["light"]
@@ -145,7 +163,17 @@ const App = () => {
             flipIsConfirming={() => setIsConfirming(true)}
             setIsSkipConfirming={setIsSkipConfirming}
           />
+          <CloseCircle
+            className={`${styles["expandButton"]} ${
+              isTasksOpen ? styles["expandButtonOpen"] : ""
+            }`}
+            onClick={() => {
+              localStorage.setItem("TasksOpen", !isTasksOpen);
+              setIsTasksOpen((prevState) => !prevState);
+            }}
+          />
         </div>
+        {isTasksOpen ? <TaskPanel /> : null}
       </div>
     </>
   );

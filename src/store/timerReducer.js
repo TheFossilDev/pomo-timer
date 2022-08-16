@@ -23,6 +23,7 @@ const initialTimerState = {
   seconds: +fetchFromAppStorage("seconds", 0),
 
   timerLabel: "Pomo Timer",
+  spaceEnable: true,
 };
 
 const timerSlice = createSlice({
@@ -140,6 +141,10 @@ const timerSlice = createSlice({
         state.minutes
       }:${state.seconds >= 10 ? state.seconds : `0${state.seconds}`}`;
     },
+
+    flipSpaceEnable(state) {
+      state.spaceEnable = !state.spaceEnable;
+    }
   },
 });
 

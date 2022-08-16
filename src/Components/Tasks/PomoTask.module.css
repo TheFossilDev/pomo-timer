@@ -1,0 +1,32 @@
+.PomoTask {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5px 0;
+  height: var(--taskHeight);
+
+  transition: opacity 250ms ease;
+}
+
+.PomoTaskentered {
+  opacity: 1;
+}
+
+.PomoTaskexiting {
+  opacity: 0;
+}
+.PomoTaskexited {
+  opacity: 0;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.finished {
+  cursor: pointer;
+}
+
+.duration {
+  margin-left: auto;
+}

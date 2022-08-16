@@ -20,9 +20,12 @@ const Timer = (props) => {
   const minutes = useSelector((state) => state.timer.minutes);
   const timerState = useSelector((state) => state.timer.timerState);
   const timerLabel = useSelector((state) => state.timer.timerLabel);
+  const spaceEnable = useSelector((state) => state.timer.spaceEnable);
 
+    
+  
   const darkMode = useSelector((state) => state.theme.darkMode);
-
+  
   useTimer();
 
   const [bigLabel, setBigLabel] = useState();

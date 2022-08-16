@@ -2,6 +2,10 @@
   --lavender: #AAAAFF;
   --darkerBlack: #0d1117;
   --lighterBlack: #161b22;
+
+  --panelMargin: 10px;
+  --basicBoxShadow: 0px 15px 13px 12px rgba(0, 0, 0, 0.1);
+  --cardRadius: 10%;
 }
 
 * {

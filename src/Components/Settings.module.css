@@ -1,4 +1,4 @@
-input {
+.input {
   width: 100%;
   display: flex;
   background-color: #eee;
@@ -7,7 +7,7 @@ input {
   padding: 0.5em;
   font-weight: bold;
 }
-label {
+.label {
   font-weight: bold;
   display: block;
   font-size: 0.75em;

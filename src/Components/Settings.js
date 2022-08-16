@@ -51,9 +51,10 @@ const Settings = (props) => {
       </header>
       <div className={styles.setTimerBody}>
         <div className={styles.inputContainer}>
-          <label>Work: </label>
+          <label className={styles.label}>Work: </label>
           <input
             type="number"
+            className={styles.input}
             min={1}
             max={99}
             onChange={workChangeHandler}
@@ -61,9 +62,10 @@ const Settings = (props) => {
           />
         </div>
         <div className={styles.inputContainer}>
-          <label>Short break: </label>
+          <label className={styles.label}>Short break: </label>
           <input
             type="number"
+            className={styles.input}
             min={1}
             max={99}
             onChange={restChangeHandler}
@@ -71,9 +73,10 @@ const Settings = (props) => {
           />
         </div>
         <div className={styles.inputContainer}>
-          <label>Long break: </label>
+          <label className={styles.label}>Long break: </label>
           <input
             type="number"
+            className={styles.input}
             min={1}
             max={99}
             onChange={breakChangeHandler}

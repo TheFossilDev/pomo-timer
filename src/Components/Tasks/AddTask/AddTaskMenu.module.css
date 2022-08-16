@@ -1,0 +1,40 @@
+.container {
+  justify-self: flex-end;
+  margin-bottom: 1.5em;
+}
+
+.firstLine {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  flex: 1 1 10em;
+  background-color: #eee;
+  border: 0;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-weight: bold;
+}
+
+.size {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 3em;
+
+  background-color: #eee;
+  border: 0;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-weight: bold;
+}
+
+.description {
+  width: 100%;
+  background-color: #eee;
+  border: 0;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-weight: bold;
+}
