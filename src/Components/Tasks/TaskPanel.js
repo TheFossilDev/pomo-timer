@@ -56,9 +56,11 @@ const TaskPanel = (props) => {
 
   return (
     <div className={styles.taskPanelContainer}>
-      <div className={styles.taskList}>
+      <div className={styles.headerContainer}>
         <PrimaryTaskBin />
         <h2 className={styles.header}>Tasks</h2>
+      </div>
+      <div className={styles.taskList}>
         {taskList.map((task) => (
           <PomoTask key={task.id} id={task.id} task={task} removeTask={removeTask} />
         ))}

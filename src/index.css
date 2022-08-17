@@ -6,6 +6,7 @@
   --panelMargin: 10px;
   --basicBoxShadow: 0px 15px 13px 12px rgba(0, 0, 0, 0.1);
   --cardRadius: 10%;
+  --rangleRadius: 10px;
 }
 
 * {

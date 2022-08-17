@@ -21,7 +21,8 @@
   flex-direction: column;
   justify-content: flex-start;
 
-  overflow: scroll;
+  overflow: auto;
+  margin-bottom: auto;
 }
 
 .emptyList {

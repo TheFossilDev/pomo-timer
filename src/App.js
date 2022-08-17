@@ -117,7 +117,12 @@ const App = () => {
         cancelConfirming={() => setIsSkipConfirming(false)}
         onConfirming={handleSkipConfirm}
       />
-      <header className={styles.mainHeader}>
+      <div
+        className={`${styles["mainContainer"]} ${
+          darkMode ? styles["dark"] : styles["light"]
+        }`}
+      >
+        <header className={styles.mainHeader}>
         <h3
           className={`${styles.title} ${
             darkMode ? styles["dark"] : styles["light"]
@@ -147,11 +152,7 @@ const App = () => {
           <DarkMode />
         </Button>
       </header>
-      <div
-        className={`${styles["mainContainer"]} ${
-          darkMode ? styles["dark"] : styles["light"]
-        }`}
-      >
+      <div className={styles.blocksContainer}>
         <div
           className={`${styles["centerContainer"]} ${
             darkMode ? styles["dark"] : styles["light"]
@@ -174,6 +175,7 @@ const App = () => {
           />
         </div>
         {isTasksOpen ? <TaskPanel /> : null}
+      </div>
       </div>
     </>
   );

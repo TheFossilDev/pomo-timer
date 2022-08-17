@@ -4,8 +4,18 @@
   align-items: center;
   margin: 5px 0;
   height: var(--taskHeight);
+  border-color: lightgray;
+  border-radius: var(--rangleRadius);
+  border-width: 1px;
+  border-style: solid;
+  background-color: rgba(200, 200, 200, 0.1);
 
   transition: opacity 250ms ease;
+}
+
+.taskIcon {
+  transform-origin: center;
+  transform: scale(0.8);
 }
 
 .PomoTaskentered {

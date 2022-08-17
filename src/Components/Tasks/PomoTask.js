@@ -4,6 +4,8 @@ import styles from "./PomoTask.module.css";
 import UncheckCircle from "../Icons/UncheckCircle";
 import CheckCircle from "../Icons/CheckCircle";
 import { Transition } from "react-transition-group";
+import EditButton from "../Icons/EditButton";
+import SelectSquareBox from "../Icons/SelectSquareBox";
 
 const PomoTask = (props) => {
   const [clicked, setClicked] = useState(false);
@@ -19,7 +21,7 @@ const PomoTask = (props) => {
   return (
     <Transition in={!clicked} timeout={250} onExited={onExit}>
       {(state) => (
-        <div className={`${styles["PomoTask"]} ${clicked ? styles[`PomoTask${state}`] : null} ${styles["active"]}`}>
+        <div className={`${styles["PomoTask"]} ${clicked ? styles[`PomoTask${state}`] : null}`}>
           {clicked ? <CheckCircle 
           className={styles.finished}
           /> :
@@ -29,6 +31,8 @@ const PomoTask = (props) => {
           />}
           <p className={styles.name}>{props.task.name}</p>
           <p className={styles.duration}>{props.task.size}</p>
+          <EditButton className={styles.taskIcon} />
+          <SelectSquareBox className={styles.taskIcon}/>
         </div>
       )}
     </Transition>
