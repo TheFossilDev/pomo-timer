@@ -35,6 +35,7 @@ const TaskPanel = (props) => {
   const addTask = () => {
     let task = inputData;
     task.id = crypto.randomUUID();
+    task.subTasks = []
     setTaskList((taskList) => {
       localStorage.setItem("Tasks", JSON.stringify([...taskList, task]));
       return [...taskList, task];
@@ -43,7 +44,7 @@ const TaskPanel = (props) => {
       name: "",
       size: "",
       description: "",
-    })
+    });
   };
 
   const removeTask = (id) => {

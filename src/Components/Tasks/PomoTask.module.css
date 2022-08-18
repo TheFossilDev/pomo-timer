@@ -1,16 +1,40 @@
 .PomoTask {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   margin: 5px 0;
-  height: var(--taskHeight);
+  min-height: var(--taskHeight);
   border-color: lightgray;
   border-radius: var(--rangleRadius);
   border-width: 1px;
   border-style: solid;
   background-color: rgba(200, 200, 200, 0.1);
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
   transition: opacity 250ms ease;
+}
+
+.minimizedLine {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.expandMenu {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.halfBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexDesc {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .taskIcon {
