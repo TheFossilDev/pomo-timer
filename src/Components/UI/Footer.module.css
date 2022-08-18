@@ -1,0 +1,32 @@
+.footer {
+  display: flex;
+  max-width: 50%;
+  margin: 0 auto;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10rem;
+}
+
+.text {
+  color: black;
+}
+
+.textWhite {
+  color: white;
+}
+
+.coffeeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coffee {
+  height: 1em;
+  width: 1em;
+  stroke: black;
+}
+
+.darkFill {
+  fill: white;
+}
