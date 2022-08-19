@@ -16,6 +16,7 @@ import TrashCan from "./Components/Icons/TrashCan";
 import Gear from "./Components/Icons/Gear";
 import Help from "./Components/Icons/Help";
 import MobilePreview from "./Components/MobilePreview";
+import Footer from "./Components/UI/Footer";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -146,6 +147,9 @@ const App = () => {
             setIsSkipConfirming={setIsSkipConfirming}
           />
         </div>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     </>
   );
