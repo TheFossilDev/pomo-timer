@@ -19,6 +19,7 @@ const Footer = (props) => {
           <a
             href="https://www.buymeacoffee.com/fossil"
             target="_blank"
+            rel="noopener"
             className={styles.textWhite}
           >
             Buy me a
@@ -27,6 +28,7 @@ const Footer = (props) => {
           <a
             href="https://www.buymeacoffee.com/fossil"
             target="_blank"
+            rel="noopener"
             className={styles.text}
           >
             Buy me a
