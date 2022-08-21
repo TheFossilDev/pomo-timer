@@ -6,8 +6,6 @@ import CheckCircle from "../Icons/CheckCircle";
 import { Transition } from "react-transition-group";
 import EditButton from "../Icons/EditButton";
 import SelectSquareBox from "../Icons/SelectSquareBox";
-import SubTask from "./SubTask";
-import AddCircle from "../Icons/AddCircle";
 
 const PomoTask = (props) => {
   const [clicked, setClicked] = useState(false);
@@ -41,12 +39,6 @@ const PomoTask = (props) => {
             <div className={styles.halfBox}>
               <h4>Desc:</h4>
               <input className={styles.flexDesc} value={props.task.description}></input>
-            </div>
-            <div>
-              <span><h4>Sub-tasks:</h4><AddCircle /></span>
-              {props.task.subTasks.map((subTask) => (
-                <SubTask subTask={subTask} />
-              ))}
             </div>
           </div>
         </div>
