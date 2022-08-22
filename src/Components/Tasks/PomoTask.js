@@ -4,8 +4,7 @@ import styles from "./PomoTask.module.css";
 import UncheckCircle from "../Icons/UncheckCircle";
 import CheckCircle from "../Icons/CheckCircle";
 import { Transition } from "react-transition-group";
-import EditButton from "../Icons/EditButton";
-import SelectSquareBox from "../Icons/SelectSquareBox";
+import { FaPencilAlt, FaPlusSquare } from "react-icons/fa"
 
 const PomoTask = (props) => {
   const [clicked, setClicked] = useState(false);
@@ -32,8 +31,8 @@ const PomoTask = (props) => {
             />}
             <p className={styles.name}>{props.task.name}</p>
             <p className={styles.duration}>{props.task.size}</p>
-            <EditButton className={styles.taskIcon} />
-            <SelectSquareBox className={styles.taskIcon}/>
+            <FaPencilAlt className="h-8 w-8 m-2 cursor-pointer" onClick={console.log('Editing')} />
+            <FaPlusSquare className="h-8 w-8 m-2 cursor-pointer" onClick={console.log('Selecting')}/>
           </div>
           <div className={styles.expandMenu}>
             <div className={styles.halfBox}>

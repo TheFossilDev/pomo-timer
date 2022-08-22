@@ -37,11 +37,6 @@
   flex-shrink: 1;
 }
 
-.taskIcon {
-  transform-origin: center;
-  transform: scale(0.8);
-}
-
 .PomoTaskentered {
   opacity: 1;
 }

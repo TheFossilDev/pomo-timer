@@ -1,16 +1,13 @@
 import React from 'react';
-import AddCircle from '../../Icons/AddCircle';
-import styles from "./AddTaskButton.module.css";
 
-import CloseCircle from "../../Icons/CloseCircle";
-
+import { FaPlusCircle, FaCaretDown } from "react-icons/fa"
 
 const AddTaskButton = props => {
   return (
-    <div className={styles.container}>
-      <h3 className={styles.label}>Add task: </h3>
-      <AddCircle className={styles.add} onClick={props.onClick} />
-      {props.addPanelOpen ? <CloseCircle className={styles.close} onClick={() => props.setAddPanelOpen(false)}/> : null}
+    <div className="flexrc h-16 relative border-gray-300 border-solid border-t-2">
+      <h3 className="absolute left-28 font-bold">Add task: </h3>
+      <FaPlusCircle className="w-10 h-10 flex cursor-pointer" onClick={props.onClick}/>
+      {props.addPanelOpen ? <FaCaretDown className={"absolute w-10 h-10 right-5 cursor-pointer"} onClick={() => props.setAddPanelOpen(false)}/> : null}
     </div>
   );
 };

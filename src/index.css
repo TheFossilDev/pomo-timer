@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+
+  .flexrc {
+    @apply flex justify-center items-center;
+  }
+  .flexcc {
+    @apply flex flex-col justify-center items-center;
+  }
+}
+
 :root {
   --lavender: #AAAAFF;
   --darkerBlack: #0d1117;
