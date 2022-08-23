@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+// import { fireBaseApp, fireBaseAnalytics } from "./FireBaseConnector";
 import { useSelector, useDispatch } from "react-redux";
 import { themeActions } from "./store/themeReducer";
 import { timerActions } from "./store/timerReducer";
+import ReactGA from "react-ga"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import styles from "./App.module.css";
 
 import Timer from "./Components/Timer";
@@ -18,6 +21,40 @@ import Help from "./Components/Icons/Help";
 import MobilePreview from "./Components/MobilePreview";
 import TaskPanel from "./Components/Tasks/TaskPanel";
 import CloseCircle from "./Components/Icons/CloseCircle";
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics, logEvent } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCwVLTwfIApxbzpbEg0-fVdSsu8p-gCcXk",
+  authDomain: "pomodorio-backend.firebaseapp.com",
+  projectId: "pomodorio-backend",
+  storageBucket: "pomodorio-backend.appspot.com",
+  messagingSenderId: "827293182697",
+  appId: "1:827293182697:web:a74697815d297eb4cdde78",
+  measurementId: "G-5JQT4THY4T"
+};
+
+// Initialize Firebase
+const fireBaseApp = initializeApp(firebaseConfig);
+const fireBaseAnalytics = getAnalytics(fireBaseApp);
+
+const auth = getAuth();
+async function login() {
+  const uEmail = "";
+  const pwd = "";
+  const user = (await signInWithEmailAndPassword(auth, uEmail, pwd)).user;
+  console.log(user);
+};
+
+
+ReactGA.initialize('G-5JQT4THY4T');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 const localStorageGetter = (key, backup) => {
   const value = localStorage.getItem(key);
@@ -70,6 +107,10 @@ const App = () => {
     setIsSkipConfirming(false);
     dispatch(timerActions.skip());
   };
+  
+  async function test() {
+    logEvent(fireBaseAnalytics, "Timer Action", { type: "skip confirmed" });
+  }
 
   const modalClickHandler = () => {
     changeIsSetting(false);
@@ -137,6 +178,7 @@ const App = () => {
         >
           <Help />
         </Button>
+        <button onClick={test}>Test</button>
         <Button size={"medium"} flex={true} onClick={setHandler}>
           <Gear />
         </Button>
@@ -151,6 +193,7 @@ const App = () => {
         <Button onClick={darkModeClickHandler}>
           <DarkMode />
         </Button>
+        <Button onClick={login}>Login</Button>
       </header>
       <div className={styles.blocksContainer}>
         <div
