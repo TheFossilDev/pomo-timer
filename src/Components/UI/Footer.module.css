@@ -24,7 +24,7 @@
 .coffee {
   height: 1em;
   width: 1em;
-  stroke: black;
+  fill: black;
 }
 
 .darkFill {
