@@ -17,7 +17,7 @@ import Gear from "./Components/Icons/Gear";
 import Help from "./Components/Icons/Help";
 import MobilePreview from "./Components/MobilePreview";
 import TaskPanel from "./Components/Tasks/TaskPanel";
-import CloseCircle from "./Components/Icons/CloseCircle";
+import { FaCaretLeft } from "react-icons/fa";
 
 const localStorageGetter = (key, backup) => {
   const value = localStorage.getItem(key);
@@ -164,7 +164,7 @@ const App = () => {
             flipIsConfirming={() => setIsConfirming(true)}
             setIsSkipConfirming={setIsSkipConfirming}
           />
-          <CloseCircle
+          <FaCaretLeft
             className={`${styles["expandButton"]} ${
               isTasksOpen ? styles["expandButtonOpen"] : ""
             }`}

@@ -16,6 +16,8 @@ const getTasksFromLocalstorage = () => {
 };
 
 const TaskPanel = (props) => {
+  const TASK_HEIGHT = 16;
+
   const [taskList, setTaskList] = useState(getTasksFromLocalstorage());
   let [inputData, setInputData] = useState({
     name: "",
@@ -58,12 +60,12 @@ const TaskPanel = (props) => {
   return (
     <div className={styles.taskPanelContainer}>
       <div className={styles.headerContainer}>
-        <PrimaryTaskBin />
+        <PrimaryTaskBin height={TASK_HEIGHT} />
         <h2 className={styles.header}>Tasks</h2>
       </div>
       <div className={styles.taskList}>
         {taskList.map((task) => (
-          <PomoTask key={task.id} id={task.id} task={task} removeTask={removeTask} />
+          <PomoTask key={task.id} id={task.id} task={task} height={TASK_HEIGHT} removeTask={removeTask} />
         ))}
         {taskList.length === 0 ? <p className={styles.emptyList}>No tasks yet</p> : null}
       </div>

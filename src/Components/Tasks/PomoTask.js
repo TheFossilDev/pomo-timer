@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import styles from "./PomoTask.module.css";
 
-import UncheckCircle from "../Icons/UncheckCircle";
-import CheckCircle from "../Icons/CheckCircle";
+import { BsCircle, BsCheckCircle, BsAlarmFill } from "react-icons/bs";
 import { Transition } from "react-transition-group";
 import { FaPencilAlt, FaPlusSquare } from "react-icons/fa"
+import TextInput from "../UI/TextInput";
 
 const PomoTask = (props) => {
   const [clicked, setClicked] = useState(false);
@@ -20,24 +19,28 @@ const PomoTask = (props) => {
   return (
     <Transition in={!clicked} timeout={250} onExited={onExit}>
       {(state) => (
-        <div className={`${styles["PomoTask"]} ${clicked ? styles[`PomoTask${state}`] : null}`}>
-          <div className={styles.minimizedLine}>
-            {clicked ? <CheckCircle 
-            className={styles.finished}
+        <div className={`flex min-h-${props.height} flex-col bg-gray-100 rounded-xl`}>
+          <div className="flex items-center">
+            {clicked ? <BsCheckCircle 
+            className="h-8 w-8 m-2 cursor-pointer"
             /> :
-            <UncheckCircle
-              className={styles.finished}
+            <BsCircle
+              className="h-8 w-8 m-2 cursor-pointer"
               onClick={clickHandler}
             />}
-            <p className={styles.name}>{props.task.name}</p>
-            <p className={styles.duration}>{props.task.size}</p>
+            <p className="">{props.task.name}</p>
+            <p className="ml-auto">{props.task.size}</p>
             <FaPencilAlt className="h-8 w-8 m-2 cursor-pointer" onClick={console.log('Editing')} />
             <FaPlusSquare className="h-8 w-8 m-2 cursor-pointer" onClick={console.log('Selecting')}/>
           </div>
-          <div className={styles.expandMenu}>
-            <div className={styles.halfBox}>
+          <div className="flex justify-evenly">
+            <div className="flex flex-col">
               <h4>Desc:</h4>
-              <input className={styles.flexDesc} value={props.task.description}></input>
+              <TextInput className="" value={props.task.description}></TextInput>
+            </div>
+            <div className="flex justify-center items-start">
+              <BsAlarmFill />
+              <h4>Sub-tasks coming soon!</h4>
             </div>
           </div>
         </div>
