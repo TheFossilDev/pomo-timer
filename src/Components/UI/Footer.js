@@ -34,7 +34,7 @@ const Footer = (props) => {
             Buy me a
           </a>
         )}
-        <BMC className={`${styles.coffee} ${darkMode ? styles.darkFill : null}`} />
+        <BMC className={`${styles.coffee} ${darkMode ? styles.darkFill : ""}`} />
       </div>
     </div>
   );
