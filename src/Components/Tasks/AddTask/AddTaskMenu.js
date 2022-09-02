@@ -2,17 +2,15 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { timerActions } from "../../../store/timerReducer";
 
-import styles from "./AddTaskMenu.module.css";
-
 const AddTaskMenu = (props) => {
   const dispatch = useDispatch();
 
   const flipSpaceEnable = () => {dispatch(timerActions.flipSpaceEnable())};
 
   return (
-    <div className={styles.container}>
+    <div>
       <form>
-        <span className={styles.firstLine}>
+        <span>
           <label htmlFor="name">Task: </label>
           <input
             onChange={(event) =>
@@ -26,7 +24,6 @@ const AddTaskMenu = (props) => {
             onKeyDown={(event) => event.key === "Enter" ? props.onEnter() : null}
             value={props.inputData.name}
             id="name"
-            className={styles.name}
           />
           <label htmlFor="size">Est. Pomos</label>
           <input
@@ -41,7 +38,6 @@ const AddTaskMenu = (props) => {
             onKeyDown={(event) => event.key === "Enter" ? props.onEnter() : null}
             value={props.inputData.size}
             id="size"
-            className={styles.size}
             type="number"
           />
         </span>
@@ -56,8 +52,7 @@ const AddTaskMenu = (props) => {
           onBlur={flipSpaceEnable}
           onFocus={flipSpaceEnable}
           onKeyDown={(event) => event.key === "Enter" ? props.onEnter() : null}
-            value={props.inputData.description}
-            className={styles.description}
+          value={props.inputData.description}
           id="description"
         />
       </form>

@@ -1,4 +1,3 @@
-import styles from "./Timer.module.css";
 import BigButton from "./UI/Buttons/BigButton";
 import useTimer from "../hooks/useTimer";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +8,7 @@ import Skip from "./UI/Buttons/Skip";
 
 import clickSound from '../assets/click.mp3';
 import shallowClickSound from '../assets/shallowClick.mp3';
+import PomoTask from "./Tasks/PomoTask";
 
 const Timer = (props) => {
   const click = new Audio(clickSound);
@@ -32,18 +32,6 @@ const Timer = (props) => {
     dispatch(timerActions.flipAutoStart());
   };
 
-  const getTimerTypeLabel = () => {
-    switch (timerType) {
-      case "work":
-        return "Time for a work period!";
-      case "rest":
-        return "Time for a quick break!";
-      case "break":
-        return "Congrats! You earned a long break";
-      default:
-        return "whoops, defaulted";
-    }
-  };
   // Change timer label
   useEffect(() => {
     switch (timerState) {
@@ -93,24 +81,13 @@ const Timer = (props) => {
 
   return (
     <>
-      <title>{timerLabel}</title>
-      <div className={styles.timerContainer}>
-        <h3
-          className={`${styles.timerTypeLabel} ${
-            darkMode ? styles["dark"] : styles["light"]
-          }`}
-        >
-          {getTimerTypeLabel()}
-        </h3>
-        <h2
-          className={`${styles.time} ${
-            darkMode ? styles["dark"] : styles["light"]
-          }`}
-          >
+      {props.activeTask !== null ? <PomoTask id={props.activeTask.id} task={props.activeTask} /> : null}
+      <div>
+        <h2 className="font-bold text-9xl">
           {minutes < 10 ? <span>0{minutes}</span> : <span>{minutes}</span>}:
           {seconds < 10 ? <span>0{seconds}</span> : <span>{seconds}</span>}
         </h2>
-        <div className={styles.buttonsContainer}>
+        <div>
           <FastForward onClick={flipAutoStartHandler}></FastForward>
           <BigButton onClick={timerChangeHandler} id={"bigButton"}>
             {bigLabel}

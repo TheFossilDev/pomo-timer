@@ -1,19 +1,20 @@
 import React from "react";
-import styles from "./Button.module.css";
+
+const primaryBtnStyle = ""; // Submit, save, add, etc.
+const secondaryBtnStyle = ""; // Cancel buttons, no, reject, etc
+
 
 const Button = (props) => {
   return (
-    <div className={styles.relativeContainer}>
-      <button
-        onClick={props.onClick}
-        className={styles["button"]}
-        title={props.title || ""}
-        id={styles[props.id]}
-        style={props.style}
-      >
-        {props.children}
-      </button>
-    </div>
+    <button
+      onClick={props.onClick}
+      className=""
+      title={props.title || ""}
+      id={styles[props.id]}
+      style={props.style}
+    >
+      {props.children}
+    </button>
   );
 };
 

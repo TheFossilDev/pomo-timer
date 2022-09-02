@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "./UI/Buttons/Button";
-import styles from "./Settings.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { timerActions } from "../store/timerReducer";
 
@@ -47,36 +46,33 @@ const Settings = (props) => {
   return (
     <form onSubmit={submitHandler}>
       <header>
-        <h2 className={styles.header}>Timer durations (minutes):</h2>
+        <h2>Timer durations (minutes):</h2>
       </header>
-      <div className={styles.setTimerBody}>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Work: </label>
+      <div>
+        <div>
+          <label>Work: </label>
           <input
             type="number"
-            className={styles.input}
             min={1}
             max={99}
             onChange={workChangeHandler}
             value={workMinutesInput}
           />
         </div>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Short break: </label>
+        <div>
+          <label>Short break: </label>
           <input
             type="number"
-            className={styles.input}
             min={1}
             max={99}
             onChange={restChangeHandler}
             value={restMinutesInput}
           />
         </div>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Long break: </label>
+        <div>
+          <label>Long break: </label>
           <input
             type="number"
-            className={styles.input}
             min={1}
             max={99}
             onChange={breakChangeHandler}
@@ -85,9 +81,14 @@ const Settings = (props) => {
         </div>
       </div>
       <footer>
-        <Button type="submit" style={{
-          marginLeft: "auto"
-        }}>Save</Button>
+        <Button
+          type="submit"
+          style={{
+            marginLeft: "auto",
+          }}
+        >
+          Save
+        </Button>
       </footer>
     </form>
   );

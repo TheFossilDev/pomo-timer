@@ -38,6 +38,7 @@ const App = () => {
     localStorageGetter("TasksOpen", false) === "true"
   );
   const [headerLabel, setHeaderLabel] = useState("Pomodoro Timer");
+  const [activeTask, setActiveTask] = useState(null);
 
   // Timer slice
   const timerType = useSelector((state) => state.timer.timerType);
@@ -161,6 +162,8 @@ const App = () => {
           <Timer
             changeIsSetting={changeIsSetting}
             isSetting={isSetting}
+            activeTask={activeTask} 
+            setActiveTask={setActiveTask}
             flipIsConfirming={() => setIsConfirming(true)}
             setIsSkipConfirming={setIsSkipConfirming}
           />
@@ -174,7 +177,7 @@ const App = () => {
             }}
           />
         </div>
-        {isTasksOpen ? <TaskPanel /> : null}
+        {isTasksOpen ? <TaskPanel activeTask={activeTask} setActiveTask={setActiveTask} /> : null}
       </div>
       </div>
     </>

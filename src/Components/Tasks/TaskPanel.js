@@ -4,7 +4,17 @@ import AddTaskButton from "./AddTask/AddTaskButton";
 import AddTaskMenu from "./AddTask/AddTaskMenu";
 import PomoTask from "./PomoTask";
 import PrimaryTaskBin from "./PrimaryTaskBin";
-import styles from "./TaskPanel.module.css";
+
+// All new features to-do list:
+// TODO: Set active task and display at top of timer
+
+// TODO: Handle edit menu of tasks and save changes on save
+// TODO: Durations setting with actual vs estimated
+// TODO: Remove display of total pomos completed
+// TODO: Convert minimal styles to Tailwind to make styling reflect prev version
+// TODO: Add basic input validation to both forms
+
+
 
 const getTasksFromLocalstorage = () => {
   const tasks = JSON.parse(localStorage.getItem("Tasks"));
@@ -19,6 +29,7 @@ const TaskPanel = (props) => {
   const TASK_HEIGHT = 16;
 
   const [taskList, setTaskList] = useState(getTasksFromLocalstorage());
+
   let [inputData, setInputData] = useState({
     name: "",
     size: "",
@@ -32,6 +43,15 @@ const TaskPanel = (props) => {
     } else {
       setAddPanelOpen(true);
     }
+  };
+
+  const getTaskByID = (id) => {
+    taskList.forEach(element => {
+      if (element.id === id) {
+        return element;
+      }
+    });
+    return null;
   };
 
   const addTask = () => {
@@ -57,20 +77,24 @@ const TaskPanel = (props) => {
     })
   };
 
+  const setTaskActive = (task) => {
+    props.setActiveTask(task);
+  };
+
   return (
-    <div className={styles.taskPanelContainer}>
-      <div className={styles.headerContainer}>
-        <PrimaryTaskBin height={TASK_HEIGHT} />
-        <h2 className={styles.header}>Tasks</h2>
+    <div>
+      <div>
+        <PrimaryTaskBin task={props.activeTask} height={TASK_HEIGHT} />
+        <h2>Tasks</h2>
       </div>
-      <div className={styles.taskList}>
+      <div>
         {taskList.map((task) => (
-          <PomoTask key={task.id} id={task.id} task={task} height={TASK_HEIGHT} removeTask={removeTask} />
+          <PomoTask key={task.id} id={task.id} task={task} height={TASK_HEIGHT} removeTask={removeTask} setTaskActive={setTaskActive} />
         ))}
-        {taskList.length === 0 ? <p className={styles.emptyList}>No tasks yet</p> : null}
+        {taskList.length === 0 ? <p>No tasks yet</p> : null}
       </div>
 
-      <div className={styles.addTask}>
+      <div>
         <AddTaskButton
           onClick={addTaskHandler}
           addPanelOpen={addPanelOpen}
