@@ -1,0 +1,45 @@
+.BigButton {
+  font-size: 2.3em;
+  font-weight: bold;
+  width: 15rem;
+  height: 5rem;
+  cursor: pointer;
+
+  background-color: #eee;
+  border: none;
+  border-radius: 5%;
+
+  transform: translateY(-5px);
+}
+
+.BigButton:hover {
+  transition: all 250ms ease;
+  transform: translateY(-4px);
+}
+
+.clicked {
+  animation-name: hoverBounce;
+  animation-timing-function: ease;
+  animation-duration: 500ms;
+}
+
+@keyframes hoverBounce {
+  0% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(-0px);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+.base {
+  width: 15rem;
+  height: 5rem;
+  cursor: pointer;
+
+  background-color: #ddd;
+  border-radius: 5%;
+}
