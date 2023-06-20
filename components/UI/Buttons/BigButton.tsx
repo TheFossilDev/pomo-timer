@@ -23,7 +23,7 @@ export default function BigButton(props: any) {
         id={styles[props.id]}
         onAnimationEnd={animationEndHandler}
       >
-        Pause
+        {props.isRunning ? "Stop" : "Start"}
       </button>
     </div>
   );
